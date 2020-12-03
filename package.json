@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind:css": "postcss src/public/styles/tailwind.css -o src/public/styles/style.css"
   },
   "repository": {
     "type": "git",
