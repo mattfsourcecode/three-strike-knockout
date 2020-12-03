@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass --watch scss -o css"
   },
   "repository": {
     "type": "git",
