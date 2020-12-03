@@ -19,10 +19,13 @@
   },
   "homepage": "https://github.com/matt-eric/deck-of-cards#readme",
   "dependencies": {
+    "autoprefixer": "^10.0.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "es-dev-server": "^1.60.1",
     "express": "^4.17.1",
+    "postcss": "^8.1.13",
+    "postcss-cli": "^8.3.0",
     "pug": "^3.0.0",
     "tailwindcss": "^2.0.1"
   },
