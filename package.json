@@ -23,6 +23,7 @@
     "dotenv": "^8.2.0",
     "es-dev-server": "^1.60.1",
     "express": "^4.17.1",
+    "pug": "^3.0.0",
     "tailwindcss": "^2.0.1"
   },
   "devDependencies": {
