@@ -5,5 +5,5 @@
 @tailwind utilities;
 
 .card{
-    @apply rounded-2xl bg-white border-gray-200 shadow-lg overflow-hidden relative;
+    @apply rounded-xl bg-white border-gray-200 shadow-lg hover:shadow-xl pointer-events-none;
 }
