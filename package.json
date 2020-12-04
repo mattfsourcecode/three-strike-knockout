@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tailwind:css": "postcss src/public/styles/tailwind.css -o src/public/styles/style.css"
+    "start": "nodemon --exec babel-node --inspect src/index.js",
+    "build-css": "tailwindcss build src/styles.css -o public/styles.css"
   },
   "repository": {
     "type": "git",
