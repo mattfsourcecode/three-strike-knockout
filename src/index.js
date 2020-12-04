@@ -5,14 +5,12 @@ import * as path from 'path';
 
 const app = express();
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('public'));
 
 app.use(cors());
- 
+
 app.get('/', (req, res) => {
-    res.render('index');
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
  
 app.listen(3000, () =>
