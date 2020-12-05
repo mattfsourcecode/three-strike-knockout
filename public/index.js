@@ -109,17 +109,12 @@
         numberOfCardsInPlay = cardsInPlay.length;
 
 
-
-
-
     Events.on(engine, 'afterUpdate', function() {
         
         //Met if all three chips have been used
         if(!shuffledChips.length){
             console.log("OUT OF CHIPS");
         }
-
-        const cardBodies = pyramid.bodies;
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if(numberOfCardsInPlay > 0){
