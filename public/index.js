@@ -10,12 +10,6 @@ for(let s=0; s<suits.length; s++){
     }
 }
 
-var arr = [];
-while(arr.length < cards.length){
-    var randomNumber = Math.floor(Math.random() * 100) + 1;
-    if(arr.indexOf(randomNumber) === -1) arr.push(randomNumber);
-}
-
 //Chip SVG
 const chips = [];
 for(let i=0; i<4; i++){
