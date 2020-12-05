@@ -6,7 +6,7 @@ for(let s=0; s<suits.length; s++){
     const suit = suits[s];
     for(let v=0; v<values.length; v++){
         const value = values[v];
-        cards.push(`./svg/cards/${suit}${value}.svg`);
+        cards.push(`./assets/svg/cards/${suit}${value}.svg`);
     }
 }
 
@@ -19,7 +19,7 @@ while(arr.length < cards.length){
 //Chip SVG
 const chips = [];
 for(let i=0; i<4; i++){
-    chips.push(`./svg/chips/chip-${i}.svg`);
+    chips.push(`./assets/svg/chips/chip-${i}.svg`);
 }
 
 const getRandomInt = (max) => {
