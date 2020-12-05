@@ -56,7 +56,7 @@ let render = Render.create({
     options: {
         wireframes: false,
         pixelRatio: 2.0, //Resolution of svg elements
-        height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)-85, //This height calculated method could be re-evaluated
+        height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)-105, //This height calculated method could be re-evaluated
         width: window.innerWidth,
         background: '#111827',
     }
@@ -137,7 +137,7 @@ World.add(engine.world, mouseConstraint);
 // call when conditions are met such that the game has been won
 // World.remove(engine.world, [ground, pyramid]);
 
-// const successGround = Bodies.rectangle(790, 500, 900, 20, { isStatic: true })
+// const successGround = Bodies.rectangle(790, 485, 900, 20, { isStatic: true })
 
 // const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
 //     return Bodies.rectangle(x, y, 25, 35, {
