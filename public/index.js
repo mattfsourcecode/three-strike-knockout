@@ -108,20 +108,25 @@
         cardsInPlay = pyramid.bodies,
         numberOfCardsInPlay = cardsInPlay.length,
         xAxisThreshold = 1050,
-        yAxisThreshold = 500;
+        yAxisThreshold = 500,
+        currentCards = [...cardsInPlay],
+        gameWon = false;
 
 
     Events.on(engine, 'afterUpdate', function() {
+
+        if ( gameWon ) { return }
         
         //Met if all three chips have been used
         if(!shuffledChips.length){
             console.log("OUT OF CHIPS");
         }
 
-        let currentCards = [...cardsInPlay]
-
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if(currentCards.length){
+
+            //TODO: Add this to a helper method
+
             //set currentCards array to be mutated so that cardsInPlay can be looped through in entirety.
             for(let i=0; i<cardsInPlay.length; i++){
                 let body = cardsInPlay[i];
@@ -141,7 +146,8 @@
             //update cardsInPlay with the cards that remain at the end of the loop
             cardsInPlay = currentCards;
         } else {
-            console.log('complete!')
+            gameWon = true;
+            runSuccess();
         }
 
         //Adds new chip if a chip has been used
@@ -171,40 +177,40 @@
 
 
     // call when conditions are met such that the game has been won
-    // World.remove(engine.world, [ground, pyramid]);
+    const runSuccess = () => {
 
-    // const successGround = Bodies.rectangle(790, 485, 900, 20, { isStatic: true })
+        World.remove(engine.world, [ground, pyramid]);
 
-    // const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
-    //     return Bodies.rectangle(x, y, 25, 35, {
-    //         restitution: 1.4,
-    //         render: {
-    //             sprite: {
-    //               texture: cards[getRandomInt(cards.length)],
-    //               xScale: .12,
-    //               yScale: .12
-    //             }
-    //         }
-    //     });
-    // });
-
-    // const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
-    //     return Bodies.circle(x, y, 10, {
-    //         restitution: 1.4,
-    //         render: {
-    //             sprite: {
-    //               texture: chips[getRandomInt(chips.length)],
-    //               xScale: .12,
-    //               yScale: .12
-    //             }
-    //         }
-    //     });
-    // });
-
-    // World.add(engine.world, [successGround, successCardPyramid, successChipPyramid]);
-
-
-
+        const successGround = Bodies.rectangle(790, 485, 900, 20, { isStatic: true })
+    
+        const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
+            return Bodies.rectangle(x, y, 25, 35, {
+                restitution: 1.4,
+                render: {
+                    sprite: {
+                      texture: cards[getRandomInt(cards.length)],
+                      xScale: .12,
+                      yScale: .12
+                    }
+                }
+            });
+        });
+    
+        const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
+            return Bodies.circle(x, y, 10, {
+                restitution: 1.4,
+                render: {
+                    sprite: {
+                      texture: chips[getRandomInt(chips.length)],
+                      xScale: .12,
+                      yScale: .12
+                    }
+                }
+            });
+        });
+    
+        World.add(engine.world, [successGround, successCardPyramid, successChipPyramid]);
+    }
 
     render.mouse = mouse;
 
