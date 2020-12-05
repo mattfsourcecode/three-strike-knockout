@@ -104,7 +104,9 @@
                     }
                 }
             });
-        });
+        }),
+        cardsInPlay = pyramid.bodies,
+        numberOfCardsInPlay = cardsInPlay.length;
 
 
 
@@ -120,11 +122,9 @@
         const cardBodies = pyramid.bodies;
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
-        if(cardBodies.length){
-            for(let i=0; i<cardBodies.length; i++){
-                let body = cardBodies[i];
-                if(body.position.y > 500){
-                    Composite.remove(pyramid, body);
+        if(numberOfCardsInPlay > 0){
+            for(let i=0; i<cardsInPlay.length; i++){
+                let body = cardsInPlay[i];
                     }, cardBodyRemovalDelayTime);
                 }
             }
