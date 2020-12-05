@@ -118,13 +118,16 @@
             console.log("OUT OF CHIPS");
         }
 
+        let currentCards = [...cardsInPlay]
+
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
-        if(numberOfCardsInPlay > 0){
+        if(currentCards.length){
+            //set currentCards array to be mutated so that cardsInPlay can be looped through in entirety.
             for(let i=0; i<cardsInPlay.length; i++){
                 let body = cardsInPlay[i];
                 if( body.position.y > yAxisThreshold || body.position.x > xAxisThreshold){
-                    //Card counter is decremented when the card goes below the body.position.y threshold.
-                    numberOfCardsInPlay-- 
+                    //Remove body from currentCards
+                    currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1)
                     /**
                      Removes the body from the render. This needs to operate separately from the 
                      numberOfCardsInPlay counter because the y axis determining when the counter 
@@ -135,6 +138,8 @@
                     }, cardBodyRemovalDelayTime);
                 }
             }
+            //update cardsInPlay with the cards that remain at the end of the loop
+            cardsInPlay = currentCards;
         } else {
             console.log('complete!')
         }
