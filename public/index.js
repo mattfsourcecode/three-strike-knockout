@@ -10,6 +10,12 @@ for(let s=0; s<suits.length; s++){
     }
 }
 
+var arr = [];
+while(arr.length < cards.length){
+    var randomNumber = Math.floor(Math.random() * 100) + 1;
+    if(arr.indexOf(randomNumber) === -1) arr.push(randomNumber);
+}
+
 //Chip SVG
 const chips = [];
 for(let i=0; i<5; i++){
@@ -19,6 +25,21 @@ for(let i=0; i<5; i++){
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
+
+let numberOfCards = 25
+let totalCards = Array.from(Array(52).keys());
+
+const shuffleCards = (totalCards, numberOfCards) => {
+    for (var i=totalCards.length-1; i>0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = totalCards[i];
+        totalCards[i] = totalCards[j];
+        totalCards[j] = temp;
+    }
+    return totalCards.slice(0,numberOfCards)
+}
+
+const shuffledCards = shuffleCards(totalCards, numberOfCards)
 
 let Engine = Matter.Engine,
 Render = Matter.Render,
@@ -68,17 +89,28 @@ var ground = Bodies.rectangle(790, 200, 200, 20, { isStatic: true }),
         stiffness: 0.05
     });
 
-var pyramid = Composites.pyramid(700, -150, 7, 10, 0, 0, function(x, y) {
-    return Bodies.rectangle(x, y, 25, 40, {
+
+
+
+const ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true })
+
+const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
+    const cardIndex = shuffledCards[0]
+    shuffledCards.shift();
+    return Bodies.rectangle(x, y, 25, 35, {
         render: {
             sprite: {
-              texture: cards[getRandomInt(cards.length)],
+              texture: cards[cardIndex],
               xScale: .12,
               yScale: .12
             }
           }
     });
 });
+
+
+
+
 
 Events.on(engine, 'afterUpdate', function() {
     if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
