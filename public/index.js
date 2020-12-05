@@ -1,7 +1,7 @@
 //Card SVG
-const cards = [];
-const suits = [ 'C', 'D', 'H', 'S' ];
-const values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
+const cards = [],
+      suits = [ 'C', 'D', 'H', 'S' ],
+      values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
 for(let s=0; s<suits.length; s++){
     const suit = suits[s];
     for(let v=0; v<values.length; v++){
@@ -20,6 +20,7 @@ const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+//Shuffles an array and slices to a specified index
 const shuffle = (arr, total) => {
     for (var i=arr.length-1; i>0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -30,13 +31,12 @@ const shuffle = (arr, total) => {
     return arr.slice(0,total);
 }
 
-let numberOfCards = 25;
-let totalCards = Array.from(Array(52).keys());
-const shuffledCards = shuffle(totalCards, numberOfCards);
-
-let numberOfChips = 3;
-let totalChips = Array.from(Array(5).keys());
-const shuffledChips = shuffle(totalChips, numberOfChips);
+const numberOfCards = 25,
+      totalCards = Array.from(Array(52).keys()),
+      shuffledCards = shuffle(totalCards, numberOfCards),
+      numberOfChips = 3,
+      totalChips = Array.from(Array(5).keys()),
+      shuffledChips = shuffle(totalChips, numberOfChips);
 
 let Engine = Matter.Engine,
 Render = Matter.Render,
@@ -63,11 +63,11 @@ let render = Render.create({
 Engine.run(engine);
 Render.run(render);
 
-const chipX = 220;
-const chipY = 250;
-const chipScale = .5;
+const chipX = 220,
+      chipY = 250,
+      chipScale = .5;
 
-// add bodies
+//Declare bodies
 let chip = Bodies.circle(chipX, chipY, 20, {
         density: 0.05,
         render: {
@@ -83,26 +83,21 @@ let chip = Bodies.circle(chipX, chipY, 20, {
         pointA: anchor, 
         bodyB: chip, 
         stiffness: 0.1
-    });
-
-
-
-
-const ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true })
-
-const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
-    const cardIndex = shuffledCards[0]
-    shuffledCards.shift();
-    return Bodies.rectangle(x, y, 25, 35, {
-        render: {
-            sprite: {
-              texture: cards[cardIndex],
-              xScale: .12,
-              yScale: .12
+    }),
+    ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true }),
+    pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
+        const cardIndex = shuffledCards[0]
+        shuffledCards.shift();
+        return Bodies.rectangle(x, y, 25, 35, {
+            render: {
+                sprite: {
+                texture: cards[cardIndex],
+                xScale: .12,
+                yScale: .12
+                }
             }
-        }
+        });
     });
-});
 
 
 
@@ -110,11 +105,14 @@ const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
 
 Events.on(engine, 'afterUpdate', function() {
     
+    //Met if all three chips have been used
     if(!shuffledChips.length){
         console.log("OUT OF CHIPS");
     }
 
     const cardBodies = pyramid.bodies;
+
+    //Uses the existing cards to determine if a card has been knocked off or if the game has been won
     if(cardBodies.length){
         for(let i=0; i<cardBodies.length; i++){
             let body = cardBodies[i];
@@ -126,6 +124,7 @@ Events.on(engine, 'afterUpdate', function() {
         console.log('complete!')
     }
 
+    //Adds new chip if a chip has been used
     if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
         shuffledChips.shift()
         chip = Bodies.circle(chipX, chipY, 20, {
@@ -144,8 +143,8 @@ Events.on(engine, 'afterUpdate', function() {
 
 });
 
-let mouse = Matter.Mouse.create(render.canvas);
-let mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
+let mouse = Matter.Mouse.create(render.canvas),
+    mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
 
 World.add(engine.world, [ground, pyramid, chip, elastic]);
 World.add(engine.world, mouseConstraint);
