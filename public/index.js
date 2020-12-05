@@ -135,4 +135,41 @@ let mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
 World.add(engine.world, [ground, pyramid, chip, elastic]);
 World.add(engine.world, mouseConstraint);
 
+
+// call when conditions are met such that the game has been won
+// World.remove(engine.world, [ground, pyramid]);
+
+// const successGround = Bodies.rectangle(790, 500, 900, 20, { isStatic: true })
+
+// const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
+//     return Bodies.rectangle(x, y, 25, 35, {
+//         restitution: 1.4,
+//         render: {
+//             sprite: {
+//               texture: cards[getRandomInt(cards.length)],
+//               xScale: .12,
+//               yScale: .12
+//             }
+//         }
+//     });
+// });
+
+// const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
+//     return Bodies.circle(x, y, 10, {
+//         restitution: 1.4,
+//         render: {
+//             sprite: {
+//               texture: chips[getRandomInt(chips.length)],
+//               xScale: .12,
+//               yScale: .12
+//             }
+//         }
+//     });
+// });
+
+// World.add(engine.world, [successGround, successCardPyramid, successChipPyramid]);
+
+
+
+
 render.mouse = mouse;
