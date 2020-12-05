@@ -13,7 +13,7 @@
 
     //Chip SVG
     const chips = [];
-    for(let i=0; i<4; i++){
+    for(let i=0; i<5; i++){
         chips.push(`./assets/svg/chips/chip-${i}.svg`);
     }
 
