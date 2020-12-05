@@ -106,7 +106,9 @@
             });
         }),
         cardsInPlay = pyramid.bodies,
-        numberOfCardsInPlay = cardsInPlay.length;
+        numberOfCardsInPlay = cardsInPlay.length,
+        xAxisThreshold = 1050,
+        yAxisThreshold = 500;
 
 
     Events.on(engine, 'afterUpdate', function() {
@@ -120,7 +122,7 @@
         if(numberOfCardsInPlay > 0){
             for(let i=0; i<cardsInPlay.length; i++){
                 let body = cardsInPlay[i];
-                if( body.position.y > 500 || body.position.x > 1050){
+                if( body.position.y > yAxisThreshold || body.position.x > xAxisThreshold){
                     //Card counter is decremented when the card goes below the body.position.y threshold.
                     numberOfCardsInPlay-- 
                     /**
