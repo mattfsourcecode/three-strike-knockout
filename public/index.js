@@ -125,6 +125,16 @@
         if(numberOfCardsInPlay > 0){
             for(let i=0; i<cardsInPlay.length; i++){
                 let body = cardsInPlay[i];
+                if( body.position.y > 500 || body.position.x > 1050){
+                    //Card counter is decremented when the card goes below the body.position.y threshold.
+                    numberOfCardsInPlay-- 
+                    /**
+                     Removes the body from the render. This needs to operate separately from the 
+                     numberOfCardsInPlay counter because the y axis determining when the counter 
+                     is decremented is higher than the point at which the body should be removed.
+                    */         
+                    setTimeout(function(){ 
+                        Composite.remove(pyramid, body);
                     }, cardBodyRemovalDelayTime);
                 }
             }
