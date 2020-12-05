@@ -70,6 +70,7 @@
     Engine.run(engine);
     Render.run(render);
 
+    //TODO: These variable names need to be more specific
     const chipX = 220,
         chipY = 250,
         chipScale = .5;
@@ -115,15 +116,11 @@
 
     Events.on(engine, 'afterUpdate', function() {
 
-        if ( gameWon ) { return }
-        
-        //Met if all three chips have been used
-        if(!shuffledChips.length){
-            console.log("OUT OF CHIPS");
-        }
+        //gameWon is set to true when all cards have been knocked off the surface
+        if ( gameWon  ) { return }
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
-        if(currentCards.length){
+        if( currentCards.length ){
 
             //TODO: Add this to a helper method
 
@@ -150,22 +147,31 @@
             runSuccess();
         }
 
-        //Adds new chip if a chip has been used
-        if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
-            shuffledChips.shift()
-            chip = Bodies.circle(chipX, chipY, 20, {
-                density: 0.4,
-                render: {
-                    sprite: {
-                        texture: chips[shuffledChips[0]],
-                        xScale: chipScale,
-                        yScale: chipScale
+        //Return when shuffledChips array has been emptied
+        if( !shuffledChips.length ){ 
+            if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
+                //Add "Game Over animation here"
+            }
+            return
+         } else {
+            //Adds new chip if a chip has been used
+            if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
+                //TODO: Should this be removing the body in addition or instead of the shift method?
+                shuffledChips.shift()
+                chip = Bodies.circle(chipX, chipY, 20, {
+                    density: 0.4,
+                    render: {
+                        sprite: {
+                            texture: chips[shuffledChips[0]],
+                            xScale: chipScale,
+                            yScale: chipScale
+                        }
                     }
-                }
-            }),
-            World.add(engine.world, chip);
-            elastic.bodyB = chip;
-        }
+                }),
+                World.add(engine.world, chip);
+                elastic.bodyB = chip;
+            };
+         }
 
     });
 
@@ -174,7 +180,6 @@
 
     World.add(engine.world, [ground, pyramid, chip, elastic]);
     World.add(engine.world, mouseConstraint);
-
 
     // call when conditions are met such that the game has been won
     const runSuccess = () => {
