@@ -84,7 +84,7 @@ let chip = Bodies.circle(chipX, chipY, 20, {
     elastic = Constraint.create({ 
         pointA: anchor, 
         bodyB: chip, 
-        stiffness: 0.05
+        stiffness: 0.1
     });
 
 
