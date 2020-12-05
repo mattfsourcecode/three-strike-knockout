@@ -78,7 +78,7 @@ let chip = Bodies.circle(chipX, chipY, 20, {
               xScale: chipScale,
               yScale: chipScale
             }
-          }
+        }
     }),
     anchor = { x: chipX, y: chipY },
     elastic = Constraint.create({ 
@@ -102,7 +102,7 @@ const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
               xScale: .12,
               yScale: .12
             }
-          }
+        }
     });
 });
 
@@ -120,7 +120,7 @@ Events.on(engine, 'afterUpdate', function() {
                   xScale: chipScale,
                   yScale: chipScale
                 }
-              }
+            }
         }),
         World.add(engine.world, chip);
         elastic.bodyB = chip;
