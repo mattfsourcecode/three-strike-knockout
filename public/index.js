@@ -70,10 +70,8 @@ const chipY = 250;
 const chipScale = .5;
 
 // add bodies
-var ground = Bodies.rectangle(790, 200, 200, 20, { isStatic: true }),
-    chipOptions = { density: 0.004 },
-    chip = Bodies.circle(chipX, chipY, 20, {
-        density: 0.4,
+let chip = Bodies.circle(chipX, chipY, 20, {
+        density: 0.05,
         render: {
             sprite: {
               texture: chips[getRandomInt(chips.length)],
