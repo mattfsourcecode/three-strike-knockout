@@ -38,6 +38,12 @@
         numberOfChipAttempts = 3,
         totalChips = Array.from(Array(5).keys()),
         shuffledChips = shuffle(totalChips, numberOfChipAttempts);
+    
+    /**
+     Milliseconds for the setTimeout method in the 'afterUpdate' loop.
+     TODO: Variably adjust this number based on window.innerHeight.
+    */  
+    let cardBodyRemovalDelayTime = 1500
 
     let Engine = Matter.Engine,
     Render = Matter.Render,
@@ -98,10 +104,11 @@
                     }
                 }
             });
-        });
-
-
-
+        }),
+        cardsInPlay = pyramid.bodies,
+        numberOfCardsInPlay = cardsInPlay.length,
+        xAxisThreshold = 1050,
+        yAxisThreshold = 500;
 
 
     Events.on(engine, 'afterUpdate', function() {
@@ -111,16 +118,28 @@
             console.log("OUT OF CHIPS");
         }
 
-        const cardBodies = pyramid.bodies;
+        let currentCards = [...cardsInPlay]
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
-        if(cardBodies.length){
-            for(let i=0; i<cardBodies.length; i++){
-                let body = cardBodies[i];
-                if(body.position.y > 500){
-                    Composite.remove(pyramid, body);
+        if(currentCards.length){
+            //set currentCards array to be mutated so that cardsInPlay can be looped through in entirety.
+            for(let i=0; i<cardsInPlay.length; i++){
+                let body = cardsInPlay[i];
+                if( body.position.y > yAxisThreshold || body.position.x > xAxisThreshold){
+                    //Remove body from currentCards
+                    currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1)
+                    /**
+                     Removes the body from the render. This needs to operate separately from the 
+                     numberOfCardsInPlay counter because the y axis determining when the counter 
+                     is decremented is higher than the point at which the body should be removed.
+                    */         
+                    setTimeout(function(){ 
+                        Composite.remove(pyramid, body);
+                    }, cardBodyRemovalDelayTime);
                 }
             }
+            //update cardsInPlay with the cards that remain at the end of the loop
+            cardsInPlay = currentCards;
         } else {
             console.log('complete!')
         }
