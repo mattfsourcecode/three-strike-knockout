@@ -3,10 +3,10 @@ const cards = [];
 const suits = [ 'C', 'D', 'H', 'S' ];
 const values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
 for(let s=0; s<suits.length; s++){
-    const suit = suits[s]
+    const suit = suits[s];
     for(let v=0; v<values.length; v++){
         const value = values[v];
-        cards.push(`./svg/cards/${suit}${value}.svg`)
+        cards.push(`./svg/cards/${suit}${value}.svg`);
     }
 }
 
@@ -18,28 +18,31 @@ while(arr.length < cards.length){
 
 //Chip SVG
 const chips = [];
-for(let i=0; i<5; i++){
-    chips.push(`./svg/chips/chip-${4}.svg`)
+for(let i=0; i<4; i++){
+    chips.push(`./svg/chips/chip-${i}.svg`);
 }
 
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-let numberOfCards = 25
-let totalCards = Array.from(Array(52).keys());
-
-const shuffleCards = (totalCards, numberOfCards) => {
-    for (var i=totalCards.length-1; i>0; i--) {
+const shuffle = (arr, total) => {
+    for (var i=arr.length-1; i>0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
-        var temp = totalCards[i];
-        totalCards[i] = totalCards[j];
-        totalCards[j] = temp;
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
-    return totalCards.slice(0,numberOfCards)
+    return arr.slice(0,total);
 }
 
-const shuffledCards = shuffleCards(totalCards, numberOfCards)
+let numberOfCards = 25;
+let totalCards = Array.from(Array(52).keys());
+const shuffledCards = shuffle(totalCards, numberOfCards);
+
+let numberOfChips = 3;
+let totalChips = Array.from(Array(5).keys());
+const shuffledChips = shuffle(totalChips, numberOfChips);
 
 let Engine = Matter.Engine,
 Render = Matter.Render,
@@ -75,7 +78,7 @@ let chip = Bodies.circle(chipX, chipY, 20, {
         density: 0.05,
         render: {
             sprite: {
-              texture: chips[getRandomInt(chips.length)],
+              texture: chips[shuffledChips[0]],
               xScale: chipScale,
               yScale: chipScale
             }
@@ -113,6 +116,10 @@ const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
 
 Events.on(engine, 'afterUpdate', function() {
     
+    if(!shuffledChips.length){
+        console.log("OUT OF CHIPS");
+    }
+
     const cardBodies = pyramid.bodies;
     if(cardBodies.length){
         for(let i=0; i<cardBodies.length; i++){
@@ -125,21 +132,22 @@ Events.on(engine, 'afterUpdate', function() {
         console.log('complete!')
     }
 
-
     if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
+        shuffledChips.shift()
         chip = Bodies.circle(chipX, chipY, 20, {
             density: 0.4,
             render: {
                 sprite: {
-                  texture: chips[getRandomInt(chips.length)],
-                  xScale: chipScale,
-                  yScale: chipScale
+                    texture: chips[shuffledChips[0]],
+                    xScale: chipScale,
+                    yScale: chipScale
                 }
             }
         }),
         World.add(engine.world, chip);
         elastic.bodyB = chip;
     }
+
 });
 
 let mouse = Matter.Mouse.create(render.canvas);
