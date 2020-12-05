@@ -60,7 +60,7 @@ let render = Render.create({
     options: {
         wireframes: false,
         pixelRatio: 2.0, //Resolution of svg elements
-        height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)-105, //This height calculated method could be re-evaluated
+        height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+57, //This height calculated method could be re-evaluated
         width: window.innerWidth,
         background: '#111827',
     }
