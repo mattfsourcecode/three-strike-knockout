@@ -47,7 +47,8 @@ World = Matter.World,
 Bodies = Matter.Bodies,
 Composites = Matter.Composites,
 Constraint = Matter.Constraint,
-Events = Matter.Events;
+Events = Matter.Events,
+Composite = Matter.Composite;;
 
 let engine = Engine.create();
 let render = Render.create({
@@ -111,6 +112,20 @@ const pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
 
 
 Events.on(engine, 'afterUpdate', function() {
+    
+    const cardBodies = pyramid.bodies;
+    if(cardBodies.length){
+        for(let i=0; i<cardBodies.length; i++){
+            let body = cardBodies[i];
+            if(body.position.y > 500){
+                Composite.remove(pyramid, body);
+            }
+        }
+    } else {
+        console.log('complete!')
+    }
+
+
     if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
         chip = Bodies.circle(chipX, chipY, 20, {
             density: 0.4,
