@@ -38,6 +38,12 @@
         numberOfChipAttempts = 3,
         totalChips = Array.from(Array(5).keys()),
         shuffledChips = shuffle(totalChips, numberOfChipAttempts);
+    
+    /**
+     Milliseconds for the setTimeout method in the 'afterUpdate' loop.
+     TODO: Variably adjust this number based on window.innerHeight.
+    */  
+    let cardBodyRemovalDelayTime = 1500
 
     let Engine = Matter.Engine,
     Render = Matter.Render,
@@ -119,6 +125,7 @@
                 let body = cardBodies[i];
                 if(body.position.y > 500){
                     Composite.remove(pyramid, body);
+                    }, cardBodyRemovalDelayTime);
                 }
             }
         } else {
