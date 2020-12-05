@@ -32,12 +32,12 @@
         return arr.slice(0,total);
     }
 
-    const numberOfCards = 25,
+    const numberOfCardsInGame = 25,
         totalCards = Array.from(Array(52).keys()),
-        shuffledCards = shuffle(totalCards, numberOfCards),
-        numberOfChips = 3,
+        shuffledCards = shuffle(totalCards, numberOfCardsInGame),
+        numberOfChipAttempts = 3,
         totalChips = Array.from(Array(5).keys()),
-        shuffledChips = shuffle(totalChips, numberOfChips);
+        shuffledChips = shuffle(totalChips, numberOfChipAttempts);
 
     let Engine = Matter.Engine,
     Render = Matter.Render,
