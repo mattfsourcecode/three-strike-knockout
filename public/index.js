@@ -43,7 +43,7 @@
      Milliseconds for the setTimeout method in the 'afterUpdate' loop.
      TODO: Variably adjust this number based on window.innerHeight.
     */  
-    let cardBodyRemovalDelayTime = 1500
+    let cardBodyRemovalDelayTime = 4000
 
     let Engine = Matter.Engine,
     Render = Matter.Render,
