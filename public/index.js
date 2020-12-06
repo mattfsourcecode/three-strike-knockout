@@ -224,13 +224,13 @@
                 fillStyle: '#111827'
             }
         }),
-        wallRight = Bodies.rectangle(window.innerWidth+300, window.innerHeight/2+250, 600, 2000, {
+        wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
             isStatic: true,
             render: {
                 fillStyle: '#111827'
             }
         }),
-        wallLeft = Bodies.rectangle(-300, window.innerHeight/2+250, 600, window.innerHeight, {
+        wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
             isStatic: true,
             render: {
                 fillStyle: '#111827'
