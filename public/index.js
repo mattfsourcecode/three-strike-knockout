@@ -203,7 +203,7 @@
     
         const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
-                restitution: 1.4,
+                restitution: 1,
                 render: {
                     sprite: {
                       texture: chips[getRandomInt(chips.length)],
