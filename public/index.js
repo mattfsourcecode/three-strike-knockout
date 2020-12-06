@@ -1,8 +1,10 @@
 (function() {
+
+
     //Card SVG
     const cards = [],
-        suits = [ 'C', 'D', 'H', 'S' ],
-        values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
+          suits = [ 'C', 'D', 'H', 'S' ],
+          values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
     for(let s=0; s<suits.length; s++){
         const suit = suits[s];
         for(let v=0; v<values.length; v++){
@@ -11,76 +13,95 @@
         }
     }
 
+
     //Chip SVG
     const chips = [];
     for(let i=0; i<5; i++){
         chips.push(`./assets/svg/chips/chip-${i}.svg`);
     }
 
+
     const getRandomInt = (max) => {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+
     //Shuffles an array and slices to a specified index
     const shuffle = (arr, total) => {
-        for (var i=arr.length-1; i>0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = arr[i];
+        for (let i=arr.length-1; i>0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
         }
         return arr.slice(0,total);
     }
 
+
     const numberOfCardsInGame = 25,
-        totalCards = Array.from(Array(52).keys()),
-        shuffledCards = shuffle(totalCards, numberOfCardsInGame),
-        numberOfChipAttempts = 3,
-        totalChips = Array.from(Array(5).keys()),
-        shuffledChips = shuffle(totalChips, numberOfChipAttempts);
+          totalCards = Array.from(Array(52).keys()),
+          shuffledCards = shuffle(totalCards, numberOfCardsInGame);
     
+
+    const numberOfChipAttempts = 3,
+          totalChips = Array.from(Array(5).keys()),
+          shuffledChips = shuffle(totalChips, numberOfChipAttempts);
+
+
     /**
      Milliseconds for the setTimeout method in the 'afterUpdate' loop.
      TODO: Variably adjust this number based on window.innerHeight.
     */  
     let cardBodyRemovalDelayTime = 4000
 
+    
     let Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Bodies = Matter.Bodies,
-    Composites = Matter.Composites,
-    Constraint = Matter.Constraint,
-    Events = Matter.Events,
-    Composite = Matter.Composite;;
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Composites = Matter.Composites,
+        Constraint = Matter.Constraint,
+        Events = Matter.Events,
+        Composite = Matter.Composite;
 
-    let engine = Engine.create();
-    let render = Render.create({
-        element: document.querySelector('#matter'),
-        engine: engine,
-        options: {
-            wireframes: false,
-            pixelRatio: 2.0, //Resolution of svg elements
-            height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+57, //This height calculated method could be re-evaluated
-            width: window.innerWidth,
-            background: '#111827',
-        }
-    });
+
+    let engine = Engine.create(),
+        render = Render.create({
+            element: document.querySelector('#matter'),
+            engine: engine,
+            options: {
+                wireframes: false,
+                pixelRatio: 2.0, //Resolution of svg elements
+                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+57, //This height calculated method could be re-evaluated
+                width: window.innerWidth,
+                background: '#111827',
+            }
+        });
+
 
     Engine.run(engine);
     Render.run(render);
 
-    //TODO: These variable names need to be more specific
-    const chipX = 220,
-        chipY = 250,
-        chipScale = .5;
 
     // Collision field categories
-    const cardCategory = 0x0001;
-    const chipCategory = 0x0002;
+    const cardCategory = 0x0001,
+          chipCategory = 0x0002;
+
+
+    let mouse = Matter.Mouse.create(render.canvas),
+        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
+        mouseConstraint.collisionFilter.mask = chipCategory;
+        render.mouse = mouse;
+
+
+    // X-Y coordinates for the picker chip slingshot
+    const chipCoordinateX = 220,
+          chipCoordinateY = 250,
+          chipScale = .25;
+
 
     //Declare bodies
-    let chip = Bodies.circle(chipX, chipY, 20, {
+    let chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
             density: 0.05,
             collisionFilter: {
                 category: chipCategory,
@@ -93,35 +114,73 @@
                 }
             }
         }),
-        anchor = { x: chipX, y: chipY },
+        anchor = { x: chipCoordinateX, y: chipCoordinateY },
         elastic = Constraint.create({ 
             pointA: anchor, 
             bodyB: chip, 
             stiffness: 0.1,
         }),
         ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true }),
-        pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
-            const cardIndex = shuffledCards[0]
-            shuffledCards.shift();
-            return Bodies.rectangle(x, y, 25, 35, {
-                collisionFilter: {
-                    category: cardCategory,
-                },
-                render: {
-                    sprite: {
-                        texture: cards[cardIndex],
-                        xScale: .12,
-                        yScale: .12
-                    }
-                }
-            });
-        }),
-        cardsInPlay = pyramid.bodies,
-        numberOfCardsInPlay = cardsInPlay.length,
         xAxisThreshold = 1050,
         yAxisThreshold = 500,
-        currentCards = [...cardsInPlay],
         gameWon = false;
+
+
+    /**
+     * Household member JSON
+     * @constructor
+     * @param {array} cards - Array of svg file paths
+     */
+    class CardDeck {
+        constructor(cards) {
+            this.cards = cards;
+        }
+        buildGamePyramid() {
+            return Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
+                const cardIndex = shuffledCards[0]
+                shuffledCards.shift();
+                return Bodies.rectangle(x, y, 25, 35, {
+                    collisionFilter: {
+                        category: cardCategory,
+                    },
+                    render: {
+                        sprite: {
+                            texture: this.cards[cardIndex],
+                            xScale: .12,
+                            yScale: .12
+                        }
+                    }
+                });
+            }.bind(this));
+        }
+        buildSuccessPyramid() {
+            return Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
+                return Bodies.rectangle(x, y, 25, 35, {
+                    restitution: 1.4,
+                    render: {
+                        sprite: {
+                            texture: this.cards[getRandomInt(this.cards.length)],
+                            xScale: .12,
+                            yScale: .12
+                        },
+                        torque: 2
+                    }
+                });
+            }.bind(this));
+        }
+    }
+
+
+    const cardDeckCreatedByUser = new CardDeck(cards),
+            gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+
+
+    let cardsInPlay = gamePyramid.bodies,
+        currentCards = [...cardsInPlay];
+
+
+    World.add(engine.world, [ground, gamePyramid, chip, elastic]);
+    World.add(engine.world, mouseConstraint);
 
 
     Events.on(engine, 'afterUpdate', function() {
@@ -131,22 +190,16 @@
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if( currentCards.length ){
-
             //TODO: Add this to a helper method
-
             //set currentCards array to be mutated so that cardsInPlay can be looped through in entirety.
             for(let i=0; i<cardsInPlay.length; i++){
                 let body = cardsInPlay[i];
                 if( body.position.y > yAxisThreshold || body.position.x > xAxisThreshold){
                     //Remove body from currentCards
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1)
-                    /**
-                     Removes the body from the render. This needs to operate separately from the 
-                     numberOfCardsInPlay counter because the y axis determining when the counter 
-                     is decremented is higher than the point at which the body should be removed.
-                    */         
+                    //Removes the body from the render.     
                     setTimeout(function(){ 
-                        Composite.remove(pyramid, body);
+                        Composite.remove(gamePyramid, body);
                     }, cardBodyRemovalDelayTime);
                 }
             }
@@ -154,7 +207,7 @@
             cardsInPlay = currentCards;
         } else {
             gameWon = true;
-            startWinAnimation();
+            startSuccessAnimation();
         }
 
         //Return when shuffledChips array has been emptied
@@ -165,10 +218,10 @@
             return
          } else {
             //Adds new chip if a chip has been used
-            if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipX+20 || chip.position.y < chipY-20)) {
-                //TODO: Should this be removing the body in addition or instead of the shift method?
+            if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
+                //TODO: Should this be removing the body in addition or instead of the shift method?                
                 shuffledChips.shift()
-                chip = Bodies.circle(chipX, chipY, 20, {
+                chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
                     density: 0.4,
                     collisionFilter: {
                         category: chipCategory,
@@ -188,32 +241,13 @@
 
     });
 
-    let mouse = Matter.Mouse.create(render.canvas),
-        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
-        mouseConstraint.collisionFilter.mask = chipCategory;
-
-
-    World.add(engine.world, [ground, pyramid, chip, elastic]);
-    World.add(engine.world, mouseConstraint);
 
     // call when conditions are met such that the game has been won
-    const startWinAnimation = () => {
+    const startSuccessAnimation = () => {
 
         World.remove(engine.world, [ground]);
 
-        const successCardPyramid = Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
-            return Bodies.rectangle(x, y, 25, 35, {
-                restitution: 1.4,
-                render: {
-                    sprite: {
-                      texture: cards[getRandomInt(cards.length)],
-                      xScale: .12,
-                      yScale: .12
-                    },
-                    torque: 2
-                }
-            });
-        });
+        const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
         const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
@@ -228,6 +262,7 @@
                 }
             });
         });
+
 
         const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
             isStatic: true,
@@ -259,8 +294,7 @@
 
     }
 
-    render.mouse = mouse;
-    
+
     const startButton = document.querySelector('#start')
     startButton.addEventListener('click', () => {
         const modalStyles = document.querySelector('#modal').classList
@@ -270,5 +304,6 @@
             modalStyles.add('hidden');
         }, 500);
     });
+
 
 })();
