@@ -43,7 +43,7 @@
      Milliseconds for the setTimeout method in the 'afterUpdate' loop.
      TODO: Variably adjust this number based on window.innerHeight.
     */  
-    let cardBodyRemovalDelayTime = 1500
+    let cardBodyRemovalDelayTime = 4000
 
     let Engine = Matter.Engine,
     Render = Matter.Render,
@@ -199,7 +199,7 @@
     // call when conditions are met such that the game has been won
     const startWinAnimation = () => {
 
-        World.remove(engine.world, [ground, pyramid]);
+        World.remove(engine.world, [ground]);
 
         const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
             return Bodies.rectangle(x, y, 25, 35, {
