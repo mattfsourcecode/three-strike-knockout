@@ -144,7 +144,7 @@
             cardsInPlay = currentCards;
         } else {
             gameWon = true;
-            runSuccess();
+            startWinAnimation();
         }
 
         //Return when shuffledChips array has been emptied
@@ -182,12 +182,10 @@
     World.add(engine.world, mouseConstraint);
 
     // call when conditions are met such that the game has been won
-    const runSuccess = () => {
+    const startWinAnimation = () => {
 
         World.remove(engine.world, [ground, pyramid]);
 
-        const successGround = Bodies.rectangle(790, 485, 900, 20, { isStatic: true })
-    
         const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
             return Bodies.rectangle(x, y, 25, 35, {
                 restitution: 1.4,
@@ -203,7 +201,7 @@
     
         const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
-                restitution: 1.4,
+                restitution: 1,
                 render: {
                     sprite: {
                       texture: chips[getRandomInt(chips.length)],
@@ -213,8 +211,35 @@
                 }
             });
         });
+
+        const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
+            isStatic: true,
+            render: {
+                fillStyle: '#111827'
+            }
+        }),
+        wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
+            isStatic: true,
+            render: {
+                fillStyle: '#111827'
+            }
+        }),
+        wallRight = Bodies.rectangle(window.innerWidth+300, window.innerHeight/2+250, 600, 2000, {
+            isStatic: true,
+            render: {
+                fillStyle: '#111827'
+            }
+        }),
+        wallLeft = Bodies.rectangle(-300, window.innerHeight/2+250, 600, window.innerHeight, {
+            isStatic: true,
+            render: {
+                fillStyle: '#111827'
+            }
+        });
     
-        World.add(engine.world, [successGround, successCardPyramid, successChipPyramid]);
+        World.add(engine.world, [wallTop, wallBottom, wallLeft, wallRight]);
+        World.add(engine.world, [successCardPyramid, successChipPyramid]);
+
     }
 
     render.mouse = mouse;
