@@ -260,5 +260,15 @@
     }
 
     render.mouse = mouse;
+    
+    const startButton = document.querySelector('#start')
+    startButton.addEventListener('click', () => {
+        const modalStyles = document.querySelector('#modal').classList
+        startButton.classList.add('animate-spin');
+        modalStyles.add('opacity-0');
+        setTimeout( () => { 
+            modalStyles.add('hidden');
+        }, 500);
+    });
 
 })();
