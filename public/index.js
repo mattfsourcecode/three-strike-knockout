@@ -209,7 +209,8 @@
                       texture: cards[getRandomInt(cards.length)],
                       xScale: .12,
                       yScale: .12
-                    }
+                    },
+                    torque: 2
                 }
             });
         });
@@ -222,7 +223,8 @@
                       texture: chips[getRandomInt(chips.length)],
                       xScale: .12,
                       yScale: .12
-                    }
+                    },
+                    torque: 2
                 }
             });
         });
