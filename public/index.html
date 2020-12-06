@@ -41,12 +41,34 @@
           
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full justify-center" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full " role="dialog" aria-modal="true" aria-labelledby="modal-headline">
   
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 ">
                         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                             Build a Deck
                         </h3>
+                    </div>
+
+                    <div class="flex justify-center">
+
+                        <div class="rounded-md m-4 h-11 w-24 flex flex-col justify-center shadow">
+
+                            <div id="index-indicator" class="rounded-md m-1 h-8 w-10 bg-green-300 absolute shadow-sm transform duration-300" ></div>
+
+                            <div class="flex justify-center">
+                                
+                                <div id="small-index" class="rounded-md m-1 mt-2 h-8 w-10 flex justify-center cursor-pointer relative" >
+                                    -
+                                </div>
+
+                                <div id="large-index" class="rounded-md m-1 mt-2 h-8 w-10 flex justify-center relative" >
+                                    +
+                                </div>
+
+                            </div>
+                            
+                        </div>
+
                     </div>
 
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse justify-center">
