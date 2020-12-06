@@ -201,7 +201,7 @@
 
         World.remove(engine.world, [ground]);
 
-        const successCardPyramid = Composites.pyramid(500, -200, 19, 20, 0, 0, function(x, y) {
+        const successCardPyramid = Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
             return Bodies.rectangle(x, y, 25, 35, {
                 restitution: 1.4,
                 render: {
