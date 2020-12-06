@@ -2,15 +2,18 @@
 
 
     //Card SVG
-    const cards = [],
-          suits = [ 'C', 'D', 'H', 'S' ],
-          values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
-    for(let s=0; s<suits.length; s++){
-        const suit = suits[s];
-        for(let v=0; v<values.length; v++){
-            const value = values[v];
-            cards.push(`./assets/svg/cards/${suit}${value}.svg`);
+    const produceCardSvgPaths = ( size ) => {
+        const cards = [],
+            suits = [ 'C', 'D', 'H', 'S' ],
+            values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
+        for(let s=0; s<suits.length; s++){
+            const suit = suits[s];
+            for(let v=0; v<values.length; v++){
+                const value = values[v];
+                cards.push(`./assets/svg/cards-${size}-index/${suit}${value}.svg`);
+            }
         }
+        return cards
     }
 
 
@@ -77,10 +80,6 @@
                 background: '#111827',
             }
         });
-
-
-    Engine.run(engine);
-    Render.run(render);
 
 
     // Collision field categories
@@ -171,16 +170,18 @@
     }
 
 
-    const cardDeckCreatedByUser = new CardDeck(cards),
-            gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+    let cardDeckCreatedByUser,
+          gamePyramid,
+          cardsInPlay,
+          currentCards
 
 
-    let cardsInPlay = gamePyramid.bodies,
-        currentCards = [...cardsInPlay];
-
-
-    World.add(engine.world, [ground, gamePyramid, chip, elastic]);
-    World.add(engine.world, mouseConstraint);
+    const addMatterBodiesToSceneAndStartGame = () => {
+        Engine.run(engine);
+        Render.run(render);
+        World.add(engine.world, [ground, gamePyramid, chip, elastic]);
+        World.add(engine.world, mouseConstraint);
+    }
 
 
     Events.on(engine, 'afterUpdate', function() {
@@ -294,15 +295,46 @@
 
     }
 
+    let selectedIndexSize = "small"
 
-    const startButton = document.querySelector('#start')
+    const startButton = document.querySelector('#start'),
+          indexIndicator = document.querySelector('#index-indicator'),
+          smallIndex = document.querySelector('#small-index'),
+          largeIndex = document.querySelector('#large-index');
+
+
     startButton.addEventListener('click', () => {
+
         const modalStyles = document.querySelector('#modal').classList
         startButton.classList.add('animate-spin');
         modalStyles.add('opacity-0');
+
+        const gameCards = produceCardSvgPaths( selectedIndexSize )
+        cardDeckCreatedByUser = new CardDeck(gameCards),
+        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+        cardsInPlay = gamePyramid.bodies,
+        currentCards = [...cardsInPlay];
+
+        addMatterBodiesToSceneAndStartGame()
+
         setTimeout( () => { 
             modalStyles.add('hidden');
         }, 500);
+    });
+
+
+    smallIndex.addEventListener('click', () => {
+        indexIndicator.classList.remove('translate-x-12');
+        smallIndex.classList.remove('cursor-pointer');
+        largeIndex.classList.add('cursor-pointer');
+        selectedIndexSize = "small"
+    });
+
+    largeIndex.addEventListener('click', () => {
+        indexIndicator.classList.add('translate-x-12');
+        largeIndex.classList.remove('cursor-pointer');
+        smallIndex.classList.add('cursor-pointer');
+        selectedIndexSize = "large"
     });
 
 
