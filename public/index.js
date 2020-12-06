@@ -75,14 +75,21 @@
         chipY = 250,
         chipScale = .5;
 
+    // Collision field categories
+    const cardCategory = 0x0001;
+    const chipCategory = 0x0002;
+
     //Declare bodies
     let chip = Bodies.circle(chipX, chipY, 20, {
             density: 0.05,
+            collisionFilter: {
+                category: chipCategory,
+            },
             render: {
                 sprite: {
-                texture: chips[shuffledChips[0]],
-                xScale: chipScale,
-                yScale: chipScale
+                    texture: chips[shuffledChips[0]],
+                    xScale: chipScale,
+                    yScale: chipScale
                 }
             }
         }),
@@ -90,18 +97,21 @@
         elastic = Constraint.create({ 
             pointA: anchor, 
             bodyB: chip, 
-            stiffness: 0.1
+            stiffness: 0.1,
         }),
         ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true }),
         pyramid = Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
             const cardIndex = shuffledCards[0]
             shuffledCards.shift();
             return Bodies.rectangle(x, y, 25, 35, {
+                collisionFilter: {
+                    category: cardCategory,
+                },
                 render: {
                     sprite: {
-                    texture: cards[cardIndex],
-                    xScale: .12,
-                    yScale: .12
+                        texture: cards[cardIndex],
+                        xScale: .12,
+                        yScale: .12
                     }
                 }
             });
@@ -160,6 +170,9 @@
                 shuffledChips.shift()
                 chip = Bodies.circle(chipX, chipY, 20, {
                     density: 0.4,
+                    collisionFilter: {
+                        category: chipCategory,
+                    },
                     render: {
                         sprite: {
                             texture: chips[shuffledChips[0]],
@@ -177,6 +190,8 @@
 
     let mouse = Matter.Mouse.create(render.canvas),
         mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
+        mouseConstraint.collisionFilter.mask = chipCategory;
+
 
     World.add(engine.world, [ground, pyramid, chip, elastic]);
     World.add(engine.world, mouseConstraint);
