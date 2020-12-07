@@ -266,7 +266,23 @@
      */
     const startSuccessAnimation = () => {
 
-        World.remove(engine.world, [ ground, elastic, anchor, chip ]);
+        World.remove(engine.world, [ ground ]);
+
+        let hat = Bodies.circle(chipCoordinateX, chipCoordinateY, 80, {
+            collisionFilter: {
+                category: cardCategory,
+            },
+            render: {
+                sprite: {
+                    texture: './assets/svg/chips/jester-hat.svg',
+                    xScale: .2,
+                    yScale: .2
+                }
+            }
+        })
+        World.add(engine.world, hat);
+        elastic.bodyB = hat;
+        World.remove(engine.world, chip);
 
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
