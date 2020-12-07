@@ -311,24 +311,36 @@
 
         const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
                   isStatic: true,
+                  collisionFilter: {
+                      category: groundCategory,
+                  },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
