@@ -266,7 +266,7 @@
      */
     const startSuccessAnimation = () => {
 
-        World.remove(engine.world, [ground]);
+        World.remove(engine.world, [ ground, elastic, anchor, chip ]);
 
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
