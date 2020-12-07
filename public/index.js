@@ -324,6 +324,20 @@
         });
     }
 
+    smallIndex.addEventListener('click', () => {
+        indexIndicator.classList.remove('translate-x-12');
+        smallIndex.classList.remove('cursor-pointer');
+        largeIndex.classList.add('cursor-pointer');
+        selectedIndexSize = "small"
+    });
+
+    largeIndex.addEventListener('click', () => {
+        indexIndicator.classList.add('translate-x-12');
+        largeIndex.classList.remove('cursor-pointer');
+        smallIndex.classList.add('cursor-pointer');
+        selectedIndexSize = "large"
+    });
+
     startButton.addEventListener('click', () => {
 
         const modalStyles = document.querySelector('#modal').classList
@@ -341,21 +355,6 @@
         setTimeout( () => { 
             modalStyles.add('hidden');
         }, 500);
-    });
-
-
-    smallIndex.addEventListener('click', () => {
-        indexIndicator.classList.remove('translate-x-12');
-        smallIndex.classList.remove('cursor-pointer');
-        largeIndex.classList.add('cursor-pointer');
-        selectedIndexSize = "small"
-    });
-
-    largeIndex.addEventListener('click', () => {
-        indexIndicator.classList.add('translate-x-12');
-        largeIndex.classList.remove('cursor-pointer');
-        smallIndex.classList.add('cursor-pointer');
-        selectedIndexSize = "large"
     });
 
 
