@@ -300,7 +300,16 @@
     const startButton = document.querySelector('#start'),
           indexIndicator = document.querySelector('#index-indicator'),
           smallIndex = document.querySelector('#small-index'),
-          largeIndex = document.querySelector('#large-index');
+          largeIndex = document.querySelector('#large-index'),
+          blue = document.querySelector('#blue'),
+          red = document.querySelector('#red'),
+          cactus = document.querySelector('#cactus'),
+          coyote = document.querySelector('#coyote'),
+          diamonds = document.querySelector('#diamonds'),
+          galexy = document.querySelector('#galexy'),
+          smiley = document.querySelector('#smiley'),
+          beach = document.querySelector('#beach'),
+          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ]
 
 
     startButton.addEventListener('click', () => {
