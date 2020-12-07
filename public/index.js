@@ -124,7 +124,12 @@
             bodyB: chip, 
             stiffness: 0.1,
         }),
-        ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true }),
+        ground = Bodies.rectangle(790, 300, 500, 20, { 
+            isStatic: true,
+            collisionFilter: {
+                category: groundCategory,
+            },
+        }),
         xAxisThreshold = 1050,
         yAxisThreshold = 500,
         gameWon = false;
