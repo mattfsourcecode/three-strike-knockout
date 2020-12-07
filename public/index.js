@@ -22,9 +22,13 @@
 
 
     //Chip SVG
+    const chipColors = [ 'blue', 'gray', 'green', 'red' ];
     const chips = [];
-    for(let i=0; i<5; i++){
-        chips.push(`./assets/svg/chips/chip-${i}.svg`);
+    for(let n=0; n<5; n++){
+        for(let c=0; c<chipColors.length; c++){
+            const color = chipColors[c];
+            chips.push(`./assets/svg/chips/chip-${n}-${color}.svg`);
+        }
     }
 
 
@@ -45,14 +49,19 @@
     }
 
 
+    /**
+     Set the total number of cards and chips used in the game.
+     Then set the total number of card and chip variations that can potentially be used in the game.
+     Then pass both variables into shuffledIndexesForCards to produce a random array of indexes
+     within the rande of the totalCards/totalChips array, sliced to the numberOfCardsInGame/numberOfChipsInGame index.
+    */ 
     const numberOfCardsInGame = 25,
           totalCards = Array.from(Array(52).keys()),
-          shuffledCards = shuffle(totalCards, numberOfCardsInGame);
-    
+          shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
 
     const numberOfChipAttempts = 3,
-          totalChips = Array.from(Array(5).keys()),
-          shuffledChips = shuffle(totalChips, numberOfChipAttempts);
+          totalChips = Array.from(Array(20).keys()),
+          shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
 
 
     /**
@@ -61,7 +70,7 @@
     */  
     let cardBodyRemovalDelayTime = 4000
 
-    
+    //Declare Matter.js objects
     let Engine = Matter.Engine,
         Render = Matter.Render,
         World = Matter.World,
@@ -69,10 +78,8 @@
         Composites = Matter.Composites,
         Constraint = Matter.Constraint,
         Events = Matter.Events,
-        Composite = Matter.Composite;
-
-
-    let engine = Engine.create(),
+        Composite = Matter.Composite,
+        engine = Engine.create(),
         render = Render.create({
             element: document.querySelector('#matter'),
             engine: engine,
@@ -83,35 +90,22 @@
                 width: window.innerWidth,
                 background: '#111827',
             }
-        });
-
-
-    // Collision field categories
-    const cardCategory = 0x0001,
-          chipCategory = 0x0002;
-
-
-    let mouse = Matter.Mouse.create(render.canvas),
-        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse});
-        mouseConstraint.collisionFilter.mask = chipCategory;
-        render.mouse = mouse;
-
-
-    // X-Y coordinates for the picker chip slingshot
-    const chipCoordinateX = 220,
-          chipCoordinateY = 250,
-          chipScale = .25;
-
-
-    //Declare bodies
-    let chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
+        }),
+        cardCategory = 0x0001, // Collision field categories
+        chipCategory = 0x0002,
+        mouse = Matter.Mouse.create(render.canvas),
+        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
+        chipCoordinateX = 220, //X coordinate for the picker chip slingshot
+        chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
+        chipScale = .25, //Size of the picker chip slingshot
+        chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
             density: 0.05,
             collisionFilter: {
                 category: chipCategory,
             },
             render: {
                 sprite: {
-                    texture: chips[shuffledChips[0]],
+                    texture: chips[shuffledIndexesForChips[0]],
                     xScale: chipScale,
                     yScale: chipScale
                 }
@@ -128,6 +122,9 @@
         yAxisThreshold = 500,
         gameWon = false;
 
+        mouseConstraint.collisionFilter.mask = chipCategory;
+        render.mouse = mouse;
+
 
     /**
      * Household member JSON
@@ -140,8 +137,8 @@
         }
         buildGamePyramid() {
             return Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
-                const cardIndex = shuffledCards[0]
-                shuffledCards.shift();
+                const cardIndex = shuffledIndexesForCards[0]
+                shuffledIndexesForCards.shift();
                 return Bodies.rectangle(x, y, 25, 35, {
                     collisionFilter: {
                         category: cardCategory,
@@ -215,8 +212,8 @@
             startSuccessAnimation();
         }
 
-        //Return when shuffledChips array has been emptied
-        if( !shuffledChips.length ){ 
+        //Return when shuffledIndexesForChips array has been emptied
+        if( !shuffledIndexesForChips.length ){ 
             if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
                 //Add "Game Over animation here"
             }
@@ -225,7 +222,7 @@
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
                 //TODO: Should this be removing the body in addition or instead of the shift method?                
-                shuffledChips.shift()
+                shuffledIndexesForChips.shift()
                 chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
                     density: 0.4,
                     collisionFilter: {
@@ -233,7 +230,7 @@
                     },
                     render: {
                         sprite: {
-                            texture: chips[shuffledChips[0]],
+                            texture: chips[shuffledIndexesForChips[0]],
                             xScale: chipScale,
                             yScale: chipScale
                         }
