@@ -98,6 +98,7 @@
         }),
         cardCategory = 0x0001, // Collision field categories
         chipCategory = 0x0002,
+        groundCategory = 0x0003,
         mouse = Matter.Mouse.create(render.canvas),
         mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
