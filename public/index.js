@@ -134,7 +134,7 @@
         yAxisThreshold = 500,
         gameWon = false;
 
-        mouseConstraint.collisionFilter.mask = chipCategory;
+        mouseConstraint.collisionFilter.mask = chipCategory
         render.mouse = mouse;
 
 
