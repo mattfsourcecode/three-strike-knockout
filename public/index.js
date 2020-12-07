@@ -166,7 +166,7 @@
                             xScale: .12,
                             yScale: .12
                         },
-                        torque: 2
+                        torque: 3
                     }
                 });
             }.bind(this));
