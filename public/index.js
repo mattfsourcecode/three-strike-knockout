@@ -238,6 +238,7 @@
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
+                chip.collisionFilter.category = cardCategory;
                 launchedChip = chip;
                 shuffledIndexesForChips.shift();
                 if(shuffledIndexesForChips.length){
