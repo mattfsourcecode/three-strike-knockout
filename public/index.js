@@ -164,6 +164,10 @@
             return Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
                 return Bodies.rectangle(x, y, 25, 35, {
                     restitution: 1.4,
+                    collisionFilter: {
+                        category: cardCategory,
+                        mask: groundCategory | cardCategory | chipCategory
+                    },
                     render: {
                         sprite: {
                             texture: this.cards[getRandomInt(this.cards.length)],
