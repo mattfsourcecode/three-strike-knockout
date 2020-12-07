@@ -117,6 +117,7 @@
                 }
             }
         }),
+        launchedChip = null,
         anchor = { x: chipCoordinateX, y: chipCoordinateY },
         elastic = Constraint.create({ 
             pointA: anchor, 
@@ -237,7 +238,8 @@
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
-                shuffledIndexesForChips.shift()
+                launchedChip = chip;
+                shuffledIndexesForChips.shift();
                 if(shuffledIndexesForChips.length){
                     chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
                         density: 0.4,
@@ -287,6 +289,8 @@
         World.add(engine.world, hat);
         elastic.bodyB = hat;
         World.remove(engine.world, chip);
+
+        launchedChip.collisionFilter.category = chipCategory;
 
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
