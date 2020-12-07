@@ -1,16 +1,20 @@
 (function() {
-
+    
 
     //Card SVG
-    const produceCardSvgPaths = ( size ) => {
+    const buildAllCardSvgPaths = ( indexSize, backImage ) => {
         const cards = [],
             suits = [ 'C', 'D', 'H', 'S' ],
             values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
         for(let s=0; s<suits.length; s++){
             const suit = suits[s];
             for(let v=0; v<values.length; v++){
-                const value = values[v];
-                cards.push(`./assets/svg/cards-${size}-index/${suit}${value}.svg`);
+                if ( getRandomInt(4) === 3 ) {
+                    cards.push(`./assets/svg/backs/${backImage}.png`);
+                } else {
+                    const value = values[v];
+                    cards.push(`./assets/svg/cards-${indexSize}-index/${suit}${value}.svg`);
+                }
             }
         }
         return cards
@@ -295,33 +299,30 @@
 
     }
 
-    let selectedIndexSize = "small"
+    let selectedIndexSize = "small";
+    let selectedCardBack = "blue";
 
     const startButton = document.querySelector('#start'),
           indexIndicator = document.querySelector('#index-indicator'),
           smallIndex = document.querySelector('#small-index'),
-          largeIndex = document.querySelector('#large-index');
+          largeIndex = document.querySelector('#large-index'),
+          blue = document.querySelector('#blue'),
+          red = document.querySelector('#red'),
+          cactus = document.querySelector('#cactus'),
+          coyote = document.querySelector('#coyote'),
+          diamonds = document.querySelector('#diamonds'),
+          galexy = document.querySelector('#galexy'),
+          smiley = document.querySelector('#smiley'),
+          beach = document.querySelector('#beach'),
+          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ]
 
-
-    startButton.addEventListener('click', () => {
-
-        const modalStyles = document.querySelector('#modal').classList
-        startButton.classList.add('animate-spin');
-        modalStyles.add('opacity-0');
-
-        const gameCards = produceCardSvgPaths( selectedIndexSize )
-        cardDeckCreatedByUser = new CardDeck(gameCards),
-        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
-        cardsInPlay = gamePyramid.bodies,
-        currentCards = [...cardsInPlay];
-
-        addMatterBodiesToSceneAndStartGame()
-
-        setTimeout( () => { 
-            modalStyles.add('hidden');
-        }, 500);
-    });
-
+    for(let i=0; i<cardBacks.length; i++){
+        cardBacks[i].addEventListener('click', () => {
+            document.querySelector(`#${selectedCardBack}`).classList.remove('bg-green-300');
+            cardBacks[i].classList.add('bg-green-300');
+            selectedCardBack = cardBacks[i].id
+        });
+    }
 
     smallIndex.addEventListener('click', () => {
         indexIndicator.classList.remove('translate-x-12');
@@ -335,6 +336,25 @@
         largeIndex.classList.remove('cursor-pointer');
         smallIndex.classList.add('cursor-pointer');
         selectedIndexSize = "large"
+    });
+
+    startButton.addEventListener('click', () => {
+
+        const modalStyles = document.querySelector('#modal').classList
+        startButton.classList.add('animate-spin');
+        modalStyles.add('opacity-0');
+
+        const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack )
+        cardDeckCreatedByUser = new CardDeck(gameCards),
+        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+        cardsInPlay = gamePyramid.bodies,
+        currentCards = [...cardsInPlay];
+
+        addMatterBodiesToSceneAndStartGame()
+
+        setTimeout( () => { 
+            modalStyles.add('hidden');
+        }, 500);
     });
 
 
