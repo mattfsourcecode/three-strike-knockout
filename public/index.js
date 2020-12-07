@@ -1,7 +1,12 @@
 (function() {
     
 
-    //Card SVG
+    /**
+     * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 change of being a back image.
+     * @param {string} indexSize - Interpolated into the front-facing card file paths; The size of the indices on the forward-facing cards.
+     * @param {string} backImage - Interpolated into the back-facing card file paths; The name of the image to be used for the card backs.
+     * @return {array} An array of file paths to the card svg and back image files.
+     */
     const buildAllCardSvgPaths = ( indexSize, backImage ) => {
         const cards = [],
             suits = [ 'C', 'D', 'H', 'S' ],
@@ -172,11 +177,16 @@
 
 
     let cardDeckCreatedByUser,
-          gamePyramid,
-          cardsInPlay,
-          currentCards
+        gamePyramid,
+        cardsInPlay,
+        currentCards
 
 
+    /**
+     Called on click of the start button. This runs the Matter.js Engine and Render
+     and then adds bodies to the scene. The gamePyramid is built with the CardDeck.prototype.buildGamePyramid() method
+     according to user-specified parameters.
+     */
     const addMatterBodiesToSceneAndStartGame = () => {
         Engine.run(engine);
         Render.run(render);
@@ -185,6 +195,11 @@
     }
 
 
+    /**
+     'afterUpdate' is fired after engine update and all collision events.
+     This loop is being used to evaluate if certain conditions have been met,
+     in order to detect game win, a game over, cards calling off, chips being used, etc.
+     */
     Events.on(engine, 'afterUpdate', function() {
 
         //gameWon is set to true when all cards have been knocked off the surface
@@ -244,7 +259,11 @@
     });
 
 
-    // call when conditions are met such that the game has been won
+    /**
+     Called when conditions are met such that the game has been won.
+     Game-related bodies are removed from the scene. The "celebration" card and chip
+     pyramids are then instantiated and added to the scene. Border walls are also added.
+     */
     const startSuccessAnimation = () => {
 
         World.remove(engine.world, [ground]);
@@ -267,32 +286,34 @@
 
 
         const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
-            isStatic: true,
-            render: {
-                fillStyle: '#111827'
-            }
-        }),
-        wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
-            isStatic: true,
-            render: {
-                fillStyle: '#111827'
-            }
-        }),
-        wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
-            isStatic: true,
-            render: {
-                fillStyle: '#111827'
-            }
-        }),
-        wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
-            isStatic: true,
-            render: {
-                fillStyle: '#111827'
-            }
-        });
+                  isStatic: true,
+                  render: {
+                      fillStyle: '#111827'
+                  }
+              }),
+              wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
+                  isStatic: true,
+                  render: {
+                      fillStyle: '#111827'
+                  }
+              }),
+              wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
+                  isStatic: true,
+                  render: {
+                      fillStyle: '#111827'
+                  }
+              }),
+              wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
+                  isStatic: true,
+                  render: {
+                      fillStyle: '#111827'
+                  }
+              });
     
         World.add(engine.world, [wallTop, wallBottom, wallLeft, wallRight]);
         World.add(engine.world, [successCardPyramid, successChipPyramid]);
+
+        return
 
     }
 
