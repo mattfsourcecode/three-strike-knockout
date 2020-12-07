@@ -1,16 +1,20 @@
 (function() {
-
+    
 
     //Card SVG
-    const produceCardSvgPaths = ( size ) => {
+    const buildAllCardSvgPaths = ( indexSize, backImage ) => {
         const cards = [],
             suits = [ 'C', 'D', 'H', 'S' ],
             values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
         for(let s=0; s<suits.length; s++){
             const suit = suits[s];
             for(let v=0; v<values.length; v++){
-                const value = values[v];
-                cards.push(`./assets/svg/cards-${size}-index/${suit}${value}.svg`);
+                if ( getRandomInt(4) === 3 ) {
+                    cards.push(`./assets/svg/backs/${backImage}.png`);
+                } else {
+                    const value = values[v];
+                    cards.push(`./assets/svg/cards-${indexSize}-index/${suit}${value}.svg`);
+                }
             }
         }
         return cards
@@ -326,7 +330,7 @@
         startButton.classList.add('animate-spin');
         modalStyles.add('opacity-0');
 
-        const gameCards = produceCardSvgPaths( selectedIndexSize )
+        const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack )
         cardDeckCreatedByUser = new CardDeck(gameCards),
         gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
         cardsInPlay = gamePyramid.bodies,
