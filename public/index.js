@@ -295,7 +295,8 @@
 
     }
 
-    let selectedIndexSize = "small"
+    let selectedIndexSize = "small";
+    let selectedCardBack = "blue";
 
     const startButton = document.querySelector('#start'),
           indexIndicator = document.querySelector('#index-indicator'),
