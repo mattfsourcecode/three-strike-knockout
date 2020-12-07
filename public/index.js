@@ -312,6 +312,13 @@
           beach = document.querySelector('#beach'),
           cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ]
 
+    for(let i=0; i<cardBacks.length; i++){
+        cardBacks[i].addEventListener('click', () => {
+            document.querySelector(`#${selectedCardBack}`).classList.remove('bg-green-300');
+            cardBacks[i].classList.add('bg-green-300');
+            selectedCardBack = cardBacks[i].id
+        });
+    }
 
     startButton.addEventListener('click', () => {
 
