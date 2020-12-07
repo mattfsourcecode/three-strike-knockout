@@ -149,6 +149,7 @@
                 return Bodies.rectangle(x, y, 25, 35, {
                     collisionFilter: {
                         category: cardCategory,
+                        mask: groundCategory | cardCategory,
                     },
                     render: {
                         sprite: {
