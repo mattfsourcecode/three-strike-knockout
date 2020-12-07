@@ -98,6 +98,7 @@
         }),
         cardCategory = 0x0001, // Collision field categories
         chipCategory = 0x0002,
+        groundCategory = 0x0003,
         mouse = Matter.Mouse.create(render.canvas),
         mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
@@ -116,18 +117,24 @@
                 }
             }
         }),
+        launchedChip = null,
         anchor = { x: chipCoordinateX, y: chipCoordinateY },
         elastic = Constraint.create({ 
             pointA: anchor, 
             bodyB: chip, 
             stiffness: 0.1,
         }),
-        ground = Bodies.rectangle(790, 300, 500, 20, { isStatic: true }),
+        ground = Bodies.rectangle(790, 300, 500, 20, { 
+            isStatic: true,
+            collisionFilter: {
+                category: groundCategory,
+            },
+        }),
         xAxisThreshold = 1050,
         yAxisThreshold = 500,
         gameWon = false;
 
-        mouseConstraint.collisionFilter.mask = chipCategory;
+        mouseConstraint.collisionFilter.mask = chipCategory
         render.mouse = mouse;
 
 
@@ -147,6 +154,7 @@
                 return Bodies.rectangle(x, y, 25, 35, {
                     collisionFilter: {
                         category: cardCategory,
+                        mask: groundCategory | cardCategory,
                     },
                     render: {
                         sprite: {
@@ -162,6 +170,10 @@
             return Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
                 return Bodies.rectangle(x, y, 25, 35, {
                     restitution: 1.4,
+                    collisionFilter: {
+                        category: cardCategory,
+                        mask: groundCategory | cardCategory | chipCategory
+                    },
                     render: {
                         sprite: {
                             texture: this.cards[getRandomInt(this.cards.length)],
@@ -236,7 +248,9 @@
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
-                shuffledIndexesForChips.shift()
+                chip.collisionFilter.category = cardCategory;
+                launchedChip = chip;
+                shuffledIndexesForChips.shift();
                 if(shuffledIndexesForChips.length){
                     chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
                         density: 0.4,
@@ -287,11 +301,16 @@
         elastic.bodyB = hat;
         World.remove(engine.world, chip);
 
+        launchedChip.collisionFilter.category = chipCategory;
+
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
         const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
                 restitution: 1.4,
+                collisionFilter: {
+                    category: cardCategory,
+                },
                 render: {
                     sprite: {
                       texture: chips[getRandomInt(chips.length)],
@@ -306,24 +325,36 @@
 
         const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
                   isStatic: true,
+                  collisionFilter: {
+                      category: groundCategory,
+                  },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
               }),
               wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
+                  collisionFilter: {
+                    category: groundCategory,
+                },
                   render: {
                       fillStyle: '#111827'
                   }
