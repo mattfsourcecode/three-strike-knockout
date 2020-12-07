@@ -236,21 +236,24 @@
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
-                //TODO: Should this be removing the body in addition or instead of the shift method?                
                 shuffledIndexesForChips.shift()
-                chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
-                    density: 0.4,
-                    collisionFilter: {
-                        category: chipCategory,
-                    },
-                    render: {
-                        sprite: {
-                            texture: chips[shuffledIndexesForChips[0]],
-                            xScale: chipScale,
-                            yScale: chipScale
+                if(shuffledIndexesForChips.length){
+                    chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
+                        density: 0.4,
+                        collisionFilter: {
+                            category: chipCategory,
+                        },
+                        render: {
+                            sprite: {
+                                texture: chips[shuffledIndexesForChips[0]],
+                                xScale: chipScale,
+                                yScale: chipScale
+                            }
                         }
-                    }
-                }),
+                    })
+                } else {
+                    chip = Bodies.circle(chipCoordinateX, chipCoordinateY, .01)
+                }
                 World.add(engine.world, chip);
                 elastic.bodyB = chip;
             };
@@ -266,7 +269,23 @@
      */
     const startSuccessAnimation = () => {
 
-        World.remove(engine.world, [ ground, elastic, anchor, chip ]);
+        World.remove(engine.world, [ ground ]);
+
+        let hat = Bodies.circle(chipCoordinateX, chipCoordinateY, 80, {
+            collisionFilter: {
+                category: cardCategory,
+            },
+            render: {
+                sprite: {
+                    texture: './assets/svg/chips/jester-hat.svg',
+                    xScale: .2,
+                    yScale: .2
+                }
+            }
+        })
+        World.add(engine.world, hat);
+        elastic.bodyB = hat;
+        World.remove(engine.world, chip);
 
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
