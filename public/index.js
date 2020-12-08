@@ -286,6 +286,8 @@
 
     const startButton = document.querySelector('#start'),
           modal = document.querySelector('#modal'),
+          playAgainButton = document.querySelector('#play-again-button'),
+          indexIndicator = document.querySelector('#index-indicator'),
           smallIndex = document.querySelector('#small-index'),
           largeIndex = document.querySelector('#large-index'),
           blue = document.querySelector('#blue'),
@@ -305,6 +307,10 @@
      pyramids are then instantiated and added to the scene. Border walls are also added.
      */
     const startSuccessAnimation = () => {
+
+        setTimeout( () => { 
+            playAgainButton.classList.remove('hidden')
+        }, 10000);
 
         World.remove(engine.world, [ ground ]);
 
@@ -413,6 +419,11 @@
         largeIndex.classList.remove('cursor-pointer');
         smallIndex.classList.add('cursor-pointer');
         selectedIndexSize = "large"
+    });
+
+    playAgainButton.addEventListener('click', () => {
+        playAgainButton.classList.add('hidden')
+        openModalAndReset()
     });
 
     startButton.addEventListener('click', () => {
