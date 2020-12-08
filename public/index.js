@@ -67,13 +67,17 @@
     }
 
 
-    //Shuffles an array and slices to a specified index
+    /**
+     * Shuffles an array and slices to a specified index. The returned result is compared against
+     * an array of card or chip file paths to select the assets to use in the game.
+     * @param {array} arr - An array of consecutive integers representing each index.
+     * @param {number} total - The index that the output will be sliced to.
+     * @return {array} The passed-in arr array, shuffled and sliced to a specified index.
+     */
     const shuffle = (arr, total) => {
         for (let i=arr.length-1; i>0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+            const j = Math.floor(Math.random() * (i + 1)); //random integer such that 0 ≤ j ≤ i.
+            [arr[i], arr[j]] = [arr[j], arr[i]]; //switches the i index with the j index.
         }
         return arr.slice(0,total);
     }
