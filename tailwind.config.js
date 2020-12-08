@@ -13,6 +13,15 @@ module.exports = {
       },
       fontFamily: {
         body: ['Permanent Marker']
+      },
+      keyframes: {
+        'skew': {
+          '0%, 100%': { transform: 'skew(-45deg)' },
+          '50%': { transform: 'skew(45deg)' },
+        },
+      },
+      animation: {
+        'skew': 'skew 2s infinite',
       }
     },
   },
