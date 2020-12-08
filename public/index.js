@@ -1,5 +1,30 @@
 (function() {
-    
+
+
+    /**
+     * Adjusts the height and width property of the spinner to start the transition.
+     * Then removes the spinner from the DOM and removes the "hidden" class from the <main/> element.
+     */
+    (function() {
+
+        const spinner = document.querySelector('#spinner'),
+        spinnerContainer = document.querySelector('#spinner-container'),
+        main = document.querySelector('main');
+
+        setTimeout(function(){ 
+            spinner.classList.remove('h-80');
+            spinner.classList.remove('w-80');
+            spinner.classList.add('h-1');
+            spinner.classList.add('w-1');
+        }, 350);
+
+        setTimeout(function(){ 
+            main.classList.remove('hidden');
+            spinnerContainer.remove();
+        }, 750);
+
+    })();
+
 
     /**
      * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 change of being a back image.
