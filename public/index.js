@@ -184,7 +184,7 @@
             }.bind(this));
         }
         buildSuccessPyramid() {
-            return Composites.pyramid(500, -200, 14, 15, 0, 0, function(x, y) {
+            return Composites.pyramid(.33*window.innerWidth, -200, 14, 15, 0, 0, function(x, y) {
                 return Bodies.rectangle(x, y, 25, 35, {
                     restitution: 1.4,
                     collisionFilter: {
@@ -373,7 +373,7 @@
 
         const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
     
-        const successChipPyramid = Composites.pyramid(600, -50, 12, 13, 0, 0, function(x, y) {
+        const successChipPyramid = Composites.pyramid(.33*window.innerWidth+50, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
                 restitution: 1.4,
                 collisionFilter: {
@@ -385,7 +385,7 @@
                       xScale: .12,
                       yScale: .12
                     },
-                    torque: 2
+                    torque: 3
                 }
             });
         });
@@ -433,11 +433,9 @@
                 }
             });
         })
-
-        debugger
     
         World.add(engine.world, wallParameters);
-        World.add(engine.world, [successCardPyramid, successChipPyramid]);
+        World.add(engine.world, [successChipPyramid, successCardPyramid]);
 
         return
 
