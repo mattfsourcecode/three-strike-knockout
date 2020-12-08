@@ -40,10 +40,10 @@
             const suit = suits[s];
             for(let v=0; v<values.length; v++){
                 if ( getRandomInt(4) === 3 ) {
-                    cards.push(`./assets/svg/backs/${backImage}.png`);
+                    cards.push(`assets/svg/backs/${backImage}.png`);
                 } else {
                     const value = values[v];
-                    cards.push(`./assets/svg/cards-${indexSize}-index/${suit}${value}.svg`);
+                    cards.push(`assets/svg/cards-${indexSize}-index/${suit}${value}.svg`);
                 }
             }
         }
@@ -57,7 +57,7 @@
     for(let n=0; n<5; n++){
         for(let c=0; c<chipColors.length; c++){
             const color = chipColors[c];
-            chips.push(`./assets/svg/chips/chip-${n}-${color}.svg`);
+            chips.push(`assets/svg/chips/chip-${n}-${color}.svg`);
         }
     }
 
@@ -115,7 +115,7 @@
             engine: engine,
             options: {
                 wireframes: false,
-                pixelRatio: 2.0, //Resolution of svg elements
+                pixelRatio: 2, //Resolution of svg elements
                 height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+80, //This height calculated method could be re-evaluated
                 width: window.innerWidth,
                 background: '#111827',
@@ -204,7 +204,8 @@
     let cardDeckCreatedByUser,
         gamePyramid,
         cardsInPlay,
-        currentCards
+        currentCards,
+        eventLoopCanEvaluate;
 
 
     /**
@@ -232,10 +233,19 @@
             pointA: anchor, 
             bodyB: chip, 
             stiffness: 0.1,
-        }),
-        
-        World.add(engine.world, [ground, gamePyramid, chip, elastic]);
-        World.add(engine.world, mouseConstraint);
+        });
+
+        const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack );
+        cardDeckCreatedByUser = new CardDeck(gameCards);
+        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+        cardsInPlay = gamePyramid.bodies;
+        currentCards = [...cardsInPlay];
+
+        World.add(engine.world, [ground, chip, elastic, mouseConstraint]);
+        World.add(engine.world, [gamePyramid]);
+
+        eventLoopCanEvaluate = true;
+
     }
 
 
@@ -246,8 +256,8 @@
      */
     Events.on(engine, 'afterUpdate', function() {
 
-        //gameWon is set to true when all cards have been knocked off the surface
-        if ( gameWon || gameOver  ) { return }
+
+        if ( !eventLoopCanEvaluate || ( gameWon || gameOver )  ) { return }
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if( currentCards.length ){
@@ -463,22 +473,16 @@
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0');
 
-        const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack )
-
-        cardDeckCreatedByUser = new CardDeck(gameCards),
-        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
-        cardsInPlay = gamePyramid.bodies,
-        currentCards = [...cardsInPlay];
-
-        addMatterBodiesToSceneAndStartGame()
-
         setTimeout( () => { 
             modal.classList.add('hidden');
-        }, 500);
+            addMatterBodiesToSceneAndStartGame()
+        }, 750);
     });
 
 
     const openModalAndReset = () => {
+
+        eventLoopCanEvaluate = false;
 
         World.clear(engine.world);
         Engine.clear(engine);
