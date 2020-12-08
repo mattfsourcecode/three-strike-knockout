@@ -62,11 +62,11 @@
     */ 
     const numberOfCardsInGame = 25,
           totalCards = Array.from(Array(52).keys()),
-          shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
+          numberOfChipAttempts = 3,
+          totalChips = Array.from(Array(20).keys());
 
-    const numberOfChipAttempts = 3,
-          totalChips = Array.from(Array(20).keys()),
-          shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+    let shuffledIndexesForCards,
+        shuffledIndexesForChips
 
 
     /**
@@ -91,7 +91,7 @@
             options: {
                 wireframes: false,
                 pixelRatio: 2.0, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+57, //This height calculated method could be re-evaluated
+                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+80, //This height calculated method could be re-evaluated
                 width: window.innerWidth,
                 background: '#111827',
             }
@@ -104,26 +104,10 @@
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
         chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
         chipScale = .25, //Size of the picker chip slingshot
-        chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
-            density: 0.05,
-            collisionFilter: {
-                category: chipCategory,
-            },
-            render: {
-                sprite: {
-                    texture: chips[shuffledIndexesForChips[0]],
-                    xScale: chipScale,
-                    yScale: chipScale
-                }
-            }
-        }),
+        chip,
         launchedChip = null,
         anchor = { x: chipCoordinateX, y: chipCoordinateY },
-        elastic = Constraint.create({ 
-            pointA: anchor, 
-            bodyB: chip, 
-            stiffness: 0.1,
-        }),
+        elastic,
         ground = Bodies.rectangle(790, 300, 500, 20, { 
             isStatic: true,
             collisionFilter: {
@@ -132,10 +116,14 @@
         }),
         xAxisThreshold = 1050,
         yAxisThreshold = 500,
-        gameWon = false;
+        gameWon,
+        gameOver;
 
         mouseConstraint.collisionFilter.mask = chipCategory
         render.mouse = mouse;
+
+        Engine.run(engine);
+        Render.run(render);
 
 
     /**
@@ -200,8 +188,27 @@
      according to user-specified parameters.
      */
     const addMatterBodiesToSceneAndStartGame = () => {
-        Engine.run(engine);
-        Render.run(render);
+
+        chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
+            density: 0.05,
+            collisionFilter: {
+                category: chipCategory,
+            },
+            render: {
+                sprite: {
+                    texture: chips[shuffledIndexesForChips[0]],
+                    xScale: chipScale,
+                    yScale: chipScale
+                }
+            }
+        }),
+
+        elastic = Constraint.create({ 
+            pointA: anchor, 
+            bodyB: chip, 
+            stiffness: 0.1,
+        }),
+        
         World.add(engine.world, [ground, gamePyramid, chip, elastic]);
         World.add(engine.world, mouseConstraint);
     }
@@ -215,7 +222,7 @@
     Events.on(engine, 'afterUpdate', function() {
 
         //gameWon is set to true when all cards have been knocked off the surface
-        if ( gameWon  ) { return }
+        if ( gameWon || gameOver  ) { return }
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if( currentCards.length ){
@@ -242,7 +249,8 @@
         //Return when shuffledIndexesForChips array has been emptied
         if( !shuffledIndexesForChips.length ){ 
             if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
-                //Add "Game Over animation here"
+                gameOver = true;
+                openModalAndReset()
             }
             return
          } else {
@@ -276,12 +284,33 @@
     });
 
 
+    const startButton = document.querySelector('#start'),
+          modal = document.querySelector('#modal'),
+          playAgainButton = document.querySelector('#play-again-button'),
+          indexIndicator = document.querySelector('#index-indicator'),
+          smallIndex = document.querySelector('#small-index'),
+          largeIndex = document.querySelector('#large-index'),
+          blue = document.querySelector('#blue'),
+          red = document.querySelector('#red'),
+          cactus = document.querySelector('#cactus'),
+          coyote = document.querySelector('#coyote'),
+          diamonds = document.querySelector('#diamonds'),
+          galexy = document.querySelector('#galexy'),
+          smiley = document.querySelector('#smiley'),
+          beach = document.querySelector('#beach'),
+          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ];
+
+
     /**
      Called when conditions are met such that the game has been won.
      Game-related bodies are removed from the scene. The "celebration" card and chip
      pyramids are then instantiated and added to the scene. Border walls are also added.
      */
     const startSuccessAnimation = () => {
+
+        setTimeout( () => { 
+            playAgainButton.classList.remove('hidden')
+        }, 10000);
 
         World.remove(engine.world, [ ground ]);
 
@@ -332,7 +361,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
+              wallBottom = Bodies.rectangle(window.innerWidth/2, window.innerHeight+220, window.innerWidth, 600, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
@@ -341,7 +370,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
+              wallRight = Bodies.rectangle(window.innerWidth+300, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
@@ -350,7 +379,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
+              wallLeft = Bodies.rectangle(-300, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
@@ -369,20 +398,6 @@
 
     let selectedIndexSize = "small";
     let selectedCardBack = "blue";
-
-    const startButton = document.querySelector('#start'),
-          indexIndicator = document.querySelector('#index-indicator'),
-          smallIndex = document.querySelector('#small-index'),
-          largeIndex = document.querySelector('#large-index'),
-          blue = document.querySelector('#blue'),
-          red = document.querySelector('#red'),
-          cactus = document.querySelector('#cactus'),
-          coyote = document.querySelector('#coyote'),
-          diamonds = document.querySelector('#diamonds'),
-          galexy = document.querySelector('#galexy'),
-          smiley = document.querySelector('#smiley'),
-          beach = document.querySelector('#beach'),
-          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ]
 
     for(let i=0; i<cardBacks.length; i++){
         cardBacks[i].addEventListener('click', () => {
@@ -406,13 +421,25 @@
         selectedIndexSize = "large"
     });
 
+    playAgainButton.addEventListener('click', () => {
+        playAgainButton.classList.add('hidden')
+        openModalAndReset()
+    });
+
     startButton.addEventListener('click', () => {
 
-        const modalStyles = document.querySelector('#modal').classList
+        gameWon = false;
+        gameOver = false;
+
+        shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
+        shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+
         startButton.classList.add('animate-spin');
-        modalStyles.add('opacity-0');
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
 
         const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack )
+
         cardDeckCreatedByUser = new CardDeck(gameCards),
         gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
         cardsInPlay = gamePyramid.bodies,
@@ -421,9 +448,21 @@
         addMatterBodiesToSceneAndStartGame()
 
         setTimeout( () => { 
-            modalStyles.add('hidden');
+            modal.classList.add('hidden');
         }, 500);
     });
 
+
+    const openModalAndReset = () => {
+
+        World.clear(engine.world);
+        Engine.clear(engine);
+
+        startButton.classList.remove('animate-spin');
+        modal.classList.remove('hidden');
+        modal.classList.add('fixed');
+        modal.classList.add('opacity-100');
+
+    }
 
 })();
