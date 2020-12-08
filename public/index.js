@@ -408,11 +408,18 @@
 
     startButton.addEventListener('click', () => {
 
-        const modalStyles = document.querySelector('#modal').classList
+        gameWon = false;
+        gameOver = false;
+
+        shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
+        shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+
         startButton.classList.add('animate-spin');
-        modalStyles.add('opacity-0');
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
 
         const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack )
+
         cardDeckCreatedByUser = new CardDeck(gameCards),
         gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
         cardsInPlay = gamePyramid.bodies,
@@ -421,9 +428,21 @@
         addMatterBodiesToSceneAndStartGame()
 
         setTimeout( () => { 
-            modalStyles.add('hidden');
+            modal.classList.add('hidden');
         }, 500);
     });
 
+
+    const openModalAndReset = () => {
+
+        World.clear(engine.world);
+        Engine.clear(engine);
+
+        startButton.classList.remove('animate-spin');
+        modal.classList.remove('hidden');
+        modal.classList.add('fixed');
+        modal.classList.add('opacity-100');
+
+    }
 
 })();
