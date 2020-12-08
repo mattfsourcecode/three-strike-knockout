@@ -385,46 +385,54 @@
                 }
             });
         });
+        
 
+        let wallParameters = [
+            {
+                type: 'top',
+                x: window.innerWidth/2,
+                y: -300,
+                width: window.innerWidth,
+                height: 600
+            },
+            {
+                type: 'top',
+                x: window.innerWidth/2,
+                y: window.innerHeight+220,
+                width: window.innerWidth,
+                height: 600
+            },
+            {
+                type: 'right',
+                x: window.innerWidth+300,
+                y: window.innerHeight-100,
+                width: 600,
+                height: window.innerHeight
+            },
+            {
+                type: 'left',
+                x: -300,
+                y: window.innerHeight-100,
+                width: 600,
+                height: window.innerHeight
+            }
+        ]
 
-        const wallTop = Bodies.rectangle(window.innerWidth/2, -300, window.innerWidth, 600, {
-                  isStatic: true,
-                  collisionFilter: {
-                      category: groundCategory,
-                  },
-                  render: {
-                      fillStyle: '#111827'
-                  }
-              }),
-              wallBottom = Bodies.rectangle(window.innerWidth/2, window.innerHeight+220, window.innerWidth, 600, {
-                  isStatic: true,
-                  collisionFilter: {
+        wallParameters = wallParameters.map( wall => {
+            return Bodies.rectangle( wall.x, wall.y, wall.width, wall.height, {
+                isStatic: true,
+                collisionFilter: {
                     category: groundCategory,
                 },
-                  render: {
-                      fillStyle: '#111827'
-                  }
-              }),
-              wallRight = Bodies.rectangle(window.innerWidth+300, window.innerHeight-100, 600, window.innerHeight, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: groundCategory,
-                },
-                  render: {
-                      fillStyle: '#111827'
-                  }
-              }),
-              wallLeft = Bodies.rectangle(-300, window.innerHeight-100, 600, window.innerHeight, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: groundCategory,
-                },
-                  render: {
-                      fillStyle: '#111827'
-                  }
-              });
+                render: {
+                    fillStyle: '#111827'
+                }
+            });
+        })
+
+        debugger
     
-        World.add(engine.world, [wallTop, wallBottom, wallLeft, wallRight]);
+        World.add(engine.world, wallParameters);
         World.add(engine.world, [successCardPyramid, successChipPyramid]);
 
         return
