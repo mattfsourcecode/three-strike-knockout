@@ -442,6 +442,29 @@
         });
     }
 
+    const handleStartButtonClick = () => {
+
+        gameWon = false;
+        gameOver = false;
+
+        shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
+        shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+
+        startButton.classList.add('animate-spin');
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+
+        setTimeout( () => { 
+            modal.classList.add('hidden');
+            addMatterBodiesToSceneAndStartGame()
+        }, 750);
+
+    }
+
+    startButton.addEventListener( 'click', () => { handleStartButtonClick() } );
+
+    $(document).keypress(function(e) { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
+
     smallIndex.addEventListener('click', () => {
         indexIndicator.classList.remove('translate-x-12');
         smallIndex.classList.remove('cursor-pointer');
@@ -459,24 +482,6 @@
     playAgainButton.addEventListener('click', () => {
         playAgainButton.classList.add('hidden')
         openModalAndReset()
-    });
-
-    startButton.addEventListener('click', () => {
-
-        gameWon = false;
-        gameOver = false;
-
-        shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
-        shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
-
-        startButton.classList.add('animate-spin');
-        modal.classList.remove('opacity-100');
-        modal.classList.add('opacity-0');
-
-        setTimeout( () => { 
-            modal.classList.add('hidden');
-            addMatterBodiesToSceneAndStartGame()
-        }, 750);
     });
 
 
