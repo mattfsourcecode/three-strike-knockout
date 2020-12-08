@@ -62,11 +62,11 @@
     */ 
     const numberOfCardsInGame = 25,
           totalCards = Array.from(Array(52).keys()),
-          shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
+          numberOfChipAttempts = 3,
+          totalChips = Array.from(Array(20).keys());
 
-    const numberOfChipAttempts = 3,
-          totalChips = Array.from(Array(20).keys()),
-          shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+    let shuffledIndexesForCards,
+        shuffledIndexesForChips
 
 
     /**
@@ -104,26 +104,10 @@
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
         chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
         chipScale = .25, //Size of the picker chip slingshot
-        chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
-            density: 0.05,
-            collisionFilter: {
-                category: chipCategory,
-            },
-            render: {
-                sprite: {
-                    texture: chips[shuffledIndexesForChips[0]],
-                    xScale: chipScale,
-                    yScale: chipScale
-                }
-            }
-        }),
+        chip,
         launchedChip = null,
         anchor = { x: chipCoordinateX, y: chipCoordinateY },
-        elastic = Constraint.create({ 
-            pointA: anchor, 
-            bodyB: chip, 
-            stiffness: 0.1,
-        }),
+        elastic,
         ground = Bodies.rectangle(790, 300, 500, 20, { 
             isStatic: true,
             collisionFilter: {
@@ -132,10 +116,14 @@
         }),
         xAxisThreshold = 1050,
         yAxisThreshold = 500,
-        gameWon = false;
+        gameWon,
+        gameOver;
 
         mouseConstraint.collisionFilter.mask = chipCategory
         render.mouse = mouse;
+
+        Engine.run(engine);
+        Render.run(render);
 
 
     /**
@@ -200,8 +188,27 @@
      according to user-specified parameters.
      */
     const addMatterBodiesToSceneAndStartGame = () => {
-        Engine.run(engine);
-        Render.run(render);
+
+        chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
+            density: 0.05,
+            collisionFilter: {
+                category: chipCategory,
+            },
+            render: {
+                sprite: {
+                    texture: chips[shuffledIndexesForChips[0]],
+                    xScale: chipScale,
+                    yScale: chipScale
+                }
+            }
+        }),
+
+        elastic = Constraint.create({ 
+            pointA: anchor, 
+            bodyB: chip, 
+            stiffness: 0.1,
+        }),
+        
         World.add(engine.world, [ground, gamePyramid, chip, elastic]);
         World.add(engine.world, mouseConstraint);
     }
@@ -215,7 +222,7 @@
     Events.on(engine, 'afterUpdate', function() {
 
         //gameWon is set to true when all cards have been knocked off the surface
-        if ( gameWon  ) { return }
+        if ( gameWon || gameOver  ) { return }
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
         if( currentCards.length ){
@@ -242,7 +249,8 @@
         //Return when shuffledIndexesForChips array has been emptied
         if( !shuffledIndexesForChips.length ){ 
             if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
-                //Add "Game Over animation here"
+                gameOver = true;
+                openModalAndReset()
             }
             return
          } else {
@@ -274,6 +282,21 @@
          }
 
     });
+
+
+    const startButton = document.querySelector('#start'),
+          modal = document.querySelector('#modal'),
+          smallIndex = document.querySelector('#small-index'),
+          largeIndex = document.querySelector('#large-index'),
+          blue = document.querySelector('#blue'),
+          red = document.querySelector('#red'),
+          cactus = document.querySelector('#cactus'),
+          coyote = document.querySelector('#coyote'),
+          diamonds = document.querySelector('#diamonds'),
+          galexy = document.querySelector('#galexy'),
+          smiley = document.querySelector('#smiley'),
+          beach = document.querySelector('#beach'),
+          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ];
 
 
     /**
@@ -369,20 +392,6 @@
 
     let selectedIndexSize = "small";
     let selectedCardBack = "blue";
-
-    const startButton = document.querySelector('#start'),
-          indexIndicator = document.querySelector('#index-indicator'),
-          smallIndex = document.querySelector('#small-index'),
-          largeIndex = document.querySelector('#large-index'),
-          blue = document.querySelector('#blue'),
-          red = document.querySelector('#red'),
-          cactus = document.querySelector('#cactus'),
-          coyote = document.querySelector('#coyote'),
-          diamonds = document.querySelector('#diamonds'),
-          galexy = document.querySelector('#galexy'),
-          smiley = document.querySelector('#smiley'),
-          beach = document.querySelector('#beach'),
-          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ]
 
     for(let i=0; i<cardBacks.length; i++){
         cardBacks[i].addEventListener('click', () => {
