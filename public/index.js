@@ -91,7 +91,7 @@
             options: {
                 wireframes: false,
                 pixelRatio: 2.0, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+57, //This height calculated method could be re-evaluated
+                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+80, //This height calculated method could be re-evaluated
                 width: window.innerWidth,
                 background: '#111827',
             }
@@ -355,7 +355,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallBottom =Bodies.rectangle(window.innerWidth/2, window.innerHeight+200, window.innerWidth, 600, {
+              wallBottom = Bodies.rectangle(window.innerWidth/2, window.innerHeight+220, window.innerWidth, 600, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
@@ -364,7 +364,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallRight = Bodies.rectangle(window.innerWidth+280, window.innerHeight-100, 600, window.innerHeight, {
+              wallRight = Bodies.rectangle(window.innerWidth+300, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
@@ -373,7 +373,7 @@
                       fillStyle: '#111827'
                   }
               }),
-              wallLeft = Bodies.rectangle(-280, window.innerHeight-100, 600, window.innerHeight, {
+              wallLeft = Bodies.rectangle(-300, window.innerHeight-100, 600, window.innerHeight, {
                   isStatic: true,
                   collisionFilter: {
                     category: groundCategory,
