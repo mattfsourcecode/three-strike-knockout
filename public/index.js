@@ -40,10 +40,10 @@
             const suit = suits[s];
             for(let v=0; v<values.length; v++){
                 if ( getRandomInt(4) === 3 ) {
-                    cards.push(`assets/svg/backs/${backImage}.png`);
+                    cards.push(`assets/card-backs/${backImage}.png`);
                 } else {
                     const value = values[v];
-                    cards.push(`assets/svg/cards-${indexSize}-index/${suit}${value}.svg`);
+                    cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
                 }
             }
         }
@@ -57,7 +57,7 @@
     for(let n=0; n<5; n++){
         for(let c=0; c<chipColors.length; c++){
             const color = chipColors[c];
-            chips.push(`assets/svg/chips/chip-${n}-${color}.svg`);
+            chips.push(`assets/chips/chip-${n}-${color}.svg`);
         }
     }
 
@@ -355,7 +355,7 @@
             },
             render: {
                 sprite: {
-                    texture: './assets/svg/chips/jester-hat.svg',
+                    texture: 'assets/chips/jester-hat.svg',
                     xScale: .2,
                     yScale: .2
                 }
