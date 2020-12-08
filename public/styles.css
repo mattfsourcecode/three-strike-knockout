@@ -31852,6 +31852,26 @@ video {
   }
 }
 
+@-webkit-keyframes skew{
+  0%, 100%{
+    transform: skew(-45deg);
+  }
+
+  50%{
+    transform: skew(45deg);
+  }
+}
+
+@keyframes skew{
+  0%, 100%{
+    transform: skew(-45deg);
+  }
+
+  50%{
+    transform: skew(45deg);
+  }
+}
+
 .animate-none{
   -webkit-animation: none;
           animation: none;
@@ -31875,6 +31895,11 @@ video {
 .animate-bounce{
   -webkit-animation: bounce 1s infinite;
           animation: bounce 1s infinite;
+}
+
+.animate-skew{
+  -webkit-animation: skew 2s infinite;
+          animation: skew 2s infinite;
 }
 
 .card{
@@ -63143,6 +63168,11 @@ video {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
   }
+
+  .sm\:animate-skew{
+    -webkit-animation: skew 2s infinite;
+            animation: skew 2s infinite;
+  }
 }
 
 @media (min-width: 768px){
@@ -94394,6 +94424,11 @@ video {
   .md\:animate-bounce{
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .md\:animate-skew{
+    -webkit-animation: skew 2s infinite;
+            animation: skew 2s infinite;
   }
 }
 
@@ -125647,6 +125682,11 @@ video {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
   }
+
+  .lg\:animate-skew{
+    -webkit-animation: skew 2s infinite;
+            animation: skew 2s infinite;
+  }
 }
 
 @media (min-width: 1280px){
@@ -156899,6 +156939,11 @@ video {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
   }
+
+  .xl\:animate-skew{
+    -webkit-animation: skew 2s infinite;
+            animation: skew 2s infinite;
+  }
 }
 
 @media (min-width: 1536px){
@@ -188150,5 +188195,10 @@ video {
   .\32xl\:animate-bounce{
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .\32xl\:animate-skew{
+    -webkit-animation: skew 2s infinite;
+            animation: skew 2s infinite;
   }
 }
