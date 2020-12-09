@@ -451,8 +451,8 @@
 
     for(let i=0; i<cardBacks.length; i++){
         cardBacks[i].click( () => {
-            $(`#${selectedCardBack}`).removeClass('bg-green-300');
-            cardBacks[i].addClass('bg-green-300');
+            $(`#${selectedCardBack}`).removeClass('bg-green-400');
+            cardBacks[i].addClass('bg-green-400');
             selectedCardBack = cardBacks[i].attr('id')
         });
     }
