@@ -17,31 +17,6 @@
     })();
 
 
-    /**
-     * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 change of being a back image.
-     * @param {string} indexSize - Interpolated into the front-facing card file paths; The size of the indices on the forward-facing cards.
-     * @param {string} backImage - Interpolated into the back-facing card file paths; The name of the image to be used for the card backs.
-     * @return {array} An array of file paths to the card svg and back image files.
-     */
-    const buildAllCardSvgPaths = ( indexSize, backImage ) => {
-        const cards = [],
-            suits = [ 'C', 'D', 'H', 'S' ],
-            values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
-        for(let s=0; s<suits.length; s++){
-            const suit = suits[s];
-            for(let v=0; v<values.length; v++){
-                if ( getRandomInt(4) === 3 ) {
-                    cards.push(`assets/card-backs/${backImage}.png`);
-                } else {
-                    const value = values[v];
-                    cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
-                }
-            }
-        }
-        return cards
-    }
-
-
     //Chip SVG
     const chipColors = [ 'blue', 'gray', 'green', 'red' ];
     const chips = [];
@@ -153,32 +128,67 @@
     /**
      * Household member JSON
      * @constructor
-     * @param {array} cards - Array of svg file paths
+     * @param {string} indexSize - Interpolated into the front-facing card file paths; The size of the indices on the forward-facing cards.
+     * @param {string} backImage - Interpolated into the back-facing card file paths; The name of the image to be used for the card backs.
+     * @param {boolean} transparent - Determines if cards are transparent.
+     * @param {boolean} larger - Determines if cards are larger.
      */
     class CardDeck {
-        constructor(cards) {
+        constructor(indexSize, backImage, transparent, larger) {
+            this.indexSize = indexSize;
+            this.backImage = backImage;
+            this.transparent = transparent;
+            this.larger = larger;
+            this.cards = [];
+        }
+        /**
+         * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 change of being a back image.
+         * @return {array} An array of file paths to the card svg and back image files.
+         */
+        buildAllCardSvgPaths() {
+            const { backImage, indexSize } = this;
+            const cards = [],
+                suits = [ 'C', 'D', 'H', 'S' ],
+                values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
+            for(let s=0; s<suits.length; s++){
+                const suit = suits[s];
+                for(let v=0; v<values.length; v++){
+                    if ( getRandomInt(4) === 3 ) {
+                        cards.push(`assets/card-backs/${backImage}.png`);
+                    } else {
+                        const value = values[v];
+                        cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
+                    }
+                }
+            }
             this.cards = cards;
+            return
         }
         buildGamePyramid() {
-            return Composites.pyramid(600, 100, 9, 10, 0, 0, function(x, y) {
+            const { transparent, larger } = this;
+            const height = larger ? 55 : 35,
+                  width = larger ? 40 : 25;
+            return Composites.pyramid(600, 0, 9, 10, 0, 0, function(x, y) {
                 const cardIndex = shuffledIndexesForCards[0]
                 shuffledIndexesForCards.shift();
-                return Bodies.rectangle(x, y, 25, 35, {
+                return Bodies.rectangle(x, y, width, height, {
                     collisionFilter: {
                         category: cardCategory,
                         mask: groundCategory | cardCategory,
                     },
                     render: {
+                        opacity: transparent ? .5 : 1,
                         sprite: {
                             texture: this.cards[cardIndex],
-                            xScale: .12,
-                            yScale: .12
+                            xScale: larger ? .2 : .12,
+                            yScale: larger ? .2 : .12
                         }
                     }
                 });
             }.bind(this));
         }
         buildSuccessPyramid() {
+            const { transparent, larger } = this;
             return Composites.pyramid(.33*window.innerWidth, -200, 14, 15, 0, 0, function(x, y) {
                 return Bodies.rectangle(x, y, 25, 35, {
                     restitution: 1.4,
@@ -187,10 +197,11 @@
                         mask: groundCategory | cardCategory | chipCategory
                     },
                     render: {
+                        opacity: transparent ? .5 : 1,
                         sprite: {
                             texture: this.cards[getRandomInt(this.cards.length)],
-                            xScale: .12,
-                            yScale: .12
+                            xScale: larger ? .2 : .12,
+                            yScale: larger ? .2 : .12
                         },
                         torque: 3
                     }
@@ -200,7 +211,7 @@
     }
 
 
-    let cardDeckCreatedByUser,
+    let cardDeckInitializer,
         gamePyramid,
         cardsInPlay,
         currentCards,
@@ -234,9 +245,10 @@
             stiffness: 0.1,
         });
 
-        const gameCards = buildAllCardSvgPaths( selectedIndexSize, selectedCardBack );
-        cardDeckCreatedByUser = new CardDeck(gameCards);
-        gamePyramid = cardDeckCreatedByUser.buildGamePyramid();
+        cardDeckInitializer = new CardDeck( selectedIndexSize, selectedCardBack, cardsAreTransparent, cardsAreLarger )
+        cardDeckInitializer.buildAllCardSvgPaths();
+        gamePyramid = cardDeckInitializer.buildGamePyramid();
+
         cardsInPlay = gamePyramid.bodies;
         currentCards = [...cardsInPlay];
 
@@ -376,7 +388,7 @@
 
         launchedChip.collisionFilter.category = chipCategory;
 
-        const successCardPyramid = cardDeckCreatedByUser.buildSuccessPyramid();
+        const successCardPyramid = cardDeckInitializer.buildSuccessPyramid();
     
         const successChipPyramid = Composites.pyramid(.33*window.innerWidth+50, -50, 12, 13, 0, 0, function(x, y) {
             return Bodies.circle(x, y, 10, {
