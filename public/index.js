@@ -451,8 +451,8 @@
 
     for(let i=0; i<cardBacks.length; i++){
         cardBacks[i].click( () => {
-            $(`#${selectedCardBack}`).removeClass('bg-green-300');
-            cardBacks[i].addClass('bg-green-300');
+            $(`#${selectedCardBack}`).removeClass('bg-green-400');
+            cardBacks[i].addClass('bg-green-400');
             selectedCardBack = cardBacks[i].attr('id')
         });
     }
@@ -483,14 +483,14 @@
     $(document).keypress( (e) => { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
 
     $('#small-index').click( () => {
-        $('#index-indicator').removeClass('translate-x-12');
+        $('#index-indicator').removeClass('translate-x-11');
         $('#small-index').removeClass('cursor-pointer');
         $('#large-index').addClass('cursor-pointer');
         selectedIndexSize = "small"
     });
 
     $('#large-index').click( () => {
-        $('#index-indicator').addClass('translate-x-12');
+        $('#index-indicator').addClass('translate-x-11');
         $('#large-index').removeClass('cursor-pointer');
         $('#small-index').addClass('cursor-pointer');
         selectedIndexSize = "large"
