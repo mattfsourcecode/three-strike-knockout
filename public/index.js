@@ -251,7 +251,6 @@
      */
     Events.on(engine, 'afterUpdate', function() {
 
-
         if ( !eventLoopCanEvaluate || ( gameWon || gameOver )  ) { return }
 
         //Uses the existing cards to determine if a card has been knocked off or if the game has been won
@@ -279,8 +278,12 @@
         //Return when shuffledIndexesForChips array has been emptied
         if( !shuffledIndexesForChips.length ){ 
             if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
-                gameOver = true;
-                openModalAndReset()
+                setTimeout( () => {
+                    if (!gameWon){
+                        gameOver = true;
+                        openModalAndReset()
+                    }
+                }, 2000);
             }
             return
          } else {
