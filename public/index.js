@@ -86,7 +86,7 @@
             options: {
                 wireframes: false,
                 pixelRatio: 2, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+80, //This height calculated method could be re-evaluated
+                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+98, //This height calculated method could be re-evaluated
                 width: window.innerWidth,
                 background: '#111827',
             }
@@ -298,7 +298,7 @@
                 setTimeout( () => {
                     if (!gameWon){
                         gameOver = true;
-                        openModalAndReset()
+                        handleGameOver()
                     }
                 }, 2000);
             //Check if the last chip has not moved (i.e. it has landed on the surface). If so, set a timeout and then end the game if it has not been won.
@@ -311,7 +311,7 @@
                 setTimeout( () => {
                     if (!gameWon){
                         gameOver = true;
-                        openModalAndReset()
+                        handleGameOver()
                     }
                 }, 3000);
             }
@@ -542,6 +542,19 @@
         };
     });
 
+    const handleGameOver = () => {
+        $('#game-over-container').removeClass('hidden');
+        setTimeout(function(){ 
+            $('#game-over-text').removeClass('animate-ping');
+            $('#game-over-text').addClass('animate-spin');
+            setTimeout(function(){ 
+                openModalAndReset()
+                $('#game-over-container').addClass('hidden');
+                $('#game-over-text').removeClass('animate-spin');
+                $('#game-over-text').addClass('animate-ping');
+            }, 500);
+        }, 2000);
+    }
 
     const openModalAndReset = () => {
 

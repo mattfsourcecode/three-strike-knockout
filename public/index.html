@@ -37,12 +37,21 @@
             <div class="flex fixed top-20 right-0">
                 <div class=" text-white text-3xl bg-yellow-400 h-10 w-55 transform -rotate-3">Node . js</div>
             </div>
+            <!-- "Play Again" Button -->
             <div class="flex justify-center">
                 <button id="play-again-button" type="button" class="hidden fixed top-40 animate-skew rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-900 text-base font-medium text-white hover:bg-green-700 focus:outline-none active:bg-green-700">
                     <div class="ml-2 text-xl">
                         PLAY AGAIN
                     </div>
                 </button>
+            </div>
+            <!-- GAME OVER ANIMATION -->
+            <div class="flex justify-center">
+                <div id="game-over-container" class="hidden fixed top-80 transition-all animate-ping ease-in-out duration-500">
+                    <div id="game-over-text" class="text-6xl text-red-600">
+                        GAME OVER
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -128,7 +137,7 @@
         </div>
   
         <!-- Matter.js scene -->
-        <div class="matter" id="matter"/>
+        <div class="matter" id="matter">
         
     </main>
 
