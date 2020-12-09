@@ -446,8 +446,11 @@
 
     }
 
-    let selectedIndexSize = "small";
     let selectedCardBack = "blue";
+    let selectedIndexSize = "small";
+    let cardsAreTransparent = false;
+    let cardsAreLarger = false;
+
 
     for(let i=0; i<cardBacks.length; i++){
         cardBacks[i].click( () => {
@@ -482,6 +485,19 @@
 
     $(document).keypress( (e) => { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
 
+    $('#transparent').click( () => {
+        const element = $('#transparency-container');
+        if (cardsAreTransparent) {
+            element.removeClass('opacity-100');
+            element.addClass('opacity-30');
+            cardsAreTransparent = false;
+        } else {
+            element.removeClass('opacity-30');
+            element.addClass('opacity-100');
+            cardsAreTransparent = true;
+        };
+    });
+
     $('#small-index').click( () => {
         $('#index-indicator').removeClass('translate-x-11');
         $('#small-index').removeClass('cursor-pointer');
@@ -499,6 +515,19 @@
     $('#play-again-button').click( () => {
         $('#play-again-button').addClass('hidden')
         openModalAndReset()
+    });
+
+    $('#card-size').click( () => {
+        const element = $('#card-size-container');
+        if (cardsAreLarger) {
+            element.removeClass('h-11 w-8');
+            element.addClass('h-5 w-4');
+            cardsAreLarger = false;
+        } else {
+            element.removeClass('h-5 w-4');
+            element.addClass('h-11 w-8');
+            cardsAreLarger = true;
+        };
     });
 
 
