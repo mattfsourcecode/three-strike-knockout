@@ -281,7 +281,8 @@
 
         //Return when shuffledIndexesForChips array has been emptied
         if( !shuffledIndexesForChips.length ){ 
-            if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
+            if( !emptyChipArrayTimeoutHasStarted && (engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold) ){
+                emptyChipArrayTimeoutHasStarted = true;
                 setTimeout( () => {
                     if (!gameWon){
                         gameOver = true;
