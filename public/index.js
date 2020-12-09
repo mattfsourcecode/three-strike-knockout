@@ -511,6 +511,7 @@
         World.clear(engine.world);
         Engine.clear(engine);
 
+        $("#start-button").attr("disabled",false);
         $('#start-button').removeClass('animate-spin');
         $('#modal').removeClass('hidden');
         $('#modal').addClass('fixed');
