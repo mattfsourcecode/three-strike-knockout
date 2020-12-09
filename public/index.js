@@ -253,7 +253,7 @@
      This loop is being used to evaluate if certain conditions have been met,
      in order to detect game win, a game over, cards calling off, chips being used, etc.
      */
-    Events.on(engine, 'afterUpdate', function() {
+    Events.on(engine, 'afterUpdate', () => {
 
         if ( !eventLoopCanEvaluate || ( gameWon || gameOver )  ) { return }
 
@@ -267,7 +267,7 @@
                     //Remove body from currentCards
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1)
                     //Removes the body from the render.     
-                    setTimeout(function(){ 
+                    setTimeout( () => { 
                         Composite.remove(gamePyramid, body);
                     }, cardBodyRemovalDelayTime);
                 }
@@ -303,7 +303,6 @@
                     }
                 }, 3000);
             }
-            return
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
@@ -330,7 +329,7 @@
                 World.add(engine.world, chip);
                 elastic.bodyB = chip;
             };
-         }
+        }
 
     });
 
@@ -504,6 +503,8 @@
     const openModalAndReset = () => {
 
         eventLoopCanEvaluate = false;
+        emptyChipArrayTimeoutHasStarted = false;
+        chipCoordinateTimeoutHasStarted = false;
 
         World.clear(engine.world);
         Engine.clear(engine);
