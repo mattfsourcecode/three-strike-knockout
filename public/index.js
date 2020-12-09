@@ -288,6 +288,19 @@
                         openModalAndReset()
                     }
                 }, 2000);
+            //Check if the last chip has not moved (i.e. it has landed on the surface). If so, set a timeout and then end the game if it has not been won.
+            } else if ( ( parseInt(airboundChipCoordinateX) !== parseInt(engine.world.bodies[3].position.x) ) || ( parseInt(airboundChipCoordinateY) !== parseInt(engine.world.bodies[3].position.y) ) ) {
+                airboundChipCoordinateX = engine.world.bodies[3].position.x;
+                airboundChipCoordinateY = engine.world.bodies[3].position.y;
+                return
+            } else if (!chipCoordinateTimeoutHasStarted) {
+                chipCoordinateTimeoutHasStarted = true
+                setTimeout( () => {
+                    if (!gameWon){
+                        gameOver = true;
+                        openModalAndReset()
+                    }
+                }, 3000);
             }
             return
          } else {
