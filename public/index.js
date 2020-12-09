@@ -1,6 +1,67 @@
 (function() {
 
 
+    let Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Composites = Matter.Composites,
+        Constraint = Matter.Constraint,
+        Events = Matter.Events,
+        Composite = Matter.Composite,
+        engine = Engine.create(),
+        render,
+        cardCategory = 0x0001, // Collision field categories
+        chipCategory = 0x0002,
+        groundCategory = 0x0003,
+        mouse,
+        mouseConstraint,
+        cardBodyRemovalDelayTime = 4000, // Milliseconds for the setTimeout method determining when in the 'afterUpdate' loop determining when to remove the card after it falls off.
+        chipCoordinateX = 220, //X coordinate for the picker chip slingshot
+        chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
+        airboundChipCoordinateX,
+        airboundChipCoordinateY,
+        chipCoordinateTimeoutHasStarted,
+        emptyChipArrayTimeoutHasStarted,
+        chipScale = .25, //Size of the picker chip slingshot
+        chip,
+        launchedChip = null,
+        anchor = { x: chipCoordinateX, y: chipCoordinateY },
+        elastic,
+        ground = Bodies.rectangle(790, 300, 500, 20, { 
+            isStatic: true,
+            collisionFilter: {
+                category: groundCategory,
+            },
+        }),
+        xAxisThreshold = 1050,
+        yAxisThreshold = 500,
+        gameWon,
+        gameOver;
+
+
+    const initializeMatter = () => {
+        render = Render.create({
+            element: $('#matter')[0],
+            engine: engine,
+            options: {
+                wireframes: false,
+                pixelRatio: 2, //Resolution of svg elements
+                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+98, //This height calculated method could be re-evaluated
+                width: window.innerWidth,
+                background: '#111827',
+            }
+        })
+        mouse = Matter.Mouse.create(render.canvas)
+        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse})
+        mouseConstraint.collisionFilter.mask = chipCategory
+        render.mouse = mouse;
+
+        Engine.run(engine);
+        Render.run(render);
+    }
+        
+
     /**
      * Adjusts the height and width property of the spinner to start the transition.
      * Then removes the spinner from the DOM and removes the "hidden" class from the <main/> element.
@@ -13,6 +74,7 @@
         setTimeout(function(){ 
             $('main').removeClass('hidden');
             $('#spinner-container').remove();
+            initializeMatter();
         }, 750);
     })();
 
@@ -62,67 +124,6 @@
 
     let shuffledIndexesForCards,
         shuffledIndexesForChips
-
-
-    /**
-     Milliseconds for the setTimeout method in the 'afterUpdate' loop.
-     TODO: Variably adjust this number based on window.innerHeight.
-    */  
-    let cardBodyRemovalDelayTime = 4000
-
-    //Declare Matter.js objects
-    let Engine = Matter.Engine,
-        Render = Matter.Render,
-        World = Matter.World,
-        Bodies = Matter.Bodies,
-        Composites = Matter.Composites,
-        Constraint = Matter.Constraint,
-        Events = Matter.Events,
-        Composite = Matter.Composite,
-        engine = Engine.create(),
-        render = Render.create({
-            element: $('#matter')[0],
-            engine: engine,
-            options: {
-                wireframes: false,
-                pixelRatio: 2, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+98, //This height calculated method could be re-evaluated
-                width: window.innerWidth,
-                background: '#111827',
-            }
-        }),
-        cardCategory = 0x0001, // Collision field categories
-        chipCategory = 0x0002,
-        groundCategory = 0x0003,
-        mouse = Matter.Mouse.create(render.canvas),
-        mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
-        chipCoordinateX = 220, //X coordinate for the picker chip slingshot
-        chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
-        airboundChipCoordinateX,
-        airboundChipCoordinateY,
-        chipCoordinateTimeoutHasStarted,
-        emptyChipArrayTimeoutHasStarted,
-        chipScale = .25, //Size of the picker chip slingshot
-        chip,
-        launchedChip = null,
-        anchor = { x: chipCoordinateX, y: chipCoordinateY },
-        elastic,
-        ground = Bodies.rectangle(790, 300, 500, 20, { 
-            isStatic: true,
-            collisionFilter: {
-                category: groundCategory,
-            },
-        }),
-        xAxisThreshold = 1050,
-        yAxisThreshold = 500,
-        gameWon,
-        gameOver;
-
-        mouseConstraint.collisionFilter.mask = chipCategory
-        render.mouse = mouse;
-
-        Engine.run(engine);
-        Render.run(render);
 
 
     /**
