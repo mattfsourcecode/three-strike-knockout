@@ -123,6 +123,10 @@
         mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
         chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
+        airboundChipCoordinateX,
+        airboundChipCoordinateY,
+        chipCoordinateTimeoutHasStarted,
+        emptyChipArrayTimeoutHasStarted,
         chipScale = .25, //Size of the picker chip slingshot
         chip,
         launchedChip = null,
@@ -249,7 +253,7 @@
      This loop is being used to evaluate if certain conditions have been met,
      in order to detect game win, a game over, cards calling off, chips being used, etc.
      */
-    Events.on(engine, 'afterUpdate', function() {
+    Events.on(engine, 'afterUpdate', () => {
 
         if ( !eventLoopCanEvaluate || ( gameWon || gameOver )  ) { return }
 
@@ -263,7 +267,7 @@
                     //Remove body from currentCards
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1)
                     //Removes the body from the render.     
-                    setTimeout(function(){ 
+                    setTimeout( () => { 
                         Composite.remove(gamePyramid, body);
                     }, cardBodyRemovalDelayTime);
                 }
@@ -277,15 +281,28 @@
 
         //Return when shuffledIndexesForChips array has been emptied
         if( !shuffledIndexesForChips.length ){ 
-            if(engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold){
+            if( !emptyChipArrayTimeoutHasStarted && (engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold) ){
+                emptyChipArrayTimeoutHasStarted = true;
                 setTimeout( () => {
                     if (!gameWon){
                         gameOver = true;
                         openModalAndReset()
                     }
                 }, 2000);
+            //Check if the last chip has not moved (i.e. it has landed on the surface). If so, set a timeout and then end the game if it has not been won.
+            } else if ( ( parseInt(airboundChipCoordinateX) !== parseInt(engine.world.bodies[3].position.x) ) || ( parseInt(airboundChipCoordinateY) !== parseInt(engine.world.bodies[3].position.y) ) ) {
+                airboundChipCoordinateX = engine.world.bodies[3].position.x;
+                airboundChipCoordinateY = engine.world.bodies[3].position.y;
+                return
+            } else if (!chipCoordinateTimeoutHasStarted) {
+                chipCoordinateTimeoutHasStarted = true
+                setTimeout( () => {
+                    if (!gameWon){
+                        gameOver = true;
+                        openModalAndReset()
+                    }
+                }, 3000);
             }
-            return
          } else {
             //Adds new chip if a chip has been used
             if (mouseConstraint.mouse.button === -1 && (chip.position.x > chipCoordinateX+20 || chip.position.y < chipCoordinateY-20)) {
@@ -312,7 +329,7 @@
                 World.add(engine.world, chip);
                 elastic.bodyB = chip;
             };
-         }
+        }
 
     });
 
@@ -486,6 +503,8 @@
     const openModalAndReset = () => {
 
         eventLoopCanEvaluate = false;
+        emptyChipArrayTimeoutHasStarted = false;
+        chipCoordinateTimeoutHasStarted = false;
 
         World.clear(engine.world);
         Engine.clear(engine);
