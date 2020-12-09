@@ -6,23 +6,14 @@
      * Then removes the spinner from the DOM and removes the "hidden" class from the <main/> element.
      */
     (function() {
-
-        const spinner = document.querySelector('#spinner'),
-        spinnerContainer = document.querySelector('#spinner-container'),
-        main = document.querySelector('main');
-
         setTimeout(function(){ 
-            spinner.classList.remove('h-80');
-            spinner.classList.remove('w-80');
-            spinner.classList.add('h-1');
-            spinner.classList.add('w-1');
+            $('#spinner').removeClass( 'h-80 w-80' );
+            $('#spinner').addClass( 'h-1 w-1' );
         }, 350);
-
         setTimeout(function(){ 
-            main.classList.remove('hidden');
-            spinnerContainer.remove();
+            $('main').removeClass('hidden');
+            $('#spinner-container').remove();
         }, 750);
-
     })();
 
 
@@ -115,12 +106,12 @@
         Composite = Matter.Composite,
         engine = Engine.create(),
         render = Render.create({
-            element: document.querySelector('#matter'),
+            element: $('#matter')[0],
             engine: engine,
             options: {
                 wireframes: false,
                 pixelRatio: 2, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle(document.querySelector("#header")).height, 10)+80, //This height calculated method could be re-evaluated
+                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+80, //This height calculated method could be re-evaluated
                 width: window.innerWidth,
                 background: '#111827',
             }
@@ -323,22 +314,16 @@
     });
 
 
-    const startButton = document.querySelector('#start'),
-          modal = document.querySelector('#modal'),
-          playAgainButton = document.querySelector('#play-again-button'),
-          indexIndicator = document.querySelector('#index-indicator'),
-          smallIndex = document.querySelector('#small-index'),
-          largeIndex = document.querySelector('#large-index'),
-          blue = document.querySelector('#blue'),
-          red = document.querySelector('#red'),
-          cactus = document.querySelector('#cactus'),
-          coyote = document.querySelector('#coyote'),
-          diamonds = document.querySelector('#diamonds'),
-          galexy = document.querySelector('#galexy'),
-          smiley = document.querySelector('#smiley'),
-          beach = document.querySelector('#beach'),
-          cardBacks = [ blue, red, cactus, coyote, diamonds, galexy, smiley, beach ];
-
+    const cardBacks = [ 
+        $('#blue'), 
+        $('#red'), 
+        $('#cactus'), 
+        $('#coyote'), 
+        $('#diamonds'), 
+        $('#galexy'), 
+        $('#smiley'), 
+        $('#beach')
+    ];
 
     /**
      Called when conditions are met such that the game has been won.
@@ -348,7 +333,7 @@
     const startSuccessAnimation = () => {
 
         setTimeout( () => { 
-            playAgainButton.classList.remove('hidden')
+            $('#play-again-button').removeClass('hidden')
         }, 10000);
 
         World.remove(engine.world, [ ground ]);
@@ -445,10 +430,10 @@
     let selectedCardBack = "blue";
 
     for(let i=0; i<cardBacks.length; i++){
-        cardBacks[i].addEventListener('click', () => {
-            document.querySelector(`#${selectedCardBack}`).classList.remove('bg-green-300');
-            cardBacks[i].classList.add('bg-green-300');
-            selectedCardBack = cardBacks[i].id
+        cardBacks[i].click( () => {
+            $(`#${selectedCardBack}`).removeClass('bg-green-300');
+            cardBacks[i].addClass('bg-green-300');
+            selectedCardBack = cardBacks[i].attr('id')
         });
     }
 
@@ -460,37 +445,37 @@
         shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
         shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
 
-        startButton.classList.add('animate-spin');
-        modal.classList.remove('opacity-100');
-        modal.classList.add('opacity-0');
+        $('#start-button').addClass('animate-spin');
+        $('#modal').removeClass('opacity-100');
+        $('#modal').addClass('opacity-0');
 
         setTimeout( () => { 
-            modal.classList.add('hidden');
+            $('#modal').addClass('hidden');
             addMatterBodiesToSceneAndStartGame()
         }, 750);
 
     }
 
-    startButton.addEventListener( 'click', () => { handleStartButtonClick() } );
+    $('#start-button').click( () => { handleStartButtonClick() } );
 
-    $(document).keypress(function(e) { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
+    $(document).keypress( (e) => { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
 
-    smallIndex.addEventListener('click', () => {
-        indexIndicator.classList.remove('translate-x-12');
-        smallIndex.classList.remove('cursor-pointer');
-        largeIndex.classList.add('cursor-pointer');
+    $('#small-index').click( () => {
+        $('#index-indicator').removeClass('translate-x-12');
+        $('#small-index').removeClass('cursor-pointer');
+        $('#large-index').addClass('cursor-pointer');
         selectedIndexSize = "small"
     });
 
-    largeIndex.addEventListener('click', () => {
-        indexIndicator.classList.add('translate-x-12');
-        largeIndex.classList.remove('cursor-pointer');
-        smallIndex.classList.add('cursor-pointer');
+    $('#large-index').click( () => {
+        $('#index-indicator').addClass('translate-x-12');
+        $('#large-index').removeClass('cursor-pointer');
+        $('#small-index').addClass('cursor-pointer');
         selectedIndexSize = "large"
     });
 
-    playAgainButton.addEventListener('click', () => {
-        playAgainButton.classList.add('hidden')
+    $('#play-again-button').click( () => {
+        $('#play-again-button').addClass('hidden')
         openModalAndReset()
     });
 
@@ -502,10 +487,10 @@
         World.clear(engine.world);
         Engine.clear(engine);
 
-        startButton.classList.remove('animate-spin');
-        modal.classList.remove('hidden');
-        modal.classList.add('fixed');
-        modal.classList.add('opacity-100');
+        $('#start-button').removeClass('animate-spin');
+        $('#modal').removeClass('hidden');
+        $('#modal').addClass('fixed');
+        $('#modal').addClass('opacity-100');
 
     }
 
