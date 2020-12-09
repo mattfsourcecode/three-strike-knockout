@@ -459,6 +459,8 @@
 
     const handleStartButtonClick = () => {
 
+        $("#start-button").attr("disabled",true);
+
         gameWon = false;
         gameOver = false;
 
