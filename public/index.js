@@ -123,6 +123,10 @@
         mouseConstraint = Matter.MouseConstraint.create(engine, {mouse: mouse}),
         chipCoordinateX = 220, //X coordinate for the picker chip slingshot
         chipCoordinateY = 250, //Y coordinate for the picker chip slingshot
+        airboundChipCoordinateX,
+        airboundChipCoordinateY,
+        chipCoordinateTimeoutHasStarted,
+        emptyChipArrayTimeoutHasStarted,
         chipScale = .25, //Size of the picker chip slingshot
         chip,
         launchedChip = null,
