@@ -128,7 +128,7 @@
      * Builds an array of all chip svg file paths that will be used for sourcing the game chips with three random indexes.
      */
     (() => {
-        const chipColors = [ 'blue', 'gray', 'green', 'red' ];
+        const chipColors = [ 'blue', 'gray', 'green', 'red', ];
         for (let n = 0; n < 5; n++) {
             for (let c = 0; c < chipColors.length; c++) {
                 const color = chipColors[c];
@@ -174,26 +174,26 @@
         buildAllCardSvgPaths() {
             const { indexSize, backImage, transparent, larger } = this;
             const cards = [],
-                suits = [ 'C', 'D', 'H', 'S' ],
-                values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
-            for(let s=0; s<suits.length; s++){
+                  suits = [ 'C', 'D', 'H', 'S' ],
+                  values = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q' ];
+            for (let s = 0; s<suits.length; s++) {
                 const suit = suits[s];
-                for(let v=0; v<values.length; v++){
-                    if ( getRandomInteger(4) === 3 ) {
+                for (let v = 0; v < values.length; v++) {
+                    if (getRandomInteger(4) === 3) {
                         cards.push(`assets/card-backs/${backImage}.png`);
                     } else {
                         const value = values[v];
                         cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
-                    }
-                }
-            }
+                    };
+                };
+            };
             this.cards = cards;
             this.height = larger ? 55 : 35;
             this.width = larger ? 40 : 25;
             this.xScale = larger ? .2 : .12;
             this.yScale = larger ? .2: .12;
             this.opacity = transparent ? .5 : 1;
-            return
+            return;
         }
         buildGamePyramid() {
             const { height, width, xScale, yScale, opacity } = this;
@@ -281,10 +281,10 @@
                 sprite: {
                     texture: 'assets/chips/jester-hat.svg',
                     xScale: .2,
-                    yScale: .2
-                }
-            }
-        })
+                    yScale: .2,
+                },
+            },
+        });
 
         initializedCardDeck = new CardDeck( selectedIndexSize, selectedCardBack, cardsAreTransparent, cardsAreLarger );
         initializedCardDeck.buildAllCardSvgPaths();
@@ -319,7 +319,7 @@
                     //Remove body from currentCards.
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1);
                     //Remove the body from the render.     
-                    setTimeout( () => { 
+                    setTimeout(() => { 
                         Composite.remove(gamePyramid, body);
                     }, cardBodyRemovalDelayTime);
                 };
@@ -335,7 +335,7 @@
         if (!shuffledIndexesForChips.length) { 
             if ( !emptyChipArrayTimeoutHasStarted && (engine.world.bodies[3].position.x > xAxisThreshold || engine.world.bodies[3].position.y > yAxisThreshold) ) {
                 emptyChipArrayTimeoutHasStarted = true;
-                setTimeout( () => {
+                setTimeout(() => {
                     if (!gameWon) {
                         gameOver = true;
                         handleGameOver();
@@ -345,11 +345,11 @@
             } else if ( ( parseInt(airboundChipCoordinateX) !== parseInt(engine.world.bodies[3].position.x) ) || ( parseInt(airboundChipCoordinateY) !== parseInt(engine.world.bodies[3].position.y) ) ) {
                 airboundChipCoordinateX = engine.world.bodies[3].position.x;
                 airboundChipCoordinateY = engine.world.bodies[3].position.y;
-                return
+                return;
             //If the chip has not moved and this condition has not yet been met, then start the timeout to see if there is a game win within the timeout.
             } else if (!chipCoordinateTimeoutHasStarted) {
                 chipCoordinateTimeoutHasStarted = true;
-                setTimeout( () => {
+                setTimeout(() => {
                     if (!gameWon) {
                         gameOver = true;
                         handleGameOver();
@@ -372,7 +372,7 @@
                             sprite: {
                                 texture: chipSVGPaths[shuffledIndexesForChips[0]],
                                 xScale: chipScale,
-                                yScale: chipScale
+                                yScale: chipScale,
                             },
                         },
                     });
@@ -418,7 +418,7 @@
             });
         });
         
-        successWallParameters = successWallParameters.map( wall => {
+        successWallParameters = successWallParameters.map(wall => {
             return Bodies.rectangle( wall.x, wall.y, wall.width, wall.height, {
                 isStatic: true,
                 collisionFilter: {
@@ -437,7 +437,7 @@
             $('#play-again-button').removeClass('hidden');
         }, 10000);
 
-        return
+        return;
 
     }
 
