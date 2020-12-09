@@ -488,12 +488,12 @@
     $('#transparent').click( () => {
         const element = $('#transparency-container');
         if (cardsAreTransparent) {
-            element.removeClass('opacity-100');
-            element.addClass('opacity-30');
-            cardsAreTransparent = false;
-        } else {
             element.removeClass('opacity-30');
             element.addClass('opacity-100');
+            cardsAreTransparent = false;
+        } else {
+            element.removeClass('opacity-100');
+            element.addClass('opacity-30');
             cardsAreTransparent = true;
         };
     });
