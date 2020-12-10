@@ -554,13 +554,12 @@
     const handleGameOver = () => {
         $('#game-over-container').removeClass('hidden');
         setTimeout(() => { 
-            $('#game-over-text').removeClass('animate-ping');
-            $('#game-over-text').addClass('animate-spin');
+            $('#game-over-container').removeClass('animate-ping');
+            $('#game-over-container').addClass('animate-spin');
             setTimeout(() => { 
                 openModalAndReset();
-                $('#game-over-container').addClass('hidden');
-                $('#game-over-text').removeClass('animate-spin');
-                $('#game-over-text').addClass('animate-ping');
+                $('#game-over-container').removeClass('animate-spin');
+                $('#game-over-container').addClass('hidden animate-ping');
             }, 500);
         }, 2000);
     };
