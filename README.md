@@ -14,7 +14,7 @@
 ### ✅  Matter.js
 ### ✅  Node.js
  
-## Run it locally.
+## Run it locally
  
 ### `yarn install && yarn start`
 
@@ -34,9 +34,9 @@ I am suggesting using Chrome to run this app. Other browsers are having difficul
 
 First try playing a few times using the default configuration (i.e. just click the “Start” button without changing anything). Get a feel for the game, and then start choosing some different parameters.
 
-*NOTE: This application was developed using a 13-in MacBook Pro. Responsiveness attributes were programmed such that the application is assumed to be compatible with other devices, however, it has not been tested on any other other screen sizes or operating systems so there may be some responsiveness bugs with non-13-in-Macbook-Pro devices.*
+*NOTE: This application was developed using a 13-in MacBook Pro. Responsiveness attributes were programmed such that the application is assumed to be compatible with other devices, however, it has not been tested on any other other screen sizes or operating systems so there may be some responsiveness bugs on non-13-in-Macbook-Pro devices.*
 
-## There are three main views within the app that are intended to look like this:
+## There are three main views within the app that will ideally look like this:
 
 ### Card deck configuration modal
 
@@ -50,7 +50,8 @@ First try playing a few times using the default configuration (i.e. just click t
 
 <img width="1280" alt="Success" src="https://user-images.githubusercontent.com/24415914/101722698-c88b7000-3a78-11eb-80ab-129a2f3900eb.png">
 
-## See any bugs? 
-#### 🪲 [Open an issue](https://github.com/matt-eric/three-strike-knockout/issues) or email me @ [mf9646a@alumni.american.edu](mailto:mf9646a@alumni.american.edu).
+See any bugs? 🪲 [Open an issue](https://github.com/matt-eric/three-strike-knockout/issues) or email me @ [mf9646a@alumni.american.edu](mailto:mf9646a@alumni.american.edu).
+
+*HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
 
 # 😎 🌴 Enjoy.
