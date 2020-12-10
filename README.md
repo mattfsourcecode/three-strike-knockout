@@ -32,9 +32,9 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 I am suggesting using Chrome to run this app. Other browsers are having difficulty rendering the SVG sprites.
 
-First try playing a few times using the default configuration (i.e. just click the “Start” button without changing anything). Get a feel for the game, and then start choosing some different parameters.
+First try playing a few times using the default configuration (i.e. just click the “Start” button without adjusting anything). Get a feel for the game, and then toggle some different parameters.
 
-*NOTE: This application was developed on a 13-inch MacBook Pro. Responsiveness attributes were programmed such that the application is assumed to be cross-device compatible, however, it has not been tested on any other screen sizes or operating systems so there may be some responsiveness bugs on non-13-inch-Macbook-Pro devices.*
+*NOTE: This app was developed on a 13-inch MacBook Pro. Responsiveness attributes were programmed such that it is assumed that the app is cross-device compatible, however, it has not been tested on any other screen sizes or operating systems so there may be some responsiveness bugs on non-13-inch-Macbook-Pro devices.*
 
 ## There are three main views within the app that will ideally look like this:
 
@@ -50,6 +50,6 @@ First try playing a few times using the default configuration (i.e. just click t
 
 <img width="1280" alt="Success" src="https://user-images.githubusercontent.com/24415914/101722698-c88b7000-3a78-11eb-80ab-129a2f3900eb.png">
 
-*HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
+#### *HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
 
 # 😎 🌴 Enjoy.
