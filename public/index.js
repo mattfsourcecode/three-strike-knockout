@@ -24,7 +24,6 @@
           totalChips = Array.from(Array(20).keys()), //Array of consecutive integers equaling the total number of unique chip files that could potentially be used in the game.
           cardImages = [ 'blue', 'red', 'cactus', 'coyote', 'diamonds', 'galexy', 'smiley', 'beach' ], //Array of card image names corresponding with the png file names.
           cardBacks = [], //Array of card image container elements.
-
           getRandomInteger = (max) => { return Math.floor(Math.random() * Math.floor(max)); };
 
     let render, //Matter.js Render object.
@@ -33,6 +32,7 @@
         chip, //The chip on the slingshot that is ready to be launched.
         elastic, //The composite body linking the chip to the anchor. When the chip is launched, the BodyB is set to the new chip.
         ground, //Static rectangle body that the chip pyramid lands on.
+        successWalls, // An array containing four rectangular static bodies used as walls in the success animation.
         jesterHat, //Jester hat SVG that attaches to the elastic when the game is won.
         launchedChip = null, //The launched chip is set to this variable so tht the collision filter can be changed after launch.
         chipScale = .25, //Size of the picker chip used in the  slingshot.
@@ -52,37 +52,8 @@
         selectedCardBack = "blue", //User selection in the modal UI.
         selectedIndexSize = "small", //User selection in the modal UI.
         cardsAreTransparent = false, //User selection in the modal UI.
-        cardsAreLarger = false, //User selection in the modal UI.
-        successWallParameters = [
-            {
-                type: 'top',
-                x: window.innerWidth/2,
-                y: -300,
-                width: window.innerWidth,
-                height: 600,
-            },
-            {
-                type: 'top',
-                x: window.innerWidth/2,
-                y: window.innerHeight+220,
-                width: window.innerWidth,
-                height: 600,
-            },
-            {
-                type: 'right',
-                x: window.innerWidth+300,
-                y: window.innerHeight-100,
-                width: 600,
-                height: window.innerHeight,
-            },
-            {
-                type: 'left',
-                x: -300,
-                y: window.innerHeight-100,
-                width: 600,
-                height: window.innerHeight,
-            },
-        ]; // Coordinates and dimensions for the rectangular solid bodies used as walls in the success animation.
+        cardsAreLarger = false; //User selection in the modal UI.
+        
 
     /**
      * Declares the render, mouse and mouseConstraint objects which must be declared in conjunction with one another. Then runs the engine and render.
@@ -291,6 +262,47 @@
             },
         });
 
+        successWalls = [
+            {
+                type: 'top',
+                x: window.innerWidth/2,
+                y: -300,
+                width: window.innerWidth,
+                height: 600,
+            },
+            {
+                type: 'top',
+                x: window.innerWidth/2,
+                y: window.innerHeight+220,
+                width: window.innerWidth,
+                height: 600,
+            },
+            {
+                type: 'right',
+                x: window.innerWidth+300,
+                y: window.innerHeight-100,
+                width: 600,
+                height: window.innerHeight,
+            },
+            {
+                type: 'left',
+                x: -300,
+                y: window.innerHeight-100,
+                width: 600,
+                height: window.innerHeight,
+            },
+        ].map(wall => {
+            return Bodies.rectangle( wall.x, wall.y, wall.width, wall.height, {
+                isStatic: true,
+                collisionFilter: {
+                    category: groundCategory,
+                },
+                render: {
+                    fillStyle: '#111827',
+                },
+            });
+        });
+
         initializedCardDeck = new CardDeck( selectedIndexSize, selectedCardBack, cardsAreTransparent, cardsAreLarger );
         initializedCardDeck.buildAllCardSvgPaths();
         gamePyramid = initializedCardDeck.buildGamePyramid();
@@ -422,20 +434,8 @@
                 },
             });
         });
-        
-        successWallParameters = successWallParameters.map(wall => {
-            return Bodies.rectangle( wall.x, wall.y, wall.width, wall.height, {
-                isStatic: true,
-                collisionFilter: {
-                    category: groundCategory,
-                },
-                render: {
-                    fillStyle: '#111827',
-                },
-            });
-        })
-    
-        World.add(engine.world, successWallParameters);
+
+        World.add(engine.world, successWalls);
         World.add(engine.world, [successChipPyramid, successCardPyramid]);
 
         setTimeout(() => { 
