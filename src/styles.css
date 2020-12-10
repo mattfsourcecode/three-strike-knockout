@@ -4,6 +4,99 @@
 @tailwind components;
 @tailwind utilities;
 
-.card{
-    @apply rounded-xl bg-white border-gray-200 shadow-lg hover:shadow-xl pointer-events-none;
+.body {
+    @apply text-gray-600 bg-gray-900 font-body;
 }
+
+.app-bar {
+    @apply px-8 select-none overscroll-none;
+}
+
+.header {
+    @apply text-green-500 text-5xl font-semibold leading-none tracking-wider inline-block transform -rotate-3 origin-left underline ml-16; 
+}
+
+.logo {
+    @apply m-2 h-28 w-20 mr-4 fixed top-0 left-0 pointer-events-none;
+}
+
+.spinner-container {
+    @apply h-screen flex-center;
+}
+
+.no-drag {
+    @apply pointer-events-none;
+}
+
+.tech-stack-label-container {
+    @apply flex fixed right-0;
+}
+
+.tech-stack-label {
+    @apply text-white text-3xl h-10 transform -rotate-3;
+}
+
+.modal {
+    @apply fixed z-10 inset-0 overflow-y-auto select-none transition ease-out duration-500;
+}
+
+.modal-items-container {
+    @apply flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
+}
+
+.modal-spacer {
+    @apply hidden sm:inline-block sm:align-middle sm:h-screen;
+}
+
+.modal-dialog {
+    @apply inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full;
+}
+
+.modal-overlay {
+    @apply absolute inset-0 bg-gray-800 opacity-75
+}
+
+.modal-header-container {
+    @apply bg-gray-800 px-8 pt-8 pb-4;
+}
+
+.modal-header-text {
+    @apply text-3xl leading-6 text-green-400 flex-center;
+}
+
+.modal-ui {
+    @apply flex space-x-16 justify-center mt-4;
+}
+
+.card-selector {
+    @apply w-12 h-16 m-1 p-1 cursor-pointer rounded-sm transform ease-in-out duration-500;
+}
+
+.extra-small-green-text {
+    @apply text-xs text-green-400;
+}
+
+.flex-center {
+    @apply flex justify-center;
+}
+
+.flex-column-center {
+    @apply flex flex-col justify-center;
+}
+
+.start-button-container {
+    @apply bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center mb-4 mt-4;
+}
+
+.start-button {
+    @apply inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-400 text-base font-medium text-gray-900 hover:bg-green-300 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm;
+}
+
+.play-again-button {
+    @apply hidden fixed top-40 animate-skew rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-900 text-base font-medium text-white hover:bg-green-700 focus:outline-none;
+}
+
+.game-over-text {
+    @apply text-6xl text-red-600;
+}
+
