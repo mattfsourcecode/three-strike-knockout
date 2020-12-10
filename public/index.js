@@ -93,7 +93,7 @@
             options: {
                 wireframes: false,
                 pixelRatio: 2, //Resolution of svg elements
-                height: window.innerHeight-parseInt(window.getComputedStyle($("#header")[0]).height, 10)+98, //Calculates the height of the Matter.js render. This method could potentially be reevaluated.
+                height: window.innerHeight-parseInt(window.getComputedStyle($("#app-bar")[0]).height, 10)+98, //Calculates the height of the Matter.js render. This method could potentially be reevaluated.
                 width: window.innerWidth,
                 background: '#111827',
             },
