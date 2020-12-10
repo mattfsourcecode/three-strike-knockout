@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000) to start playing.
 #### [`/src/styles.css`](https://github.com/matt-eric/three-strike-knockout/blob/master/src/styles.css)
 #### [`tailwind.config.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/tailwind.config.js)
 
-## Achience the best experience 😀
+## Achieve the best experience 😀
 
 I am suggesting using Chrome to run this app. Other browsers are having difficulty rendering the SVG sprites.
 
@@ -50,5 +50,7 @@ First try playing a few times using the default configuration (i.e. just click t
 
 <img width="1280" alt="Success" src="https://user-images.githubusercontent.com/24415914/101722698-c88b7000-3a78-11eb-80ab-129a2f3900eb.png">
 
-## See any bugs? 🪲 
-### [Open an issue](https://github.com/matt-eric/three-strike-knockout/issues) or email me @ [mf9646a@alumni.american.edu](mailto:mf9646a@alumni.american.edu).
+## See any bugs? 
+#### 🪲 [Open an issue](https://github.com/matt-eric/three-strike-knockout/issues) or email me @ [mf9646a@alumni.american.edu](mailto:mf9646a@alumni.american.edu).
+
+# 😎 🌴 Enjoy.
