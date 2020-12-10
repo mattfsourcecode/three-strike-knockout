@@ -50,8 +50,6 @@ First try playing a few times using the default configuration (i.e. just click t
 
 <img width="1280" alt="Success" src="https://user-images.githubusercontent.com/24415914/101722698-c88b7000-3a78-11eb-80ab-129a2f3900eb.png">
 
-See any bugs? 🪲 [Open an issue](https://github.com/matt-eric/three-strike-knockout/issues) or email me @ [mf9646a@alumni.american.edu](mailto:mf9646a@alumni.american.edu).
-
 *HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
 
 # 😎 🌴 Enjoy.
