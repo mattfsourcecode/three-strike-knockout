@@ -485,15 +485,19 @@
     */
    (() => {
 
+        const handleCardBackClick = ( element ) => {
+            $(`#${selectedCardBack}`).removeClass('bg-green-400');
+            element.addClass('bg-green-400');
+            selectedCardBack = element.attr('id');
+        }
+
         $(`<div id="${cardImages[0]}" class="card-selector bg-green-400"><img class="no-drag" src="assets/card-backs/${cardImages[0]}.png"></div>`).appendTo('#card-back-options');
-        cardBacks.push($('#blue'))
+        $(`#${cardImages[0]}`).click(() => { handleCardBackClick($(`#${cardImages[0]}`)) });
+        cardBacks.push($(`#${cardImages[0]}`))
+
         for (let i = 1; i < cardImages.length; i++) {
             $(`<div id="${cardImages[i]}" class="card-selector"><img class="no-drag" src="assets/card-backs/${cardImages[i]}.png"></div>`).appendTo('#card-back-options');
-            $(`#${cardImages[i]}`).click(() => {
-                $(`#${selectedCardBack}`).removeClass('bg-green-400');
-                $(`#${cardImages[i]}`).addClass('bg-green-400');
-                selectedCardBack = $(`#${cardImages[i]}`).attr('id');
-            });
+            $(`#${cardImages[i]}`).click(() => { handleCardBackClick($(`#${cardImages[i]}`)) });
             cardBacks.push($(`#${cardImages[i]}`))
         }
         
