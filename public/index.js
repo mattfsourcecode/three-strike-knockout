@@ -9,12 +9,12 @@
           Events = Matter.Events,
           Composite = Matter.Composite,
           engine = Engine.create(),
-          cardCategory = 0x0001, // Collision filter categories that determine what types of bodies (i.e. card, chip, mouse, ground, etc.) can collide with one another.
-          chipCategory = 0x0002,
-          groundCategory = 0x0003,
+          cardCategory = 0x0001, // Objects with cardCategory collisionFilter can collide with cards (i.e. cards, walls, airbound chips, ground).
+          chipCategory = 0x0002, // Objects with cardCategory collisionFilter can collide with the mouse (i.e. chips attached to slingshot and chip in success animation).
           cardBodyRemovalDelayTime = 4000, // Milliseconds for the setTimeout method in the 'afterUpdate' loop determining when to remove cards from the render after they fall off.
           chipCoordinateX = 200, //Coordinates for the chip slingshot.
           chipCoordinateY = 300, 
+          chipScale = .25, //Size of the picker chip used in the  slingshot.
           xAxisThreshold = 1050, //Thresholds that constitute if a card or chip has fallen off.
           yAxisThreshold = 500,
           chipSVGPaths = [], //Array of all chip svg file paths which will be used for sourcing the game chips using the random indexes in the shuffledIndexesForChips array.
@@ -35,7 +35,6 @@
         successWalls, // An array containing four rectangular static bodies used as walls in the success animation.
         jesterHat, //Jester hat SVG that attaches to the elastic when the game is won.
         launchedChip = null, //The launched chip is set to this variable so tht the collision filter can be changed after launch.
-        chipScale = .25, //Size of the picker chip used in the  slingshot.
         airboundChipCoordinateX, //X coordinate of the launched chip updated in real time.
         airboundChipCoordinateY, //Y coordinate of the launched chip updated in real time.
         chipCoordinateTimeoutHasStarted, //Enables a single invocation of a setTimeout method in the 'afterUpdate' loop to determinine if there is a game win within 3 seconds if the third chip lands on the ground as stops moving.
@@ -176,7 +175,7 @@
                 return Bodies.rectangle(x, y, width, height, {
                     collisionFilter: {
                         category: cardCategory,
-                        mask: groundCategory | cardCategory,
+                        mask: cardCategory,
                     },
                     render: {
                         opacity: opacity,
@@ -196,7 +195,7 @@
                     restitution: 1.4,
                     collisionFilter: {
                         category: cardCategory,
-                        mask: groundCategory | cardCategory | chipCategory,
+                        mask: cardCategory | chipCategory,
                     },
                     render: {
                         opacity: opacity,
@@ -242,7 +241,7 @@
         ground = Bodies.rectangle(800, 300, 500, 20, { 
             isStatic: true,
             collisionFilter: {
-                category: groundCategory,
+                category: cardCategory,
             },
             render: {
                 fillStyle: '#065F46',
@@ -295,7 +294,7 @@
             return Bodies.rectangle( wall.x, wall.y, wall.width, wall.height, {
                 isStatic: true,
                 collisionFilter: {
-                    category: groundCategory,
+                    category: cardCategory,
                 },
                 render: {
                     fillStyle: '#111827',
