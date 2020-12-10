@@ -41,13 +41,13 @@
         ground, //Static rectangle body that the chip pyramid lands on.
         successWalls, // An array containing four rectangular static bodies used as walls in the success animation.
         jesterHat, //Jester hat SVG that attaches to the elastic when the game is won.
-        launchedChip = null, //The launched chip is set to this variable so tht the collision filter can be changed after launch.
+        launchedChip, //The launched chip is set to this variable so tht the collision filter can be changed after launch.
         airboundChipCoordinateX, //X coordinate of the launched chip updated in real time.
         airboundChipCoordinateY, //Y coordinate of the launched chip updated in real time.
         chipCoordinateTimeoutHasStarted, //Enables a single invocation of a setTimeout method in the 'afterUpdate' loop to determinine if there is a game win within 3 seconds if the third chip lands on the ground as stops moving.
         emptyChipArrayTimeoutHasStarted, //Enables a single invocation of a setTimeout method in the 'afterUpdate' loop to determine if the last chip has fallen off the ground. If the game is not won within 3 seconds, then the game is over.
-        gameWon = false, //sets to true if the game has been won.
-        gameOver = false, //sets to true if the game is over.
+        gameWon, //Sets to true if the game has been won.
+        gameOver, //Sets to true if the game is over.
         shuffledIndexesForCards, //An array of random integers determining which indexes to use from the chipSVGPaths array.
         shuffledIndexesForChips, //An array of random integers determining which indexes to use from the this.cards array in the CardDeck class.
         initializedCardDeck, //The constructed CardDeck class.
