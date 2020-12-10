@@ -1,32 +1,29 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
       colors: {
-        primary: '#FF6363',
-        secondary: {
-          100: '#E2E2D5',
-          200: '#888883'
-        },
-        tailwind: '#06B6D4'
+        primary: '#34D399',
+        secondary: '#111827',
+        tailwind: '#06B6D4',
       },
       fontFamily: {
-        body: ['Permanent Marker']
+        body: ['Permanent Marker'],
       },
       keyframes: {
         'skew': {
-          '0%, 100%': { transform: 'skew(-45deg)' },
-          '50%': { transform: 'skew(45deg)' },
+          '0%, 100%': { transform: 'skew(-15deg)' },
+          '50%': { transform: 'skew(15deg)' },
         },
       },
       animation: {
         'skew': 'skew 2s infinite',
-      }
+      },
     },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};
