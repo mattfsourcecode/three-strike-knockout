@@ -22,7 +22,9 @@
           totalCards = Array.from(Array(52).keys()), //Array of consecutive integers equaling the total number of unique card files that could potentially be used in the game.
           numberOfChipAttempts = 3, //Total number of chips in the game. Used in the shuffle method to determine what index to slice to.
           totalChips = Array.from(Array(20).keys()), //Array of consecutive integers equaling the total number of unique chip files that could potentially be used in the game.
-          cardBacks = [ $('#blue'), $('#red'), $('#cactus'), $('#coyote'), $('#diamonds'), $('#galexy'), $('#smiley'), $('#beach'), ], //Array of card image container elements.
+          cardImages = [ 'blue', 'red', 'cactus', 'coyote', 'diamonds', 'galexy', 'smiley', 'beach' ], //Array of card image names corresponding with the png file names.
+          cardBacks = [], //Array of card image container elements.
+
           getRandomInteger = (max) => { return Math.floor(Math.random() * Math.floor(max)); };
 
     let render, //Matter.js Render object.
@@ -468,20 +470,31 @@
 
 
     /**
-    Declare event listeners for the UI components in the modal
+     * Dynamically appends all cardImages to the DOM as card selection options,
+     * builds the cardBacks array consisting of the respective filepaths,
+     * and adds click event listeners for selecting a card back.
     */
    (() => {
 
-        //Adds event listeners to the elements in the cardBacks array to transition the highlighted card when a new card is clicked.
-        (() => {
-            for (let i = 0; i < cardBacks.length; i++) {
-                cardBacks[i].click(() => {
-                    $(`#${selectedCardBack}`).removeClass('bg-green-400');
-                    cardBacks[i].addClass('bg-green-400');
-                    selectedCardBack = cardBacks[i].attr('id');
-                });
-            };
-        })();
+        $(`<div id="${cardImages[0]}" class="card-selector bg-green-400"><img class="no-drag" src="assets/card-backs/${cardImages[0]}.png"></div>`).appendTo('#card-back-options');
+        cardBacks.push($('#blue'))
+        for (let i = 1; i < cardImages.length; i++) {
+            $(`<div id="${cardImages[i]}" class="card-selector"><img class="no-drag" src="assets/card-backs/${cardImages[i]}.png"></div>`).appendTo('#card-back-options');
+            $(`#${cardImages[i]}`).click(() => {
+                $(`#${selectedCardBack}`).removeClass('bg-green-400');
+                $(`#${cardImages[i]}`).addClass('bg-green-400');
+                selectedCardBack = $(`#${cardImages[i]}`).attr('id');
+            });
+            cardBacks.push($(`#${cardImages[i]}`))
+        }
+        
+   })();
+
+
+    /**
+    Declare event listeners for the UI components in the modal
+    */
+   (() => {
 
         $('#transparent').click(() => {
             const element = $('#transparency-container');
