@@ -13,8 +13,8 @@
           chipCategory = 0x0002,
           groundCategory = 0x0003,
           cardBodyRemovalDelayTime = 4000, // Milliseconds for the setTimeout method in the 'afterUpdate' loop determining when to remove cards from the render after they fall off.
-          chipCoordinateX = 220, //Coordinates for the chip slingshot.
-          chipCoordinateY = 250, 
+          chipCoordinateX = 200, //Coordinates for the chip slingshot.
+          chipCoordinateY = 300, 
           xAxisThreshold = 1050, //Thresholds that constitute if a card or chip has fallen off.
           yAxisThreshold = 500,
           chipSVGPaths = [], //Array of all chip svg file paths which will be used for sourcing the game chips using the random indexes in the shuffledIndexesForChips array.
@@ -199,7 +199,7 @@
         }
         buildGamePyramid() {
             const { height, width, xScale, yScale, opacity } = this;
-            return Composites.pyramid(600, 0, 9, 10, 0, 0, function (x, y) {
+            return Composites.pyramid(625, 0, 9, 10, 0, 0, function (x, y) {
                 const cardIndex = shuffledIndexesForCards[0];
                 shuffledIndexesForCards.shift();
                 return Bodies.rectangle(x, y, width, height, {
@@ -268,10 +268,13 @@
             stiffness: 0.1,
         });
 
-        ground = Bodies.rectangle(790, 300, 500, 20, { 
+        ground = Bodies.rectangle(800, 300, 500, 20, { 
             isStatic: true,
             collisionFilter: {
                 category: groundCategory,
+            },
+            render: {
+                fillStyle: '#065F46',
             },
         }),
 
