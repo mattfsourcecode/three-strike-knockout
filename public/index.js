@@ -1,3 +1,10 @@
+/**
+*  🃏 Three-strike Knockout 🎉 
+*  by @matt-eric 12-09-2020
+*  https://github.com/matt-eric/three-strike-knockout
+*  Contact: mf9464a@alumni.american.edu
+*/
+
 (() => {
 
     const Engine = Matter.Engine,
