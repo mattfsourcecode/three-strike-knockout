@@ -57,6 +57,7 @@
         cardsInPlay, // The card bodies in the gamePyramid.
         currentCards, // A deep copy of the cardsInPlay array, of which cards are spliced out as they fall out of play. The game has been won when this array is emptied.
         eventLoopCanEvaluate, //Determines if the conditions within the 'afterUpdate' loop can evaluate or if the loop returns immediately.
+        winningStreak = 0, //The number of consecutive wins per session.
         selectedCardBack = "blue", //User selection in the modal UI.
         selectedIndexSize = "small", //User selection in the modal UI.
         cardsAreTransparent = false, //User selection in the modal UI.
@@ -424,8 +425,12 @@
      */
     const startSuccessAnimation = () => {
 
+        winningStreak++;
+        $('#winning-streak').html(`Winning streak: ${winningStreak}`);
+
         World.remove(engine.world, [ ground, chip ]); //Remove the ground and the last (tiny / non-visible) chip that was placed on the elastic.
         World.add(engine.world, jesterHat);
+
         elastic.bodyB = jesterHat;
 
         launchedChip.collisionFilter.category = chipCategory; //Switch the launchedChip collisionFilter category back to chipCategory to allow the mouse to interact with it.
@@ -573,6 +578,8 @@
     Animation that runs when a "Game Over" is determined in the "afterUpdate" loop
     */
     const handleGameOver = () => {
+        winningStreak = 0;
+        $('#winning-streak').html(``);
         $('#game-over-container').removeClass('hidden');
         setTimeout(() => { 
             $('#game-over-container').removeClass('animate-ping');
