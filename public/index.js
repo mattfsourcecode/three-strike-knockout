@@ -343,8 +343,12 @@
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1);
                     //Remove the body from the render.     
                     setTimeout(() => { 
+                        // If the game has been won, remove the card body from the Matter world.
                         if (!gameWon){
                             Composite.remove(gamePyramid, body);
+                        // Otherwise, the card body will remain in the viewport for the "success celebration", so update the collisionFilter mask to enable collision between the card body and the chip body that remains in the viewport.
+                        } else {
+                            body.collisionFilter.mask = cardCategory | chipCategory
                         }
                     }, cardBodyRemovalDelayTime);
                 };
