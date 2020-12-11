@@ -343,7 +343,9 @@
                     currentCards.splice(currentCards.indexOf(cardsInPlay[i]), 1);
                     //Remove the body from the render.     
                     setTimeout(() => { 
-                        Composite.remove(gamePyramid, body);
+                        if (!gameWon){
+                            Composite.remove(gamePyramid, body);
+                        }
                     }, cardBodyRemovalDelayTime);
                 };
             };
