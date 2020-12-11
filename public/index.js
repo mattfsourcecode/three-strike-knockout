@@ -556,7 +556,7 @@
 
         $('#start-button').click(() => { handleStartButtonClick() } );
 
-        $(document).keypress( (e) => { ( e.keyCode == 13 && !eventLoopCanEvaluate ) && handleStartButtonClick() } );
+        $(document).keypress( (e) => { ( e.keyCode == 13 && !$("#start-button").attr("disabled") ) && handleStartButtonClick() } );
 
     })();
 
