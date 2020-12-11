@@ -20,6 +20,10 @@
     @apply m-2 h-28 w-20 mr-4 fixed top-0 left-0 pointer-events-none;
 }
 
+.winning-streak {
+    @apply text-green-500 text-2xl font-semibold transform -rotate-3 origin-left flex fixed right-60;
+}
+
 .spinner-container-outer {
     @apply h-screen flex-center;
 }
