@@ -97,7 +97,7 @@
         }, 350);
         setTimeout(() => { 
             $('main').removeClass('hidden');
-            $('#spinner-container').remove();
+            $('#spinner-container-outer').remove();
             initializeMatter();
         }, 750);
     })();
