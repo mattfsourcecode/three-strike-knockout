@@ -28,15 +28,7 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 #### [`/src/styles.css`](https://github.com/matt-eric/three-strike-knockout/blob/master/src/styles.css)
 #### [`tailwind.config.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/tailwind.config.js)
 
-## Achieve the best experience 😀
-
-I am suggesting using Chrome to run this app. Other browsers are having difficulty rendering the SVG sprites.
-
-First try playing a few times using the default configuration (i.e. just click the “Start” button without adjusting anything). Get a feel for the game, and then toggle some different parameters.
-
-*NOTE: This app was developed on a 13-inch MacBook Pro. Responsiveness attributes were programmed such that it is assumed that the app is cross-device compatible, however, it has not been tested on any other screen sizes or operating systems so there may be some responsiveness bugs on non-13-inch-Macbook-Pro devices.*
-
-## There are three main views within the app that will ideally look like this:
+## There are three main views within the app that will look like this:
 
 ### Card deck configuration modal
 
