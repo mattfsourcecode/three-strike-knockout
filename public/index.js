@@ -50,8 +50,9 @@
         emptyChipArrayTimeoutHasStarted, //Enables a single invocation of a setTimeout method in the 'afterUpdate' loop to determine if the last chip has fallen off the ground. If the game is not won within 3 seconds, then the game is over.
         gameWon, //Sets to true if the game has been won.
         gameOver, //Sets to true if the game is over.
-        shuffledIndexesForCards, //An array of random integers determining which indexes to use from the chipSVGPaths array.
-        shuffledIndexesForChips, //An array of random integers determining which indexes to use from the this.cards array in the CardDeck class.
+        shuffledIndexesForCards, //An array of random integers determining which indexes to use from the this.cards array in the buildAllCardSvgPaths method.
+        shuffledIndexesForChips, //An array of random integers determining which indexes to use from the chipSVGPaths array.
+        shuffledIndexesForCardsInSuccessPyramid, //A randomized version of the totalCards consecutive integers array determining which indexes to use from the this.cards array in the buildSuccessPyramid method.
         initializedCardDeck, //The constructed CardDeck class.
         gamePyramid, // The Composite returned from the initializedCardDeck.buildGamePyramid() method.
         cardsInPlay, // The card bodies in the gamePyramid.
@@ -147,7 +148,7 @@
     class CardDeck {
         constructor(indexSize, backImage, transparent, larger) {
             this.indexSize = indexSize;
-            this.backImage = backImage;
+            this.backImage = `assets/card-backs/${backImage}.png`;
             this.transparent = transparent;
             this.larger = larger;
             this.cards = [];
@@ -162,7 +163,7 @@
                 const suit = suits[s];
                 for (let v = 0; v < values.length; v++) {
                     if (getRandomInteger(4) === 3) {
-                        cards.push(`assets/card-backs/${backImage}.png`);
+                        cards.push(backImage);
                     } else {
                         const value = values[v];
                         cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
@@ -199,8 +200,10 @@
             }.bind(this));
         }
         buildSuccessPyramid() {
-            const { height, width, xScale, yScale, opacity } = this;
+            const { height, width, xScale, yScale, opacity, backImage } = this;
             return Composites.pyramid(.33*window.innerWidth, -200, 14, 15, 0, 0, function (x, y) {
+                const cardIndex = shuffledIndexesForCardsInSuccessPyramid[0];
+                shuffledIndexesForCardsInSuccessPyramid.shift();
                 return Bodies.rectangle(x, y, width, height, {
                     restitution: 1.4,
                     collisionFilter: {
@@ -210,7 +213,7 @@
                     render: {
                         opacity: opacity,
                         sprite: {
-                            texture: this.cards[getRandomInteger(this.cards.length)],
+                            texture: this.cards[cardIndex] || backImage,
                             xScale: xScale,
                             yScale: yScale,
                         },
@@ -481,6 +484,7 @@
 
         shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
         shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
+        shuffledIndexesForCardsInSuccessPyramid = shuffle(totalCards);
 
         $('#start-button').addClass('animate-spin');
         $('#modal').removeClass('opacity-100');
