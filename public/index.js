@@ -436,8 +436,11 @@
         launchedChip.collisionFilter.category = chipCategory; //Switch the launchedChip collisionFilter category back to chipCategory to allow the mouse to interact with it.
 
         const successCardPyramid = initializedCardDeck.buildSuccessPyramid();
+
+        let chipPyramidX = .33*window.innerWidth+50; //X-axis coordinate for chip pyramid
+        if (cardsAreLarger) chipPyramidX+=100;
     
-        const successChipPyramid = Composites.pyramid(.33*window.innerWidth+50, -50, 12, 13, 0, 0, (x, y) => {
+        const successChipPyramid = Composites.pyramid(chipPyramidX, -50, 12, 13, 0, 0, (x, y) => {
             return Bodies.circle(x, y, 10, {
                 restitution: 1.4,
                 collisionFilter: {
