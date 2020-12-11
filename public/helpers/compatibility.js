@@ -16,5 +16,5 @@ navigator.isCompatible = (() => {
         return M.join(' ');
     };
     const browser = getBrowser();
-    return ( browser.includes("Chrome") || browser.includes("Opera") )
-})()
+    return ( browser.includes("Chrome") || browser.includes("Opera") );
+})();
