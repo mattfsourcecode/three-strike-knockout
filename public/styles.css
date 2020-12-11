@@ -31779,7 +31779,7 @@ video {
   width: 5rem;
 }
 
-.spinner-container {
+.spinner-container-outer {
   height: 100vh;
   display: flex;
   justify-content: center;

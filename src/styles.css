@@ -20,7 +20,7 @@
     @apply m-2 h-28 w-20 mr-4 fixed top-0 left-0 pointer-events-none;
 }
 
-.spinner-container {
+.spinner-container-outer {
     @apply h-screen flex-center;
 }
 
