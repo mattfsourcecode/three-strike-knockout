@@ -96,11 +96,10 @@
      */
     (() => {
         setTimeout(() => { 
-            $('#spinner').removeClass( 'h-80 w-80' );
-            $('#spinner').addClass( 'h-1 w-1' );
+            $('#spinner').toggleClass( 'h-1 w-1 h-80 w-80' );
         }, 350);
         setTimeout(() => { 
-            $('main').removeClass('hidden');
+            $('main').toggleClass('hidden');
             $('#spinner-container-outer').remove();
             initializeMatter();
         }, 750);
@@ -470,7 +469,7 @@
         World.add(engine.world, [successChipPyramid, successCardPyramid]);
 
         setTimeout(() => { 
-            $('#play-again-button').removeClass('hidden');
+            $('#play-again-button').toggleClass('hidden');
         }, 10000);
 
         return;
@@ -492,12 +491,12 @@
         shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
         shuffledIndexesForCardsInSuccessPyramid = shuffle(totalCards);
 
-        $('#start-button').addClass('animate-spin');
+        $('#start-button').toggleClass('animate-spin');
         $('#modal').removeClass('opacity-100');
         $('#modal').addClass('opacity-0');
 
         setTimeout( () => { 
-            $('#modal').addClass('hidden');
+            $('#modal').toggleClass('hidden');
             addMatterBodiesToWorldAndStartGame();
         }, 750);
 
@@ -510,8 +509,8 @@
    (() => {
 
         const handleCardBackClick = ( element ) => {
-            $(`#${selectedCardBack}`).removeClass('bg-green-400');
-            element.addClass('bg-green-400');
+            $(`#${selectedCardBack}`).toggleClass('bg-green-400');
+            element.toggleClass('bg-green-400');
             selectedCardBack = element.attr('id');
         }
 
@@ -529,57 +528,39 @@
 
 
     /**
-    Declare event listeners for the UI components in the modal
+    Apply event listeners to the UI components in the modal.
     */
    (() => {
 
         $('#transparent').click(() => {
             const element = $('#transparency-container');
-            if (cardsAreTransparent) {
-                element.removeClass('opacity-30');
-                element.addClass('opacity-100');
-                cardsAreTransparent = false;
-            } else {
-                element.removeClass('opacity-100');
-                element.addClass('opacity-30');
-                cardsAreTransparent = true;
+            element.toggleClass('opacity-100 opacity-30');
+            cardsAreTransparent = !cardsAreTransparent;
+        });
+
+        const applyToggleIndexEventListener = (sizes) => {
+            for (let i = 0; i < sizes.length; i++) {
+                const size = sizes[i];
+                $(`#${size}-index`).click(() => { 
+                    const classes = 'cursor-pointer text-green-400 text-gray-800';
+                    $('#small-index').toggleClass(classes);
+                    $('#large-index').toggleClass(classes);
+                    $('#index-indicator').toggleClass('translate-x-11');
+                    selectedIndexSize = !selectedIndexSize;
+                 });
             };
-        });
-
-        $('#small-index').click(() => {
-            $('#index-indicator').removeClass('translate-x-11');
-            $('#small-index').removeClass('cursor-pointer, text-green-400');
-            $('#small-index').addClass('text-gray-800');
-            $('#large-index').removeClass('text-gray-800');
-            $('#large-index').addClass('cursor-pointer, text-green-400');
-            selectedIndexSize = "small";
-        });
-
-        $('#large-index').click(() => {
-            $('#index-indicator').addClass('translate-x-11');
-            $('#large-index').removeClass('cursor-pointer, text-green-400');
-            $('#large-index').addClass('text-gray-800');
-            $('#small-index').removeClass('text-gray-800');
-            $('#small-index').addClass('cursor-pointer, text-green-400');
-            selectedIndexSize = "large";
-        });
-
-        $('#play-again-button').click(() => {
-            $('#play-again-button').addClass('hidden');
-            openModalAndReset();
-        });
+        };
+        applyToggleIndexEventListener(['large', 'small']);
 
         $('#card-size').click(() => {
             const element = $('#card-size-container');
-            if (cardsAreLarger) {
-                element.removeClass('h-11 w-8');
-                element.addClass('h-5 w-4');
-                cardsAreLarger = false;
-            } else {
-                element.removeClass('h-5 w-4');
-                element.addClass('h-11 w-8');
-                cardsAreLarger = true;
-            };
+            element.toggleClass('h-5 w-4 h-11 w-8');
+            cardsAreLarger = !cardsAreLarger;
+        });
+
+        $('#play-again-button').click(() => {
+            $('#play-again-button').toggleClass('hidden');
+            openModalAndReset();
         });
 
         $('#start-button').click(() => { handleStartButtonClick() } );
@@ -593,14 +574,12 @@
     Animation that runs when a "Game Over" is determined in the "afterUpdate" loop.
     */
     const handleGameOver = () => {
-        $('#game-over-container').removeClass('hidden');
+        $('#game-over-container').toggleClass('hidden');
         setTimeout(() => { 
-            $('#game-over-container').removeClass('animate-ping');
-            $('#game-over-container').addClass('animate-spin');
+            $('#game-over-container').toggleClass('animate-ping animate-spin');
             setTimeout(() => { 
                 openModalAndReset();
-                $('#game-over-container').removeClass('animate-spin');
-                $('#game-over-container').addClass('hidden animate-ping');
+                $('#game-over-container').toggleClass('hidden animate-ping animate-spin');
                 $('#winning-streak').html(``);
                 winningStreak = 0;
             }, 500);
@@ -621,10 +600,9 @@
         Engine.clear(engine);
 
         $("#start-button").attr("disabled",false);
-        $('#start-button').removeClass('animate-spin');
+        $('#start-button').toggleClass('animate-spin');
         $('#modal').removeClass('hidden');
-        $('#modal').addClass('fixed');
-        $('#modal').addClass('opacity-100');
+        $('#modal').addClass('fixed opacity-100');
 
     }
 
