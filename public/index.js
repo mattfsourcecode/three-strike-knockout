@@ -33,6 +33,7 @@
           totalChips = Array.from(Array(20).keys()), //Array of consecutive integers equaling the total number of unique chip files that could potentially be used in the game.
           cardImages = [ 'blue', 'red', 'cactus', 'coyote', 'diamonds', 'galexy', 'smiley', 'beach' ], //Array of card image names corresponding with the .png file names.
           cardBacks = [], //Array of card image container HTML elements.
+          indexSizeOptions = ['small','large'], //Index size options that correspond to the file paths for the SVG cards.
           getRandomInteger = (max) => { return Math.floor(Math.random() * Math.floor(max)); }; //Returns a random integer within the range of zero to the value of the 'max' argument.
 
     let render, //Matter.js Render object.
@@ -167,6 +168,7 @@
                         cards.push(backImage);
                     } else {
                         const value = values[v];
+                        debugger
                         cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
                     };
                 };
@@ -546,11 +548,11 @@
                     $('#small-index').toggleClass(classes);
                     $('#large-index').toggleClass(classes);
                     $('#index-indicator').toggleClass('translate-x-11');
-                    selectedIndexSize = !selectedIndexSize;
+                    selectedIndexSize = indexSizeOptions.find(i => i !== selectedIndexSize);
                  });
             };
         };
-        applyToggleIndexEventListener(['large', 'small']);
+        applyToggleIndexEventListener(indexSizeOptions);
 
         $('#card-size').click(() => {
             const element = $('#card-size-container');
