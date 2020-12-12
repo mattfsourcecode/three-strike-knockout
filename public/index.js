@@ -589,8 +589,6 @@
     Animation that runs when a "Game Over" is determined in the "afterUpdate" loop.
     */
     const handleGameOver = () => {
-        winningStreak = 0;
-        $('#winning-streak').html(``);
         $('#game-over-container').removeClass('hidden');
         setTimeout(() => { 
             $('#game-over-container').removeClass('animate-ping');
@@ -599,6 +597,8 @@
                 openModalAndReset();
                 $('#game-over-container').removeClass('animate-spin');
                 $('#game-over-container').addClass('hidden animate-ping');
+                $('#winning-streak').html(``);
+                winningStreak = 0;
             }, 500);
         }, 2000);
     };
