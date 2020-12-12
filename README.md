@@ -12,6 +12,8 @@
 ## Tech stack:
 ### ✅  Tailwind CSS
 ### ✅  Matter.js
+### ✅  jQuery
+### ✅  Express.js
 ### ✅  Node.js
  
 ## Run it locally
