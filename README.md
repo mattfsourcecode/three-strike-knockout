@@ -34,15 +34,15 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 ### Card deck configuration modal
 
-<img width="1280" alt="modal" src="https://user-images.githubusercontent.com/24415914/101733972-9fc1a580-3a8d-11eb-919d-b7f6a563cd6c.png">
+<img width="1280" alt="modal-ui" src="https://user-images.githubusercontent.com/24415914/101996147-cd7d3900-3c9d-11eb-9038-817cd7b44742.png">
 
 ### Game scene
 
-<img width="1280" alt="game" src="https://user-images.githubusercontent.com/24415914/101722682-bf9a9e80-3a78-11eb-813b-410d42747520.png">
+<img width="1280" alt="game-scene" src="https://user-images.githubusercontent.com/24415914/101996148-ce15cf80-3c9d-11eb-8aa0-03ce211fbe51.png">
 
 ### Success celebration
 
-<img width="1280" alt="celebration" src="https://user-images.githubusercontent.com/24415914/101734824-de0b9480-3a8e-11eb-9f21-49c17f9b266f.png">
+<img width="1280" alt="success-celebration" src="https://user-images.githubusercontent.com/24415914/101996241-83e11e00-3c9e-11eb-80eb-6a6c347b4d96.png">
 
 #### *HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
 
