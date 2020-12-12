@@ -208,12 +208,12 @@
          * Builds the Matter.Composite pyramid for the "success celebration" using card svg files from this.cards as sprites.
          */
         buildSuccessPyramid() {
-            const { height, width, xScale, yScale, opacity, backImage } = this;
+            const { height, width, xScale, yScale, opacity, backImage, larger } = this;
             return Composites.pyramid(.33*window.innerWidth, -200, 14, 15, 0, 0, function (x, y) {
                 const cardIndex = shuffledIndexesForCardsInSuccessPyramid[0];
                 shuffledIndexesForCardsInSuccessPyramid.shift();
                 return Bodies.rectangle(x, y, width, height, {
-                    restitution: 1.4,
+                    restitution: larger ? 1.4 : 1.55,
                     collisionFilter: {
                         category: cardCategory,
                         mask: cardCategory | chipCategory,
@@ -451,7 +451,7 @@
     
         const successChipPyramid = Composites.pyramid(chipPyramidX, -50, 12, 13, 0, 0, (x, y) => {
             return Bodies.circle(x, y, 10, {
-                restitution: 1.4,
+                restitution: 1.1,
                 collisionFilter: {
                     category: cardCategory,
                 },
