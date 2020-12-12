@@ -548,15 +548,19 @@
 
         $('#small-index').click(() => {
             $('#index-indicator').removeClass('translate-x-11');
-            $('#small-index').removeClass('cursor-pointer');
-            $('#large-index').addClass('cursor-pointer');
+            $('#small-index').removeClass('cursor-pointer, text-green-400');
+            $('#small-index').addClass('text-gray-800');
+            $('#large-index').removeClass('text-gray-800');
+            $('#large-index').addClass('cursor-pointer, text-green-400');
             selectedIndexSize = "small";
         });
 
         $('#large-index').click(() => {
             $('#index-indicator').addClass('translate-x-11');
-            $('#large-index').removeClass('cursor-pointer');
-            $('#small-index').addClass('cursor-pointer');
+            $('#large-index').removeClass('cursor-pointer, text-green-400');
+            $('#large-index').addClass('text-gray-800');
+            $('#small-index').removeClass('text-gray-800');
+            $('#small-index').addClass('cursor-pointer, text-green-400');
             selectedIndexSize = "large";
         });
 
