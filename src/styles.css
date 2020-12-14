@@ -76,14 +76,6 @@
     @apply flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
 }
 
-.modal-overlay {
-    @apply absolute inset-0 bg-gray-800 opacity-75
-}
-
-.modal-overlay-container {
-    @apply fixed inset-0 transition-opacity;
-}
-
 .modal-spacer {
     @apply hidden sm:inline-block sm:align-middle sm:h-screen;
 }
