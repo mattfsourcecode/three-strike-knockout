@@ -32,8 +32,24 @@
     @apply text-6xl text-red-600;
 }
 
+.game-over-text-container {
+    @apply fixed top-80 transition-all ease-in-out duration-500;
+}
+
 .header {
     @apply text-green-500 text-5xl font-semibold leading-none tracking-wider inline-block transform -rotate-3 origin-left underline ml-16; 
+}
+
+.index-indicator {
+    @apply rounded-sm m-1 h-8 w-10 bg-green-400 absolute;
+}
+
+.index-option {
+    @apply rounded-md m-1 mt-3 h-8 w-10 flex-center relative transition ease-in-out duration-200; 
+}
+
+.index-selector-container {
+    @apply rounded-md m-4 h-11 w-24 mt-6 flex-column-center border-2 border-green-400;
 }
 
 .logo {
@@ -45,7 +61,7 @@
 }
 
 .modal-dialog {
-    @apply inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full;
+    @apply inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full;
 }
 
 .modal-header-container {
@@ -64,6 +80,10 @@
     @apply absolute inset-0 bg-gray-800 opacity-75
 }
 
+.modal-overlay-container {
+    @apply fixed inset-0 transition-opacity;
+}
+
 .modal-spacer {
     @apply hidden sm:inline-block sm:align-middle sm:h-screen;
 }
@@ -76,8 +96,28 @@
     @apply pointer-events-none;
 }
 
+.parameter-selector {
+    @apply rounded-md m-1 mt-2.5 h-10 w-8 cursor-pointer relative text-gray-700;
+}
+
+.parameter-selector-outline {
+    @apply rounded-md m-4 h-14 w-11 border-2 border-green-400;
+}
+
+.parameter-selector-container-transparency {
+    @apply rounded-sm m-1 bg-green-400 absolute h-11 w-8 transition ease-out duration-500;
+}
+
+.parameter-selector-container-size {
+    @apply flex justify-center rounded-sm m-1 bg-green-400 absolute transform duration-300;
+}
+
 .play-again-button {
-    @apply hidden fixed top-40 animate-skew rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-900 text-base font-medium text-white hover:bg-green-700 focus:outline-none;
+    @apply fixed top-40 animate-skew rounded-md border border-transparent px-4 py-2 bg-green-900 text-base font-medium text-white hover:bg-green-700 focus:outline-none;
+}
+
+.spinner {
+    @apply border-8 border-green-300 animate-spin transition-all ease-in-out duration-500;
 }
 
 .spinner-container-outer {
@@ -85,7 +125,7 @@
 }
 
 .start-button {
-    @apply inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-400 text-base font-medium text-gray-800 hover:bg-green-300 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm;
+    @apply inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-green-400 text-base font-medium text-gray-800 hover:bg-green-300 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm;
 }
 
 .start-button-container {
