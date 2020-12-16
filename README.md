@@ -26,7 +26,7 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 <img width="1280" alt="modal" src="https://user-images.githubusercontent.com/24415914/102057856-96ea1000-3dbc-11eb-879b-1d0a0f0e59fd.png">
 
-### Game scene
+### Game view
 
 <img width="1280" alt="game-pyramid" src="https://user-images.githubusercontent.com/24415914/102058234-36a79e00-3dbd-11eb-9743-edc3e6c3701a.png">
 
