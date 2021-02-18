@@ -1,19 +1,9 @@
-# Deck of cards *CHALLENGE*
-
-## Requirements:
-
-1. Create a class that represents a deck of cards.
-2. Create an HTML/CSS UI for a game that interacts with this deck of cards class.
-3. Please make sure there is a valid package.json file in the root of the repo.
-4. Upload this homework to a github repository or a github gist.
-
 # 🃏 Three-strike Knockout 🎉
  
 ## Tech stack:
 ### ✅  Tailwind CSS
 ### ✅  Matter.js
 ### ✅  jQuery
-### ✅  Express.js
 ### ✅  Node.js
  
 ## Run it locally
@@ -36,7 +26,7 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 <img width="1280" alt="modal" src="https://user-images.githubusercontent.com/24415914/102057856-96ea1000-3dbc-11eb-879b-1d0a0f0e59fd.png">
 
-### Game scene
+### Game view
 
 <img width="1280" alt="game-pyramid" src="https://user-images.githubusercontent.com/24415914/102058234-36a79e00-3dbd-11eb-9743-edc3e6c3701a.png">
 
