@@ -4,21 +4,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#34D399',
-        secondary: '#111827',
-        tailwind: '#06B6D4',
+        primary: "#34D399",
+        secondary: "#111827",
+        tailwind: "#06B6D4",
       },
       fontFamily: {
-        body: ['Permanent Marker'],
+        body: ["Permanent Marker"],
       },
       keyframes: {
-        'skew': {
-          '0%, 100%': { transform: 'skew(-15deg)' },
-          '50%': { transform: 'skew(15deg)' },
+        skew: {
+          "0%, 100%": { transform: "skew(-15deg)" },
+          "50%": { transform: "skew(15deg)" },
         },
       },
       animation: {
-        'skew': 'skew 2s infinite',
+        skew: "skew 2s infinite",
       },
     },
   },
