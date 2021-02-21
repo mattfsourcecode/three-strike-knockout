@@ -40,7 +40,7 @@
       "cactus",
       "coyote",
       "diamonds",
-      "galexy",
+      "galaxy",
       "smiley",
       "beach",
     ], //Array of card image names corresponding with the .png file names.
