@@ -22,14 +22,14 @@
     Composite = Matter.Composite,
     engine = Engine.create(),
     cardCategory = 0x0001, //Matter.js Bodies with the 'cardCategory' collisionFilter category (i.e. cards, walls, airbound chips, ground) can collide with cards.
-    chipCategory = 0x0002, //Matter.js Bodies with the 'chipCategory' collisionFilter category (i.e. chips attached to slingshot and the slingshot chip in the "success celebration") can collide with the mouse.
-    cardBodyRemovalDelayTime = 4000, //Milliseconds for the setTimeout() method in the 'afterUpdate' loop determining when to remove cards from the World after they fall off.
-    chipCoordinateX = 200, //X coordinate for the chip slingshot.
-    chipCoordinateY = 300, //Y coordinate for the chip slingshot.
-    chipScale = 0.25, //Size of the poker chip used in the slingshot.
+    chipCategory = 0x0002, //Matter.js Bodies with the 'chipCategory' collisionFilter category (i.e. chips attached to slingshot and the fixed slingshot chip in the "success celebration" view) can collide with the mouse.
+    cardBodyRemovalDelayTime = 4000, //Milliseconds for the setTimeout() method in the 'afterUpdate' loop that determines when to remove cards from the World after they fall off.
+    chipCoordinateX = 200, //Fixed X coordinate position for the chip slingshot.
+    chipCoordinateY = 300, //Fixed Y coordinate position for the chip slingshot.
+    chipScale = 0.25, //Size of the chip used in the slingshot.
     xAxisThreshold = 1050, //X axis coordinate threshold that constitutes if a card or chip has fallen off.
     yAxisThreshold = 500, //Y axis coordinate threshold that constitutes if a card or chip has fallen off.
-    chipSVGPaths = [], //Array of all chip .svg file paths which is used for sourcing the game chips using the random indexes in the shuffledIndexesForChips array.
+    chipSVGPaths = [], //Array of all chip .svg file paths used for sourcing the slingshot chips using the random indices in the shuffledIndicesForChips array.
     numberOfCardsInGame = 25, //Total number of cards in the game. Used in the shuffle() method to determine what index to slice to.
     totalCards = Array.from(Array(52).keys()), //Array of consecutive integers equaling the total number of unique card files that could potentially be used in the game.
     numberOfChipAttempts = 3, //Total number of chips in the game. Used in the shuffle method to determine what index to slice to.
@@ -56,24 +56,24 @@
     chip, //The chip on the slingshot that is ready to be launched.
     elastic, //The Matter.Composite Body linking the chip to the anchor. When the user launches the chip, elastic.BodyB is set to the new chip.
     ground, //The static rectangle Body that the card pyramids land on.
-    successWalls, // An array containing four rectangular static bodies used as walls in the "success celebration".
+    successWalls, // An array containing four rectangular static bodies used as walls in the "success celebration" view.
     jesterHat, // The jester hat SVG that attaches to elastic when the game is won.
-    launchedChip, //The launched chip is set to this variable so tht the collisionFilter can be changed after launch.
+    launchedChip, //The launched chip is set to this variable so that the collisionFilter can be changed after launch.
     airboundChipCoordinateX, //X coordinate of the launched chip (updated in the 'afterUpdate' loop).
     airboundChipCoordinateY, //Y coordinate of the launched chip (updated in the 'afterUpdate' loop).
     chipCoordinateTimeoutHasStarted, //Enables a single invocation of a setTimeout() method in the 'afterUpdate' loop to determinine if there is a game win within 3 seconds if the third chip lands on the ground and stops moving.
     emptyChipArrayTimeoutHasStarted, //Enables a single invocation of a setTimeout() method in the 'afterUpdate' loop to determine if the last chip has fallen off the ground. If the game is not won within 3 seconds, then the game is over.
     gameWon, //Sets to true if the game has been won.
     gameOver, //Sets to true if the game is over.
-    shuffledIndexesForCards, //An array of random integers determining which indexes to use from the this.cards array in the buildAllCardSvgPaths() method.
-    shuffledIndexesForChips, //An array of random integers determining which indexes to use from the chipSVGPaths array for the three chips on the slingshot.
-    shuffledIndexesForCardsInSuccessPyramid, //A randomized version of the totalCards consecutive integers array determining which indexes to use from the this.cards array in the buildSuccessPyramid() method.
+    shuffledIndicesForCards, //An array of random integers determining which indices to use from the this.cards array in the buildAllCardSvgPaths() method.
+    shuffledIndicesForChips, //An array of random integers determining which indices to use from the chipSVGPaths array for the three chips on the slingshot.
+    shuffledIndicesForCardsInSuccessPyramid, //A randomized version of the totalCards consecutive integers array determining which indices to use from the this.cards array in the buildSuccessPyramid() method.
     initializedCardDeck, //The constructed CardDeck class.
     gamePyramid, //The Matter.Composite Body returned from the initializedCardDeck.buildGamePyramid() method.
     cardsInPlay, //The card Body objects that comprise the gamePyramid.
     currentCards, //A shallow copy of the cardsInPlay array, of which cards are spliced out as they fall out of play. The game has been won when this array is emptied.
     eventLoopCanEvaluate, //Determines if the conditions within the 'afterUpdate' loop can evaluate or if the loop shall return immediately.
-    winningStreak = 0, //The number of consecutive wins per session.
+    winningStreak = 0, //The number of consecutive wins per browser session.
     selectedCardBack = "blue", //User selection for the "card back" value in the modal UI.
     selectedIndexSize = "small", //User selection for the "index size" value in the modal UI.
     cardsAreTransparent = false, //User selection for the "transparant" value in the modal UI.
@@ -93,7 +93,7 @@
         height:
           window.innerHeight -
           parseInt(window.getComputedStyle($("#app-bar")[0]).height, 10) -
-          32, //Calculates the height of the Matter.js render. This method could potentially be reevaluated.
+          32, //Calculates the height of the Matter.js render. TODO: This method could potentially be reevaluated.
         width: window.innerWidth,
         background: "#111827",
       },
@@ -107,7 +107,7 @@
   };
 
   /**
-   * Adjusts the height and width property of the spinner to start the transition.
+   * Adjusts the height and width property of the new-browser-session loading spinner to start the transition.
    * Then removes the spinner from the DOM and removes the "hidden" class from the <main/> element.
    */
   (() => {
@@ -122,7 +122,7 @@
   })();
 
   /**
-   * Builds an array of all chip svg file paths that will be used for sourcing the game chips with three random indexes.
+   * Builds an array of all chip svg file paths that will be used for sourcing the game chips with three random indices.
    */
   (() => {
     const chipColors = ["blue", "gray", "green", "red"];
@@ -166,7 +166,7 @@
       this.cards = [];
     }
     /**
-     * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 change of being a back image.
+     * Builds an array of file paths to the card svg and back image files. File paths have a 1/4 chance of being a back image.
      */
     buildAllCardSvgPaths() {
       const { indexSize, backImage, transparent, larger } = this;
@@ -220,8 +220,8 @@
         0,
         0,
         function (x, y) {
-          const cardIndex = shuffledIndexesForCards[0];
-          shuffledIndexesForCards.shift();
+          const cardIndex = shuffledIndicesForCards[0];
+          shuffledIndicesForCards.shift();
           return Bodies.rectangle(x, y, width, height, {
             collisionFilter: {
               category: cardCategory,
@@ -240,7 +240,7 @@
       );
     }
     /**
-     * Builds the Matter.Composite pyramid for the "success celebration" using card svg files from this.cards as sprites.
+     * Builds the Matter.Composite pyramid for the "success celebration" view using card svg files from this.cards as sprites.
      */
     buildSuccessPyramid() {
       const {
@@ -260,8 +260,8 @@
         0,
         0,
         function (x, y) {
-          const cardIndex = shuffledIndexesForCardsInSuccessPyramid[0];
-          shuffledIndexesForCardsInSuccessPyramid.shift();
+          const cardIndex = shuffledIndicesForCardsInSuccessPyramid[0];
+          shuffledIndicesForCardsInSuccessPyramid.shift();
           return Bodies.rectangle(x, y, width, height, {
             restitution: larger ? 1.4 : 1.55,
             collisionFilter: {
@@ -295,7 +295,7 @@
       },
       render: {
         sprite: {
-          texture: chipSVGPaths[shuffledIndexesForChips[0]],
+          texture: chipSVGPaths[shuffledIndicesForChips[0]],
           xScale: chipScale,
           yScale: chipScale,
         },
@@ -412,7 +412,7 @@
             //If the game has been won, remove the card body from the Matter world.
             if (!gameWon) {
               Composite.remove(gamePyramid, body);
-              //Otherwise, the card body will remain in the viewport for the "success celebration", so update the collisionFilter mask to enable collision between the card body and the chip body that remains in the viewport.
+              //Otherwise, the card body will remain in the viewport during the "success celebration" view to update the collisionFilter mask to enable collision between the card body and the chip body that remains in the viewport.
             } else {
               body.collisionFilter.mask = cardCategory | chipCategory;
             }
@@ -426,8 +426,8 @@
       startSuccessAnimation();
     }
 
-    //Check if the last chip has been thrown.
-    if (!shuffledIndexesForChips.length) {
+    //Check if the last chip has been launched.
+    if (!shuffledIndicesForChips.length) {
       if (
         !emptyChipArrayTimeoutHasStarted &&
         (engine.world.bodies[3].position.x > xAxisThreshold ||
@@ -440,7 +440,7 @@
             handleGameOver();
           }
         }, 2000);
-        //Check if the last chip has not moved (i.e. it has landed on the surface). If so, run a setTimeout() to end the game if it has not been won within its specified number of milliseconds.
+        //Check if the last chip becomes still after launch (i.e. it has landed on the surface). If so, run a setTimeout() to end the game if it has not been won within the number of milliseconds specified in the setTimeout().
       } else if (
         parseInt(airboundChipCoordinateX) !==
           parseInt(engine.world.bodies[3].position.x) ||
@@ -450,7 +450,7 @@
         airboundChipCoordinateX = engine.world.bodies[3].position.x;
         airboundChipCoordinateY = engine.world.bodies[3].position.y;
         return;
-        //If the chip has not moved and this condition has not yet been met, then start the setTimeout().
+        //If the chip has not moved and this condition has not yet been met, then start the setTimeout() that ends the game.
       } else if (!chipCoordinateTimeoutHasStarted) {
         chipCoordinateTimeoutHasStarted = true;
         setTimeout(() => {
@@ -469,8 +469,8 @@
       ) {
         chip.collisionFilter.category = cardCategory;
         launchedChip = chip;
-        shuffledIndexesForChips.shift();
-        if (shuffledIndexesForChips.length) {
+        shuffledIndicesForChips.shift();
+        if (shuffledIndicesForChips.length) {
           chip = Bodies.circle(chipCoordinateX, chipCoordinateY, 20, {
             density: 0.4,
             collisionFilter: {
@@ -478,7 +478,7 @@
             },
             render: {
               sprite: {
-                texture: chipSVGPaths[shuffledIndexesForChips[0]],
+                texture: chipSVGPaths[shuffledIndicesForChips[0]],
                 xScale: chipScale,
                 yScale: chipScale,
               },
@@ -495,13 +495,13 @@
 
   /**
      Called when conditions are met such that the game has been won.
-     Game-related bodies are removed from the World. The "celebration" card and chip pyramids are then instantiated and added to the World. Border walls are also added.
+     Game-related bodies are removed from the World. The "celebration" card and chip pyramids are then instantiated and added to the World. Perimeter walls are also added.
      */
   const startSuccessAnimation = () => {
     winningStreak++;
     $("#winning-streak").html(`Winning streak: ${winningStreak}`);
 
-    World.remove(engine.world, [ground, chip]); //Remove the ground and the last (tiny / non-visible) chip that was placed on the elastic.
+    World.remove(engine.world, [ground, chip]); //Remove the ground and the last (tiny / non-visible) chip that was attached to the elastic.
     World.add(engine.world, jesterHat);
 
     elastic.bodyB = jesterHat;
@@ -549,7 +549,7 @@
   };
 
   /**
-     When the start button is clicked, the button becomes disabled, gameWon and gameOver are initialized, card and chip indexes are shuffled, and a modal transition occurs.
+     When the start button is clicked, the button becomes disabled, gameWon and gameOver are initialized, card and chip indices are shuffled, and a modal transition occurs.
      */
   const handleStartButtonClick = () => {
     $("#start-button").attr("disabled", true);
@@ -557,9 +557,9 @@
     gameWon = false;
     gameOver = false;
 
-    shuffledIndexesForCards = shuffle(totalCards, numberOfCardsInGame);
-    shuffledIndexesForChips = shuffle(totalChips, numberOfChipAttempts);
-    shuffledIndexesForCardsInSuccessPyramid = shuffle(totalCards);
+    shuffledIndicesForCards = shuffle(totalCards, numberOfCardsInGame);
+    shuffledIndicesForChips = shuffle(totalChips, numberOfChipAttempts);
+    shuffledIndicesForCardsInSuccessPyramid = shuffle(totalCards);
 
     $("#start-button").toggleClass("animate-spin");
     $("#modal").removeClass("opacity-100");
@@ -667,7 +667,7 @@
   };
 
   /**
-    Initialization method that sets up a new game to be started.
+    Initializes a new game.
     */
   const openModalAndReset = () => {
     eventLoopCanEvaluate = false;
