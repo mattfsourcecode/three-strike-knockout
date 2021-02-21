@@ -2,7 +2,7 @@
  *  🃏 Three-strike Knockout 🎉
  *  by @matt-eric 12-09-2020
  *  https://github.com/matt-eric/three-strike-knockout
- *  Contact: mf9464a@alumni.american.edu
+ *  Contact: matt.dev.work@gmail.com
  */
 
 (() => {
@@ -56,7 +56,7 @@
     chip, //The chip on the slingshot that is ready to be launched.
     elastic, //The Matter.Composite Body linking the chip to the anchor. When the user launches the chip, elastic.BodyB is set to the new chip.
     ground, //The static rectangle Body that the card pyramids land on.
-    successWalls, // An array containing four rectangular static bodies used as walls in the "success celebration" view.
+    perimeterWalls, // An array containing four rectangular static bodies used as walls in the "success celebration" view.
     jesterHat, // The jester hat SVG that attaches to elastic when the game is won.
     launchedChip, //The launched chip is set to this variable so that the collisionFilter can be changed after launch.
     airboundChipCoordinateX, //X coordinate of the launched chip (updated in the 'afterUpdate' loop).
@@ -329,7 +329,7 @@
         },
       }));
 
-    successWalls = [
+    perimeterWalls = [
       {
         type: "top",
         x: window.innerWidth / 2,
@@ -338,7 +338,7 @@
         height: 600,
       },
       {
-        type: "top",
+        type: "bottom",
         x: window.innerWidth / 2,
         y: window.innerHeight + 220,
         width: window.innerWidth,
@@ -538,7 +538,7 @@
       }
     );
 
-    World.add(engine.world, successWalls);
+    World.add(engine.world, perimeterWalls);
     World.add(engine.world, [successChipPyramid, successCardPyramid]);
 
     setTimeout(() => {
