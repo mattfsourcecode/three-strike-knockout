@@ -8,7 +8,9 @@
  
 ## Run it locally
  
-### `yarn install && yarn start` (it only takes a few seconds!)
+### `yarn install && yarn start` 
+
+(it only takes a few seconds!)
 
 Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
