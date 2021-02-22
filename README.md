@@ -1,7 +1,7 @@
 # 🃏 Three-strike Knockout 🎉
  
 ## Tech stack:
-### ✅  Tailwind CSS
+### ✅  TailwindCSS
 ### ✅  Matter.js
 ### ✅  jQuery
 ### ✅  Node.js
