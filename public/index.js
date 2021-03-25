@@ -182,10 +182,10 @@
           "8",
           "9",
           "10",
-          "A",
           "J",
-          "K",
           "Q",
+          "K",
+          "A",
         ];
       for (let s = 0; s < suits.length; s++) {
         const suit = suits[s];
