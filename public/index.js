@@ -194,7 +194,6 @@
             cards.push(backImage);
           } else {
             const value = values[v];
-            debugger;
             cards.push(`assets/cards-${indexSize}-index/${suit}${value}.svg`);
           }
         }
