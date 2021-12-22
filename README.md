@@ -19,8 +19,6 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 #### [`/src/styles.css`](https://github.com/matt-eric/three-strike-knockout/blob/master/src/styles.css)
 #### [`tailwind.config.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/tailwind.config.js)
 
-## There are three main views within the app that look like this:
-
 ### Card deck configuration modal
 
 <img width="1280" alt="modal" src="https://user-images.githubusercontent.com/24415914/102057856-96ea1000-3dbc-11eb-879b-1d0a0f0e59fd.png">
