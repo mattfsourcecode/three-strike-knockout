@@ -10,12 +10,9 @@
  
 ### `yarn install && yarn start` 
 
-(it only takes a few seconds!)
-
 Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
-## Check out my code
-### Here is where I wrote most of it:
+## See most of the code in these files:
 
 #### [`/public/index.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/public/index.js)
 #### [`/public/index.html`](https://github.com/matt-eric/three-strike-knockout/blob/master/public/index.html)
@@ -37,5 +34,3 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 <img width="1280" alt="game-win" src="https://user-images.githubusercontent.com/24415914/102058423-779fb280-3dbd-11eb-984d-86d43dc2940f.png">
 
 #### *HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
-
-# 😎 🌴 Enjoy.
