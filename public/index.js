@@ -1,7 +1,6 @@
 /**
  *  🃏 Three-strike Knockout 🎉
- *  by @matt-eric 12-09-2020
- *  https://github.com/matt-eric/three-strike-knockout
+ *  by Matt Fagan @matt-dev-work 12-09-2020
  *  Contact: matt.dev.work@gmail.com
  */
 
