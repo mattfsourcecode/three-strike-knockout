@@ -11070,6 +11070,14 @@ video {
   cursor: not-allowed;
 }
 
+.cursor-grab{
+  cursor: grab;
+}
+
+.cursor-grabbing{
+  cursor: grabbing;
+}
+
 .block{
   display: block;
 }

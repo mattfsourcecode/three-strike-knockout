@@ -332,7 +332,7 @@
         type: "bottom",
         x: window.innerWidth / 2,
         y: window.innerHeight + 220,
-        width: window.innerWidth,
+        width: window.innerWidth * 2,
         height: 600,
       },
       {
@@ -636,6 +636,15 @@
       e.keyCode == 13 &&
         !$("#start-button").attr("disabled") &&
         handleStartButtonClick();
+    });
+
+    $(document).mousedown((e) => {
+      $("#matter").removeClass("cursor-grab");
+      $("#matter").addClass("cursor-grabbing");
+    });
+    $(document).mouseup((e) => {
+      $("#matter").removeClass("cursor-grabbing");
+      $("#matter").addClass("cursor-grab");
     });
   })();
 

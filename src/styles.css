@@ -135,3 +135,7 @@
 .winning-streak {
   @apply text-green-500 text-2xl font-semibold transform -rotate-3 origin-left flex fixed right-60;
 }
+
+.cursor-grab {
+  cursor: grab;
+}
