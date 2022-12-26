@@ -45,6 +45,7 @@
     ], //Array of card image names corresponding with the .png file names.
     cardBacks = [], //Array of card image container HTML elements.
     indexSizeOptions = ["small", "large"], //Index size options that correspond to the file paths for the SVG cards.
+    topGap = window.innerHeight - window.innerHeight * 0.87,
     getRandomInteger = (max) => {
       return Math.floor(Math.random() * Math.floor(max));
     }; //Returns a random integer within the range of zero to the value of the 'max' argument.
@@ -338,14 +339,14 @@
       {
         type: "right",
         x: window.innerWidth + 300,
-        y: window.innerHeight - 100,
+        y: window.innerHeight - topGap,
         width: 600,
         height: window.innerHeight,
       },
       {
         type: "left",
         x: -300,
-        y: window.innerHeight - 100,
+        y: window.innerHeight - topGap,
         width: 600,
         height: window.innerHeight,
       },
