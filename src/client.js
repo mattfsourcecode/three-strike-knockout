@@ -4,6 +4,9 @@
  *  Contact: matt.dev.work@gmail.com
  */
 
+import $ from "jquery";
+import Matter from "matter-js";
+
 (() => {
   if (!navigator.isCompatible) {
     return $("#spinner-container-inner").html(
@@ -102,7 +105,7 @@
     mouseConstraint = Matter.MouseConstraint.create(engine, { mouse: mouse });
     mouseConstraint.collisionFilter.mask = chipCategory; //The mouse can only interact with objects in the chipCategory.
     render.mouse = mouse;
-    Engine.run(engine);
+    Matter.Runner.run(engine);
     Render.run(render);
   };
 
