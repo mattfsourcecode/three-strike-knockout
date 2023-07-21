@@ -11554,14 +11554,6 @@ navigator.isCompatible = (() => {
     (0, import_jquery.default)(document).keypress((e) => {
       e.keyCode == 13 && !(0, import_jquery.default)("#start-button").attr("disabled") && handleStartButtonClick();
     });
-    (0, import_jquery.default)(document).mousedown((e) => {
-      (0, import_jquery.default)("#matter").removeClass("cursor-grab");
-      (0, import_jquery.default)("#matter").addClass("cursor-grabbing");
-    });
-    (0, import_jquery.default)(document).mouseup((e) => {
-      (0, import_jquery.default)("#matter").removeClass("cursor-grabbing");
-      (0, import_jquery.default)("#matter").addClass("cursor-grab");
-    });
   })();
   const handleGameOver = () => {
     (0, import_jquery.default)("#game-over-container").toggleClass("hidden");

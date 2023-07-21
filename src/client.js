@@ -671,15 +671,6 @@ navigator.isCompatible = (() => {
         !$("#start-button").attr("disabled") &&
         handleStartButtonClick();
     });
-
-    $(document).mousedown((e) => {
-      $("#matter").removeClass("cursor-grab");
-      $("#matter").addClass("cursor-grabbing");
-    });
-    $(document).mouseup((e) => {
-      $("#matter").removeClass("cursor-grabbing");
-      $("#matter").addClass("cursor-grab");
-    });
   })();
 
   /**

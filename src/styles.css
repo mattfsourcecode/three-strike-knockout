@@ -1,8 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Permanent Marker";
+  src: local("Permanent Marker"), local("PermanentMarker-Regular"),
+    url("./assets/fonts/PermanentMarker-Regular.woff2") format("woff2");
+}
+
+html,
+body {
+  font-family: "Permanent Marker", fallback, sans-serif;
+  font-display: optional;
+}
 
 .app-bar {
   @apply px-8 select-none overscroll-none;
@@ -38,6 +48,7 @@
 
 .header {
   @apply text-green-500 text-5xl font-semibold leading-none tracking-wider inline-block transform -rotate-3 origin-left underline ml-2;
+  font-display: optional;
 }
 
 .index-indicator {
@@ -134,8 +145,4 @@
 
 .winning-streak {
   @apply text-green-500 text-2xl font-semibold transform -rotate-3 origin-left flex fixed right-60;
-}
-
-.cursor-grab {
-  cursor: grab;
 }
