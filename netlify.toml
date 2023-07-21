@@ -1,0 +1,8 @@
+[build]
+  command = "yarn build"  # Replace with your build command if it's different
+  publish = "public"      # Replace with the correct output directory (e.g., "dist")
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
