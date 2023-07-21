@@ -37,7 +37,7 @@
 }
 
 .header {
-  @apply text-green-500 text-5xl font-semibold leading-none tracking-wider inline-block transform -rotate-3 origin-left underline;
+  @apply text-green-500 text-5xl font-semibold leading-none tracking-wider inline-block transform -rotate-3 origin-left underline ml-2;
 }
 
 .index-indicator {

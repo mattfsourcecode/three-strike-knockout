@@ -40,7 +40,7 @@ navigator.isCompatible = (() => {
 (() => {
   if (!navigator.isCompatible) {
     return $("#spinner-container-inner").html(
-      `<h2 class="header"><div class="mb-10">This browser or device is not compatible yet.</div><div class="mb-10">Please use Chrome or Opera on a computer to enjoy</div><div class="mb-10">🃏 Three-strike Knockout 🎉.</div></h2>`
+      `<h2 class="header"><div class="mb-10">This browser or device is not compatible.</div><div class="mb-10">Please use Chromium or Opera on a computer to enjoy Three-strike Knockout 🃏 🎉.</div></h2>`
     );
   }
 

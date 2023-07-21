@@ -11200,7 +11200,7 @@ navigator.isCompatible = (() => {
 (() => {
   if (!navigator.isCompatible) {
     return (0, import_jquery.default)("#spinner-container-inner").html(
-      `<h2 class="header"><div class="mb-10">This browser or device is not compatible yet.</div><div class="mb-10">Please use Chrome or Opera on a computer to enjoy</div><div class="mb-10">\u{1F0CF} Three-strike Knockout \u{1F389}.</div></h2>`
+      `<h2 class="header"><div class="mb-10">This browser or device is not compatible.</div><div class="mb-10">Please use Chromium or Opera on a computer to enjoy Three-strike Knockout \u{1F0CF} \u{1F389}.</div></h2>`
     );
   }
   const Engine = import_matter_js.default.Engine, Render = import_matter_js.default.Render, World = import_matter_js.default.World, Bodies = import_matter_js.default.Bodies, Composites = import_matter_js.default.Composites, Constraint = import_matter_js.default.Constraint, Events = import_matter_js.default.Events, Composite = import_matter_js.default.Composite, engine = Engine.create(), cardCategory = 1, chipCategory = 2, cardBodyRemovalDelayTime = 4e3, chipCoordinateX = 200, chipCoordinateY = 300, chipScale = 0.25, xAxisThreshold = 1050, yAxisThreshold = 500, chipSVGPaths = [], numberOfCardsInGame = 25, totalCards = Array.from(Array(52).keys()), numberOfChipAttempts = 3, totalChips = Array.from(Array(20).keys()), cardImages = [
