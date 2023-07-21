@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "nodemon --exec babel-node --inspect src/index.js",
-    "build": "swc src --out-dir dist && esbuild src/index.js --bundle --platform=node --outfile=dist/index.js && esbuild src/client.js --bundle --platform=node --outfile=public/client.js && yarn build-css",
+    "build": "swc src --out-dir dist && esbuild src/index.js --bundle --platform=node --outfile=dist/index.js && esbuild src/client.js --bundle --platform=node --outfile=public/client.js && yarn build-css && node removeDistClient.js",
     "build-css": "tailwindcss build src/styles.css -o public/styles.css"
   },
   "repository": {

@@ -800,7 +800,6 @@ video {
 }
 
 .header{
-  margin-left: 0.25rem;
   display: inline-block;
   transform-origin: left;
   --tw-rotate: -3deg;
