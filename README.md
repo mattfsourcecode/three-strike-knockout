@@ -8,7 +8,9 @@
  
 ## Run it locally
  
-### `yarn install && yarn start` 
+```
+yarn install && yarn start
+``` 
 
 Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
@@ -31,4 +33,6 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 <img width="1280" alt="game-win" src="https://github.com/user-attachments/assets/3e28b8be-e1f0-4cec-b78b-b9b9faccd222">
 
-#### *HINT: To make the game slightly more challenging, adjust the* `chipCoordinateY` *value from* `300` *to* `350`.
+#### *HINT: To make the game slightly more challenging*
+- Adjust the `chipCoordinateY` *value from* `300` *to* `350`
+- Run `yarn build`
