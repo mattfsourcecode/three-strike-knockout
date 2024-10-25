@@ -24,9 +24,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/jquery/dist/jquery.js
+// node_modules/.pnpm/jquery@3.7.1/node_modules/jquery/dist/jquery.js
 var require_jquery = __commonJS({
-  "node_modules/jquery/dist/jquery.js"(exports, module2) {
+  "node_modules/.pnpm/jquery@3.7.1/node_modules/jquery/dist/jquery.js"(exports, module2) {
     (function(global2, factory) {
       "use strict";
       if (typeof module2 === "object" && typeof module2.exports === "object") {
@@ -90,7 +90,7 @@ var require_jquery = __commonJS({
         }
         return typeof obj === "object" || typeof obj === "function" ? class2type[toString2.call(obj)] || "object" : typeof obj;
       }
-      var version = "3.7.0", rhtmlSuffix = /HTML$/i, jQuery = function(selector, context) {
+      var version = "3.7.1", rhtmlSuffix = /HTML$/i, jQuery = function(selector, context) {
         return new jQuery.fn.init(selector, context);
       };
       jQuery.fn = jQuery.prototype = {
@@ -257,9 +257,14 @@ var require_jquery = __commonJS({
             while (node = elem[i++]) {
               ret += jQuery.text(node);
             }
-          } else if (nodeType === 1 || nodeType === 9 || nodeType === 11) {
+          }
+          if (nodeType === 1 || nodeType === 11) {
             return elem.textContent;
-          } else if (nodeType === 3 || nodeType === 4) {
+          }
+          if (nodeType === 9) {
+            return elem.documentElement.textContent;
+          }
+          if (nodeType === 3 || nodeType === 4) {
             return elem.nodeValue;
           }
           return ret;
@@ -593,7 +598,11 @@ var require_jquery = __commonJS({
           documentElement2 = document3.documentElement;
           documentIsHTML = !jQuery.isXMLDoc(document3);
           matches = documentElement2.matches || documentElement2.webkitMatchesSelector || documentElement2.msMatchesSelector;
-          if (preferredDoc != document3 && (subWindow = document3.defaultView) && subWindow.top !== subWindow) {
+          if (documentElement2.msMatchesSelector && // Support: IE 11+, Edge 17 - 18+
+          // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+          // two documents; shallow comparisons work.
+          // eslint-disable-next-line eqeqeq
+          preferredDoc != document3 && (subWindow = document3.defaultView) && subWindow.top !== subWindow) {
             subWindow.addEventListener("unload", unloadHandler);
           }
           support.getById = assert(function(el) {
@@ -1513,6 +1522,7 @@ var require_jquery = __commonJS({
         find.compile = compile;
         find.select = select;
         find.setDocument = setDocument;
+        find.tokenize = tokenize;
         find.escape = jQuery.escapeSelector;
         find.getText = jQuery.text;
         find.isXML = jQuery.isXMLDoc;
@@ -3728,7 +3738,7 @@ var require_jquery = __commonJS({
               tr = document2.createElement("tr");
               trChild = document2.createElement("div");
               table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
-              tr.style.cssText = "border:1px solid";
+              tr.style.cssText = "box-sizing:content-box;border:1px solid";
               tr.style.height = "1px";
               trChild.style.height = "9px";
               trChild.style.display = "block";
@@ -6287,7 +6297,7 @@ var require_jquery = __commonJS({
           return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
         },
         hover: function(fnOver, fnOut) {
-          return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
+          return this.on("mouseenter", fnOver).on("mouseleave", fnOut || fnOver);
         }
       });
       jQuery.each(
@@ -6364,9 +6374,9 @@ var require_jquery = __commonJS({
   }
 });
 
-// node_modules/matter-js/build/matter.js
+// node_modules/.pnpm/matter-js@0.14.2/node_modules/matter-js/build/matter.js
 var require_matter = __commonJS({
-  "node_modules/matter-js/build/matter.js"(exports, module2) {
+  "node_modules/.pnpm/matter-js@0.14.2/node_modules/matter-js/build/matter.js"(exports, module2) {
     (function(f) {
       if (typeof exports === "object" && typeof module2 !== "undefined") {
         module2.exports = f();
@@ -11112,7 +11122,7 @@ navigator.isCompatible = (() => {
   ], cardBacks = [], indexSizeOptions = ["small", "large"], topGap = window.innerHeight - window.innerHeight * 0.87, getRandomInteger = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
   };
-  let render, mouse, mouseConstraint, chip, elastic, ground, perimeterWalls, jesterHat, launchedChip, airboundChipCoordinateX, airboundChipCoordinateY, chipCoordinateTimeoutHasStarted, emptyChipArrayTimeoutHasStarted, gameWon, gameOver, shuffledIndicesForCards, shuffledIndicesForChips, shuffledIndicesForCardsInSuccessPyramid, initializedCardDeck, gamePyramid, cardsInPlay, currentCards, eventLoopCanEvaluate, winningStreak = 0, selectedCardBack = "blue", selectedIndexSize = "small", cardsAreTransparent = false, cardsAreLarger = false;
+  let render, mouse, mouseConstraint, chip, elastic, ground, perimeterWalls, jesterHat, launchedChip, airboundChipCoordinateX, airboundChipCoordinateY, chipCoordinateTimeoutHasStarted, emptyChipArrayTimeoutHasStarted, gameWon, gameOver, shuffledIndicesForCards, shuffledIndicesForChips, shuffledIndicesForCardsInSuccessPyramid, initializedCardDeck, gamePyramid, cardsInPlay, currentCards, eventLoopCanEvaluate, winStreak = 0, selectedCardBack = "blue", selectedIndexSize = "small", cardsAreTransparent = false, cardsAreLarger = false;
   const initializeMatter = () => {
     render = Render.create({
       element: (0, import_jquery.default)("#matter")[0],
@@ -11439,8 +11449,8 @@ navigator.isCompatible = (() => {
     }
   });
   const startSuccessAnimation = () => {
-    winningStreak++;
-    (0, import_jquery.default)("#winning-streak").html(`Winning streak: ${winningStreak}`);
+    winStreak++;
+    (0, import_jquery.default)("#win-streak").html(`Win streak: ${winStreak}`);
     World.remove(engine.world, [ground, chip]);
     World.add(engine.world, jesterHat);
     elastic.bodyB = jesterHat;
@@ -11564,8 +11574,8 @@ navigator.isCompatible = (() => {
         (0, import_jquery.default)("#game-over-container").toggleClass(
           "hidden animate-ping animate-spin"
         );
-        (0, import_jquery.default)("#winning-streak").html(``);
-        winningStreak = 0;
+        (0, import_jquery.default)("#win-streak").html(``);
+        winStreak = 0;
       }, 500);
     }, 2e3);
   };
@@ -11585,13 +11595,13 @@ navigator.isCompatible = (() => {
 
 jquery/dist/jquery.js:
   (*!
-   * jQuery JavaScript Library v3.7.0
+   * jQuery JavaScript Library v3.7.1
    * https://jquery.com/
    *
    * Copyright OpenJS Foundation and other contributors
    * Released under the MIT license
    * https://jquery.org/license
    *
-   * Date: 2023-05-11T18:29Z
+   * Date: 2023-08-28T13:37Z
    *)
 */

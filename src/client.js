@@ -106,7 +106,7 @@ navigator.isCompatible = (() => {
     cardsInPlay, //The card Body objects that comprise the gamePyramid.
     currentCards, //A shallow copy of the cardsInPlay array, of which cards are spliced out as they fall out of play. The game has been won when this array is emptied.
     eventLoopCanEvaluate, //Determines if the conditions within the 'afterUpdate' loop can evaluate or if the loop shall return immediately.
-    winningStreak = 0, //The number of consecutive wins per browser session.
+    winStreak = 0, //The number of consecutive wins per browser session.
     selectedCardBack = "blue", //User selection for the "card back" value in the modal UI.
     selectedIndexSize = "small", //User selection for the "index size" value in the modal UI.
     cardsAreTransparent = false, //User selection for the "transparant" value in the modal UI.
@@ -523,8 +523,8 @@ navigator.isCompatible = (() => {
      Game-related bodies are removed from the World. The "celebration" card and chip pyramids are then instantiated and added to the World. Perimeter walls are also added.
      */
   const startSuccessAnimation = () => {
-    winningStreak++;
-    $("#winning-streak").html(`Winning streak: ${winningStreak}`);
+    winStreak++;
+    $("#win-streak").html(`Win streak: ${winStreak}`);
 
     World.remove(engine.world, [ground, chip]); //Remove the ground and the last (tiny / non-visible) chip that was attached to the elastic.
     World.add(engine.world, jesterHat);
@@ -685,8 +685,8 @@ navigator.isCompatible = (() => {
         $("#game-over-container").toggleClass(
           "hidden animate-ping animate-spin"
         );
-        $("#winning-streak").html(``);
-        winningStreak = 0;
+        $("#win-streak").html(``);
+        winStreak = 0;
       }, 500);
     }, 2000);
   };
