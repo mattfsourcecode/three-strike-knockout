@@ -14,10 +14,10 @@ Then open [http://localhost:3000](http://localhost:3000) to start playing.
 
 ## See most of the code in these files:
 
-#### [`/public/index.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/public/index.js)
-#### [`/public/index.html`](https://github.com/matt-eric/three-strike-knockout/blob/master/public/index.html)
-#### [`/src/styles.css`](https://github.com/matt-eric/three-strike-knockout/blob/master/src/styles.css)
-#### [`tailwind.config.js`](https://github.com/matt-eric/three-strike-knockout/blob/master/tailwind.config.js)
+#### [`/src/client.js`](https://github.com/mattfsourcecode/three-strike-knockout/blob/master/src/client.js)
+#### [`/public/index.html`](https://github.com/mattfsourcecode/three-strike-knockout/blob/master/public/index.html)
+#### [`/src/styles.css`](https://github.com/mattfsourcecode/three-strike-knockout/blob/master/src/styles.css)
+#### [`tailwind.config.js`](https://github.com/mattfsourcecode/three-strike-knockout/blob/master/tailwind.config.js)
 
 ### Card deck configuration modal
 

@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matt-eric/three-strike-knockout.git"
+    "url": "git+https://github.com/mattfsourcecode/three-strike-knockout.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/matt-eric/three-strike-knockout/issues"
+    "url": "https://github.com/mattfsourcecode/three-strike-knockout/issues"
   },
-  "homepage": "https://github.com/matt-eric/three-strike-knockout#readme",
+  "homepage": "https://github.com/mattfsourcecode/three-strike-knockout#readme",
   "dependencies": {
     "autoprefixer": "^10.4.14",
     "express": "^4.17.1",
